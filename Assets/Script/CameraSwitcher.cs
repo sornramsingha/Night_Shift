@@ -1,32 +1,46 @@
 ﻿using UnityEngine;
 
-public class CameraSwitcher : MonoBehaviour
+public class CameraTurnManager : MonoBehaviour
 {
-    [Header("ตำแหน่งกล้อง")]
-    public Transform frontViewPosition; 
-    public Transform backViewPosition;  
+    [Header("ลากจุดตั้งกล้องมาใส่เรียงตามลำดับ (ซ้าย -> หน้า -> ขวา -> หลัง)")]
+    public Transform[] roomPositions;
 
-    [Header("ความเร็วตอนหัน")]
-    public float panSpeed = 15f; 
+    [Header("ความเร็วในการหันกล้อง")]
+    public float turnSpeed = 5f;
 
-    private Vector3 targetPosition; 
+    private int currentRoom = 1;
+    private Vector3 targetPosition;
 
     void Start()
     {
-        targetPosition = transform.position;
+        if (roomPositions.Length > 0)
+        {
+            targetPosition = transform.position;
+        }
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            targetPosition = new Vector3(frontViewPosition.position.x, frontViewPosition.position.y, transform.position.z);
+            if (currentRoom > 0)
+            {
+                currentRoom--;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            targetPosition = new Vector3(backViewPosition.position.x, backViewPosition.position.y, transform.position.z);
+            if (currentRoom < roomPositions.Length - 1)
+            {
+                currentRoom++;
+            }
         }
-        transform.position = Vector3.Lerp(transform.position, targetPosition, panSpeed * Time.deltaTime);
+
+        if (roomPositions.Length > 0)
+        {
+            targetPosition = new Vector3(roomPositions[currentRoom].position.x, roomPositions[currentRoom].position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, turnSpeed * Time.deltaTime);
+        }
     }
 }
