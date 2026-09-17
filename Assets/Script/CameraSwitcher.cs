@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class CameraTurnManager : MonoBehaviour
 {
@@ -6,41 +7,57 @@ public class CameraTurnManager : MonoBehaviour
     public Transform[] roomPositions;
 
     [Header("ความเร็วในการหันกล้อง")]
-    public float turnSpeed = 5f;
+    public float turnSpeed = 25f;
 
-    private int currentRoom = 1;
-    private Vector3 targetPosition;
+    [Header("ตั้งค่าดีเลย์ (วินาที)")]
+    public float turnCooldown = 0.5f;
+
+    private int currentRoom = 0;
+    private bool isTurning = false;
 
     void Start()
     {
         if (roomPositions.Length > 0)
         {
-            targetPosition = transform.position;
+            transform.position = new Vector3(roomPositions[currentRoom].position.x, roomPositions[currentRoom].position.y, transform.position.z);
         }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (isTurning || roomPositions.Length == 0) return;
+
+        if (Input.GetKeyDown(KeyCode.Q) && currentRoom > 0)
         {
-            if (currentRoom > 0)
-            {
-                currentRoom--;
-            }
+            StartCoroutine(WhipPanToRoom(currentRoom - 1));
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && currentRoom < roomPositions.Length - 1)
         {
-            if (currentRoom < roomPositions.Length - 1)
-            {
-                currentRoom++;
-            }
+            StartCoroutine(WhipPanToRoom(currentRoom + 1));
         }
+    }
 
-        if (roomPositions.Length > 0)
+    IEnumerator WhipPanToRoom(int targetIndex)
+    {
+        isTurning = true;
+        currentRoom = targetIndex;
+
+        Vector3 targetPosition = new Vector3(
+            roomPositions[currentRoom].position.x,
+            roomPositions[currentRoom].position.y,
+            transform.position.z
+        );
+
+        while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
-            targetPosition = new Vector3(roomPositions[currentRoom].position.x, roomPositions[currentRoom].position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPosition, turnSpeed * Time.deltaTime);
+            yield return null;
         }
+
+        transform.position = targetPosition;
+        yield return new WaitForSeconds(turnCooldown);
+
+        isTurning = false;
     }
 }
