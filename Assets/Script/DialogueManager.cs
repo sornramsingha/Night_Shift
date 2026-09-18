@@ -10,6 +10,9 @@ public class DialogueManager : MonoBehaviour
     public GameObject startTalkButton;
     public GameObject hintText;
 
+    public DayManager dayManager;
+    public CustomerWalker customerWalker;
+
     [Header("ตั้งค่า")]
     public float typingSpeed = 0.05f;
 
@@ -130,12 +133,14 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("ผู้เล่นเลือก: ตกลง / ขายของ");
         EndCustomerInteraction();
+        customerWalker.WalkAway();
     }
 
     public void ChooseDisagree()
     {
         Debug.Log("ผู้เล่นเลือก: ไม่ตกลง / ปฏิเสธ");
         EndCustomerInteraction();
+        customerWalker.WalkAway();
     }
 
     void EndCustomerInteraction()
