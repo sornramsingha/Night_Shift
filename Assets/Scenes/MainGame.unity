@@ -617,8 +617,8 @@ Transform:
   m_GameObject: {fileID: 84566401}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.9, y: 0.068033114, z: 0.044414}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -1.79, y: 0.070984, z: 0.046391}
+  m_LocalScale: {x: 1.0445116, y: 1.0445116, z: 1.0445116}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 793511738}
@@ -650,7 +650,7 @@ Transform:
   m_GameObject: {fileID: 93572234}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.658684, y: 0.1888518, z: 0}
+  m_LocalPosition: {x: 14.66, y: 0.1888518, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -681,7 +681,7 @@ Transform:
   m_GameObject: {fileID: 96348088}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.690044, y: 0.7969154, z: -0.001189247}
+  m_LocalPosition: {x: 15.86, y: 0.7969154, z: -0.001189247}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -880,7 +880,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &235118626
 Transform:
   m_ObjectHideFlags: 0
@@ -911,7 +911,7 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 1
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
+  m_FalloffIntensity: 0.8
   m_Color: {r: 0.40939838, g: 0.74509805, b: 0.47058824, a: 1}
   m_Intensity: 1.5
   m_LightVolumeIntensity: 0.14
@@ -1313,7 +1313,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &513824375
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2200,7 +2200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   swayAmountX: 0.3
   swayAmountY: 0.2
-  smoothSpeed: 5
+  smoothSpeed: 10
 --- !u!1 &942589718
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,7 +2320,7 @@ Transform:
   m_GameObject: {fileID: 1032954057}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.2, y: 0.1888518, z: 0}
+  m_LocalPosition: {x: -12.12, y: 0.1888518, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3777,6 +3777,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1483972407}
   - component: {fileID: 1483972406}
+  - component: {fileID: 1483972408}
   m_Layer: 0
   m_Name: CameraBase
   m_TagString: Untagged
@@ -3791,7 +3792,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483972405}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 827ed731934aaaa498337437ae0fd492, type: 3}
   m_Name: 
@@ -3820,6 +3821,23 @@ Transform:
   - {fileID: 235118626}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1483972408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483972405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5375eaab6e500c44aa9bfa07bc47a6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomPositions:
+  - {fileID: 942589719}
+  - {fileID: 1491206543}
+  panSpeed: 5
+  cooldownTime: 0.5
 --- !u!1 &1491206542
 GameObject:
   m_ObjectHideFlags: 0
@@ -3845,7 +3863,7 @@ Transform:
   m_GameObject: {fileID: 1491206542}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 19.211554, y: -0.068033114, z: -0.0066701397}
+  m_LocalPosition: {x: 18.91, y: -0.068033114, z: -0.0066701397}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4071,7 +4089,7 @@ GameObject:
   - component: {fileID: 1714322071}
   - component: {fileID: 1714322070}
   m_Layer: 5
-  m_Name: Day_1
+  m_Name: Day
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4093,7 +4111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27, y: 189}
+  m_AnchoredPosition: {x: 152, y: 189}
   m_SizeDelta: {x: 698.0486, y: 282.075}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1714322070
@@ -4116,7 +4134,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DAY
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 55a604ad0fb0a1b4fb220c31c6344411, type: 2}
   m_sharedMaterial: {fileID: -789074571694643657, guid: 55a604ad0fb0a1b4fb220c31c6344411, type: 2}
@@ -4181,7 +4199,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -306.88312, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4589,12 +4607,7 @@ MonoBehaviour:
   dayManager: {fileID: 1907747966}
   customerWalker: {fileID: 2137164400}
   typingSpeed: 0.05
-  sentences:
-  - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E2B\u0E19\u0E49\u0E32\u0E04\u0E38\u0E13\u0E44\u0E21\u0E48\u0E04\u0E48\u0E2D\u0E22\u0E04\u0E38\u0E49\u0E19\u0E40\u0E25\u0E22"
-  - "\u0E1E\u0E36\u0E48\u0E07\u0E21\u0E32\u0E40\u0E1B\u0E47\u0E19\u0E1E\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19\u0E02\u0E32\u0E22\u0E17\u0E35\u0E48\u0E23\u0E49\u0E32\u0E19\u0E43\u0E2B\u0E21\u0E48\u0E2B\u0E23\u0E2D\u0E04\u0E23\u0E31\u0E1A\n"
-  - "\u0E16\u0E49\u0E32\u0E07\u0E31\u0E49\u0E19\u0E1C\u0E21\u0E2D\u0E22\u0E32\u0E01\u0E08\u0E30\"\u0E02\u0E2D\u0E0B\u0E37\u0E49\u0E2D
-    <color=red>\u0E41\u0E2D\u0E1B\u0E40\u0E1B\u0E34\u0E49\u0E25</color> 1 \u0E25\u0E39\u0E01\u0E41\u0E25\u0E30\u0E02\u0E19\u0E21
-    1 \u0E2B\u0E48\u0E2D\u0E44\u0E14\u0E49\u0E44\u0E2B\u0E21?\"\n"
+  sentences: []
 --- !u!4 &1907747965
 Transform:
   m_ObjectHideFlags: 0
@@ -4625,11 +4638,22 @@ MonoBehaviour:
   days:
   - dayName: "\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48 1"
     totalCustomers: 2
+    dialogues:
+    - sentences:
+      - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E19\u0E35\u0E48\u0E04\u0E37\u0E2D\u0E40\u0E17\u0E2A\u0E23\u0E30\u0E1A\u0E1A"
+      - "\u0E19\u0E35\u0E48\u0E04\u0E37\u0E2D\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E25\u0E39\u0E01\u0E04\u0E48\u0E49\u0E32
+        <color=red>\u0E04\u0E19\u0E41\u0E23\u0E01</color>"
+    - sentences:
+      - "\u0E19\u0E35\u0E48\u0E04\u0E37\u0E2D\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E02\u0E2D\u0E07\u0E04\u0E19\u0E17\u0E35\u0E48\u0E2A\u0E2D\u0E07"
+      - "\u0E04\u0E34\u0E14\u0E27\u0E48\u0E32\u0E02\u0E49\u0E2D\u0E04\u0E27\u0E32\u0E21\u0E19\u0E35\u0E49\u0E04\u0E37\u0E2D\u0E2A\u0E35\u0E2D\u0E30\u0E44\u0E23
+        <color=green>\u0E2D\u0E31\u0E19\u0E19\u0E35\u0E49\u0E2A\u0E35\u0E41\u0E14\u0E07</color>
+        ?"
   - dayName: "\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48 2"
     totalCustomers: 3
+    dialogues: []
   currentDayIndex: 0
   dayTransitionPanel: {fileID: 513824374}
-  dayText: {fileID: 1376079459}
+  dayText: {fileID: 1714322070}
   customer: {fileID: 2137164400}
   dialogueManager: {fileID: 1907747964}
 --- !u!1 &1954433294
@@ -5194,7 +5218,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7047888579345826262, guid: eb91e4de0b0a210498c2fb5cf65418f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5224,6 +5248,50 @@ MonoBehaviour:
   walkSpeed: 5
   bobbingHeight: 0.25
   bobbingSpeed: 10
+  shadowColor: {r: 0, g: 0, b: 0, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  fadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.7342511
+      value: 0.0067312717
+      inSlope: 0.13151783
+      outSlope: 0.13151783
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.5231277
+      outWeight: 0.76833385
+    - serializedVersion: 3
+      time: 0.8575141
+      value: 0.34412968
+      inSlope: 3.9239945
+      outSlope: 3.9239945
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.11010574
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   dialogueManager: {fileID: 1907747964}
   dayManager: {fileID: 1907747966}
 --- !u!1001 &2119001040384658997
@@ -5239,8 +5307,12 @@ PrefabInstance:
       value: Dailymilk_0
       objectReference: {fileID: 0}
     - target: {fileID: 1440959627839369346, guid: 6ad258e1390a99b45a9423a314e28b2f, type: 3}
+      propertyPath: outlineColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1440959627839369346, guid: 6ad258e1390a99b45a9423a314e28b2f, type: 3}
       propertyPath: outlineColor.b
-      value: 0.04205101
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1440959627839369346, guid: 6ad258e1390a99b45a9423a314e28b2f, type: 3}
       propertyPath: outlineColor.g
@@ -5248,7 +5320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1440959627839369346, guid: 6ad258e1390a99b45a9423a314e28b2f, type: 3}
       propertyPath: outlineColor.r
-      value: 0.6698113
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1440959627839369346, guid: 6ad258e1390a99b45a9423a314e28b2f, type: 3}
       propertyPath: highlightColor.a
@@ -5268,7 +5340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1440959627839369346, guid: 6ad258e1390a99b45a9423a314e28b2f, type: 3}
       propertyPath: outlineThickness
-      value: 0.07
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4687366331181010365, guid: 6ad258e1390a99b45a9423a314e28b2f, type: 3}
       propertyPath: m_SortingOrder
@@ -5372,8 +5444,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3619456955254280922, guid: 84abadb7e3c86c04aa5900b0ee3217e1, type: 3}
+      propertyPath: outlineColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3619456955254280922, guid: 84abadb7e3c86c04aa5900b0ee3217e1, type: 3}
       propertyPath: outlineColor.b
-      value: 0.04205101
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3619456955254280922, guid: 84abadb7e3c86c04aa5900b0ee3217e1, type: 3}
       propertyPath: outlineColor.g
@@ -5381,7 +5457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619456955254280922, guid: 84abadb7e3c86c04aa5900b0ee3217e1, type: 3}
       propertyPath: outlineColor.r
-      value: 0.6698113
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3619456955254280922, guid: 84abadb7e3c86c04aa5900b0ee3217e1, type: 3}
       propertyPath: highlightColor.a
@@ -5401,7 +5477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3619456955254280922, guid: 84abadb7e3c86c04aa5900b0ee3217e1, type: 3}
       propertyPath: outlineThickness
-      value: 0.07
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6171871504955332321, guid: 84abadb7e3c86c04aa5900b0ee3217e1, type: 3}
       propertyPath: m_Name
@@ -5474,8 +5550,12 @@ PrefabInstance:
       value: kiki_0
       objectReference: {fileID: 0}
     - target: {fileID: 8971188179508830410, guid: 5861f1f8e4e35aa48b9d0b50b580e833, type: 3}
+      propertyPath: outlineColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971188179508830410, guid: 5861f1f8e4e35aa48b9d0b50b580e833, type: 3}
       propertyPath: outlineColor.b
-      value: 0.04205101
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8971188179508830410, guid: 5861f1f8e4e35aa48b9d0b50b580e833, type: 3}
       propertyPath: outlineColor.g
@@ -5483,7 +5563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8971188179508830410, guid: 5861f1f8e4e35aa48b9d0b50b580e833, type: 3}
       propertyPath: outlineColor.r
-      value: 0.6698113
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8971188179508830410, guid: 5861f1f8e4e35aa48b9d0b50b580e833, type: 3}
       propertyPath: highlightColor.a
@@ -5503,7 +5583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8971188179508830410, guid: 5861f1f8e4e35aa48b9d0b50b580e833, type: 3}
       propertyPath: outlineThickness
-      value: 0.07
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
