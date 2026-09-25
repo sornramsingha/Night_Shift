@@ -10,6 +10,10 @@ public class ItemInteract : MonoBehaviour
     public Color outlineColor = Color.yellow;
     public float outlineThickness = 0.05f;
 
+    [Header("ตั้งค่าชื่อสินค้า")]
+    public string itemsName;
+    public DialogueManager dialogueManager;
+
     private SpriteRenderer mainSprite;
     private GameObject[] outlineObjects = new GameObject[4];
 
@@ -67,6 +71,9 @@ public class ItemInteract : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("กำลังหยิบ: " + itemName + " ลงถุง!");
+        if (dialogueManager != null)
+        {
+            dialogueManager.PickUpItem(itemsName);
+        }
     }
 }

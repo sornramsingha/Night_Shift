@@ -9,9 +9,19 @@ public class DialogueManager : MonoBehaviour
     public GameObject choicePanel;
     public GameObject startTalkButton;
     public GameObject hintText;
+    public GameObject hideheldText;
+    public GameObject GiveItem;
 
     public DayManager dayManager;
     public CustomerWalker customerWalker;
+
+    [Header("ระบบหยิบสินค้า")]
+    public string expectedItem;
+    public string heldItem = "";
+    public TextMeshProUGUI handItemText;
+    public GameObject giveItemButton;
+
+    private bool isWaitingForOrder = false;
 
     [Header("ตั้งค่า")]
     public float typingSpeed = 0.05f;
@@ -31,6 +41,8 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
 
         if (startTalkButton != null) startTalkButton.SetActive(false);
+        if (giveItemButton != null) giveItemButton.SetActive(false);
+        if (handItemText != null) handItemText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -63,7 +75,9 @@ public class DialogueManager : MonoBehaviour
     public void BeginConversation()
     {
         startTalkButton.SetActive(false);
+        choicePanel.SetActive(false);
         hintText.SetActive(true);
+        isWaitingForChoice = false;
         isDialogueActive = true;
 
         StartDialogue(sentences);
@@ -81,7 +95,12 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowStartTalkButton()
     {
-        if (startTalkButton != null) startTalkButton.SetActive(true);
+        if (startTalkButton != null)
+        {
+            startTalkButton.SetActive(true);
+            TextMeshProUGUI btnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (btnText != null) btnText.text = "คุยกับลูกค้า";
+        }
     }
 
     IEnumerator TypeSentence(string sentence)
@@ -114,6 +133,7 @@ public class DialogueManager : MonoBehaviour
         {
             isWaitingForChoice = true;
             choicePanel.SetActive(true);
+            startTalkButton.SetActive(false);
         }
     }
 
@@ -131,15 +151,25 @@ public class DialogueManager : MonoBehaviour
 
     public void ChooseAgree()
     {
-        Debug.Log("ผู้เล่นเลือก: ตกลง / ขายของ");
-        EndCustomerInteraction();
-        customerWalker.WalkAway();
+        Debug.Log("ตกลงขาย");
+
+        choicePanel.SetActive(false);
+        hintText.SetActive(false);
+        isWaitingForChoice = false;
+        isDialogueActive = false;
+        dialogueText.text = "";
+        startTalkButton.SetActive(true);
+        TextMeshProUGUI btnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (btnText != null) btnText.text = "คุยกับลูกค้า";
+
+        isWaitingForOrder = true;
     }
 
     public void ChooseDisagree()
     {
-        Debug.Log("ผู้เล่นเลือก: ไม่ตกลง / ปฏิเสธ");
+        Debug.Log("ไม่ขาย");
         EndCustomerInteraction();
+        startTalkButton.SetActive(false);
         customerWalker.WalkAway();
     }
 
@@ -150,5 +180,46 @@ public class DialogueManager : MonoBehaviour
         isWaitingForChoice = false;
         isDialogueActive = false;
         dialogueText.text = "";
+
+        if (giveItemButton != null) giveItemButton.SetActive(false);
+        if (handItemText != null) handItemText.gameObject.SetActive(false);
+    }
+
+    public void PickUpItem(string itemName)
+    {
+        heldItem = itemName;
+        if (handItemText != null)
+        {
+            handItemText.gameObject.SetActive(true);
+            handItemText.text = "กำลังถือ: " + heldItem;
+        }
+        Debug.Log("ผู้เล่นหยิบ: " + heldItem);
+        if (isWaitingForOrder && giveItemButton != null)
+        {
+            giveItemButton.SetActive(true);
+        }
+    }
+
+    public void GiveItemToCustomer()
+    {
+        if (heldItem == expectedItem)
+        {
+            Debug.Log("ขายสินค้าถูก");
+            // TODO: **ใส่เอฟเฟกต์หรือเสียงตอนจบวันตรงนี้**
+        }
+        else
+        {
+            Debug.Log("หยิบของผิด!");
+            // TODO: **ทำระบบ Game Over / Time Loop ตรงนี้ในอนาคต**
+        }
+
+        heldItem = "";
+        if (handItemText != null) handItemText.text = "กำลังถือ: ไม่มี";
+        giveItemButton.SetActive(false);
+        isWaitingForOrder = false;
+        startTalkButton.SetActive(false);
+        if (handItemText != null) handItemText.gameObject.SetActive(false);
+
+        customerWalker.WalkAway();
     }
 }

@@ -6,6 +6,9 @@ public class CustomerDialogue
 {
     [TextArea(2, 4)]
     public string[] sentences;
+
+    [Header("สินค้าที่ต้องการ")]
+    public string requiredItem;
 }
 
 [System.Serializable]
@@ -74,6 +77,7 @@ public class DayManager : MonoBehaviour
             {
                 string[] nextDialogue = today.dialogues[customerServedToday].sentences;
                 dialogueManager.sentences = nextDialogue;
+                dialogueManager.expectedItem = today.dialogues[customerServedToday].requiredItem;
             }
             else
             {
