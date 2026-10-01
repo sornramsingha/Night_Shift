@@ -19,12 +19,15 @@ public class DialogueManager : MonoBehaviour
     [Header("ระบบหยิบสินค้า & ถุง")]
     public string expectedItem;
     public bool hasBag = false;
+    public bool isBagOnTray = false;
     public List<string> itemsInBag = new List<string>();
+    public int maxBagCapacity = 1;
 
-    [Header("UI ถุงกลางจอ (ลากมาใส่ตรงนี้)")]
-    public GameObject activeBagUI; // <--- รูปถุงที่จะโชว์กลางจอตอนหยิบแล้ว
-    public Transform bagDropTarget; // <--- จุดที่ของจะลอยเข้าไป (ให้สร้าง Empty Object วางไว้ตรงกลางจอ)
+    [Header("UI ถุงกลางจอ")]
+    public GameObject activeBagUI;
+    public Transform bagDropTarget;
     public GameObject giveItemButton;
+    public GameObject bagOnTrayUI;
 
     private bool isWaitingForOrder = false;
 
@@ -46,7 +49,8 @@ public class DialogueManager : MonoBehaviour
 
         if (startTalkButton != null) startTalkButton.SetActive(false);
         if (giveItemButton != null) giveItemButton.SetActive(false);
-        if (activeBagUI != null) activeBagUI.SetActive(false); // ซ่อนถุงตอนเริ่มเกม
+        if (activeBagUI != null) activeBagUI.SetActive(false);
+        if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
     }
 
     void Update()
@@ -186,6 +190,7 @@ public class DialogueManager : MonoBehaviour
 
     void EndCustomerInteraction()
     {
+        StopAllCoroutines();
         choicePanel.SetActive(false);
         hintText.SetActive(false);
         isWaitingForChoice = false;
@@ -194,8 +199,10 @@ public class DialogueManager : MonoBehaviour
 
         if (giveItemButton != null) giveItemButton.SetActive(false);
         if (activeBagUI != null) activeBagUI.SetActive(false);
+        if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
 
         hasBag = false;
+        isBagOnTray = false;
         itemsInBag.Clear();
     }
 
@@ -210,17 +217,41 @@ public class DialogueManager : MonoBehaviour
     public void PickUpItem(string itemName)
     {
         if (!isWaitingForOrder || !hasBag) return;
+        if (itemsInBag.Count >= maxBagCapacity)
+        {
+            Debug.Log("ถุงเต็ม!");
+            return;
+        }
 
         itemsInBag.Add(itemName);
+    }
 
-        if (itemsInBag.Count > 0 && giveItemButton != null)
-        {
-            giveItemButton.SetActive(true);
-        }
+    public void PlaceBagOnTray()
+    {
+        if (!isWaitingForOrder || !hasBag || itemsInBag.Count == 0 || isBagOnTray) return;
+
+        isBagOnTray = true;
+        Debug.Log("วางถุงที่ถาดแล้ว");
+
+        if (activeBagUI != null) activeBagUI.SetActive(false);
+        if (bagOnTrayUI != null) bagOnTrayUI.SetActive(true);
+
+        if (startTalkButton != null) startTalkButton.SetActive(false);
+        StopAllCoroutines();
+        isTyping = false;
+        dialogueText.text = "";
+        isDialogueActive = false;
+        isWaitingForChoice = false;
+
+        if (choicePanel != null) choicePanel.SetActive(false);
+        if (hintText != null) hintText.SetActive(false);
+        if (giveItemButton != null) giveItemButton.SetActive(true);
     }
 
     public void GiveItemToCustomer()
     {
+        if (!isBagOnTray) return;
+
         bool isCorrect = itemsInBag.Contains(expectedItem);
         bool hasExtraWrongItems = itemsInBag.Count > 1 || (!isCorrect && itemsInBag.Count == 1);
 
@@ -228,15 +259,7 @@ public class DialogueManager : MonoBehaviour
         else if (isCorrect && hasExtraWrongItems) Debug.Log("ถูกแต่มั่วปนมา");
         else Debug.Log("ผิดทั้งหมด");
 
-        hasBag = false;
-        itemsInBag.Clear();
-
-        giveItemButton.SetActive(false);
-        isWaitingForOrder = false;
-        startTalkButton.SetActive(false);
-
-        if (activeBagUI != null) activeBagUI.SetActive(false);
-
+        EndCustomerInteraction();
         customerWalker.WalkAway();
     }
 }

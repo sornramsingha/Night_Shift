@@ -11,22 +11,20 @@ public class ItemInteract : MonoBehaviour
     public Color outlineColor = Color.yellow;
     public float outlineThickness = 0.05f;
 
-    [Header("ตั้งค่าอนิเมชั่น")]
-    public float flyDuration = 0.4f;
+    [Header("ตั้งค่าอนิเมชั่น (แบบ Figma)")]
+    public float flyDuration = 0.5f;
     public float jumpHeight = 1.5f;
+    public float cloneScaleMultiplier = 1.5f;
 
-    [Header("ตั้งค่าชื่อสินค้า")]
-    public string itemsName;
+    [Header("ระบบจัดการ")]
     public DialogueManager dialogueManager;
 
     private SpriteRenderer mainSprite;
-    private SpriteRenderer spriteRenderer;
     private GameObject[] outlineObjects = new GameObject[4];
 
     void Start()
     {
         mainSprite = GetComponent<SpriteRenderer>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         CreateOutlineSprites();
         ToggleOutline(false);
     }
@@ -82,7 +80,14 @@ public class ItemInteract : MonoBehaviour
         {
             if (dialogueManager.hasBag)
             {
-                StartCoroutine(FlyToBagRoutine());
+                if (dialogueManager.itemsInBag.Count < dialogueManager.maxBagCapacity)
+                {
+                    StartCoroutine(FlyToBagRoutine());
+                }
+                else
+                {
+                    Debug.Log("ถุงเต็มแล้ว!");
+                }
             }
             else
             {
@@ -95,28 +100,45 @@ public class ItemInteract : MonoBehaviour
     {
         GameObject clone = new GameObject("ItemClone_" + itemName);
         clone.transform.position = transform.position;
-        clone.transform.localScale = transform.localScale;
+
+        Vector3 startScale = transform.localScale;
+        Vector3 peakScale = startScale * cloneScaleMultiplier;
 
         SpriteRenderer cloneSprite = clone.AddComponent<SpriteRenderer>();
-        cloneSprite.sprite = spriteRenderer.sprite;
+        cloneSprite.sprite = mainSprite.sprite;
         cloneSprite.sortingOrder = 100;
 
         Vector3 startPos = transform.position;
         Vector3 endPos = dialogueManager.bagDropTarget != null ? dialogueManager.bagDropTarget.position : startPos;
+        Vector3 peakPos = startPos + (endPos - startPos) / 2f + Vector3.up * jumpHeight;
 
         float time = 0;
 
         while (time < 1f)
         {
             time += Time.deltaTime / flyDuration;
-            Vector3 currentPos = Vector3.Lerp(startPos, endPos, time);
-            currentPos.y += Mathf.Sin(time * Mathf.PI) * jumpHeight;
-            clone.transform.position = currentPos;
-            clone.transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, time);
+
+            float easedTime = time * time * (3f - 2f * time);
+            Vector3 m1 = Vector3.Lerp(startPos, peakPos, easedTime);
+            Vector3 m2 = Vector3.Lerp(peakPos, endPos, easedTime);
+            clone.transform.position = Vector3.Lerp(m1, m2, easedTime);
+
+            if (easedTime < 0.5f)
+            {
+                float scaleTime = easedTime * 2f;
+                clone.transform.localScale = Vector3.Lerp(startScale, peakScale, scaleTime);
+            }
+            else
+            {
+                float scaleTime = (easedTime - 0.5f) * 2f;
+                clone.transform.localScale = Vector3.Lerp(peakScale, Vector3.zero, scaleTime);
+            }
 
             yield return null;
         }
+
         Destroy(clone);
+
         dialogueManager.PickUpItem(itemName);
     }
 }
