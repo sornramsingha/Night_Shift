@@ -27,7 +27,7 @@ public class DayManager : MonoBehaviour
     public DaySetting[] days;
     public int currentDayIndex = 0;
 
-    [Header("UI เปลี่ยนวัน")]
+    [Header("Panel วันเริ่มงาน")]
     public GameObject dayTransitionPanel;
     public TextMeshProUGUI dayText;
 

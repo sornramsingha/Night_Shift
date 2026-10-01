@@ -3,16 +3,16 @@ using System.Collections;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    [Header("จุดตั้งกล้องในแต่ละห้อง")]
     public Transform[] roomPositions;
-
-    [Header("ความเร็วในการเลื่อนกล้อง")]
     public float panSpeed = 4f;
     public float cooldownTime = 0.2f;
 
     [Header("ระบบ UI")]
     public GameObject dialogueUIGroup;
 
+    [Header("ระบบถุง")]
+    public GameObject bagUIGroup;
+    public DialogueManager dialogueManager; 
     private int currentRoomIndex = 0;
     private bool isPanning = false;
 
@@ -68,6 +68,11 @@ public class CameraSwitcher : MonoBehaviour
         if (dialogueUIGroup != null)
         {
             dialogueUIGroup.SetActive(currentRoomIndex == 0);
+        }
+        if (bagUIGroup != null && dialogueManager != null)
+        {
+            bool shouldShowBag = dialogueManager.hasBag && (currentRoomIndex == 0 || currentRoomIndex == 1);
+            bagUIGroup.SetActive(shouldShowBag);
         }
     }
 }

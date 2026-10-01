@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class ItemInteract : MonoBehaviour
@@ -10,16 +11,22 @@ public class ItemInteract : MonoBehaviour
     public Color outlineColor = Color.yellow;
     public float outlineThickness = 0.05f;
 
+    [Header("ตั้งค่าอนิเมชั่น")]
+    public float flyDuration = 0.4f;
+    public float jumpHeight = 1.5f;
+
     [Header("ตั้งค่าชื่อสินค้า")]
     public string itemsName;
     public DialogueManager dialogueManager;
 
     private SpriteRenderer mainSprite;
+    private SpriteRenderer spriteRenderer;
     private GameObject[] outlineObjects = new GameObject[4];
 
     void Start()
     {
         mainSprite = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         CreateOutlineSprites();
         ToggleOutline(false);
     }
@@ -73,7 +80,43 @@ public class ItemInteract : MonoBehaviour
     {
         if (dialogueManager != null)
         {
-            dialogueManager.PickUpItem(itemsName);
+            if (dialogueManager.hasBag)
+            {
+                StartCoroutine(FlyToBagRoutine());
+            }
+            else
+            {
+                Debug.Log("ต้องหยิบถุงก่อน ถึงจะใส่ของได้!");
+            }
         }
+    }
+
+    IEnumerator FlyToBagRoutine()
+    {
+        GameObject clone = new GameObject("ItemClone_" + itemName);
+        clone.transform.position = transform.position;
+        clone.transform.localScale = transform.localScale;
+
+        SpriteRenderer cloneSprite = clone.AddComponent<SpriteRenderer>();
+        cloneSprite.sprite = spriteRenderer.sprite;
+        cloneSprite.sortingOrder = 100;
+
+        Vector3 startPos = transform.position;
+        Vector3 endPos = dialogueManager.bagDropTarget != null ? dialogueManager.bagDropTarget.position : startPos;
+
+        float time = 0;
+
+        while (time < 1f)
+        {
+            time += Time.deltaTime / flyDuration;
+            Vector3 currentPos = Vector3.Lerp(startPos, endPos, time);
+            currentPos.y += Mathf.Sin(time * Mathf.PI) * jumpHeight;
+            clone.transform.position = currentPos;
+            clone.transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, time);
+
+            yield return null;
+        }
+        Destroy(clone);
+        dialogueManager.PickUpItem(itemName);
     }
 }
