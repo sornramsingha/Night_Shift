@@ -18,8 +18,12 @@ public class DialogueManager : MonoBehaviour
 
     [Header("ระบบหยิบสินค้า & ถุง")]
     public string expectedItem;
+
+    [HideInInspector]
     public bool hasBag = false;
+    [HideInInspector]
     public bool isBagOnTray = false;
+
     public List<string> itemsInBag = new List<string>();
     public int maxBagCapacity = 1;
 
@@ -29,7 +33,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject giveItemButton;
     public GameObject bagOnTrayUI;
 
-    private bool isWaitingForOrder = false;
+    [HideInInspector]
+    public bool isWaitingForOrder = false;
 
     [Header("ตั้งค่า")]
     public float typingSpeed = 0.05f;
@@ -204,6 +209,7 @@ public class DialogueManager : MonoBehaviour
         hasBag = false;
         isBagOnTray = false;
         itemsInBag.Clear();
+        isWaitingForOrder = false;
     }
 
     public void PickUpBag()

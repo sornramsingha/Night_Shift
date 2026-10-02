@@ -7,11 +7,11 @@ public class ItemInteract : MonoBehaviour
     [Header("ข้อมูลสินค้า")]
     public string itemName;
 
-    [Header("ตั้งค่าเส้นขอบ (Outline)")]
-    public Color outlineColor = Color.yellow;
-    public float outlineThickness = 0.05f;
+    [Header("ตั้งค่าสีตอนเมาส์ชี้")]
+    public Color hoverColor = new Color(0.8f, 0.8f, 0.8f, 1f);
+    private Color originalColor = Color.white;
 
-    [Header("ตั้งค่าอนิเมชั่น (แบบ Figma)")]
+    [Header("ตั้งค่าอนิเมชั่น")]
     public float flyDuration = 0.5f;
     public float jumpHeight = 1.5f;
     public float cloneScaleMultiplier = 1.5f;
@@ -20,58 +20,30 @@ public class ItemInteract : MonoBehaviour
     public DialogueManager dialogueManager;
 
     private SpriteRenderer mainSprite;
-    private GameObject[] outlineObjects = new GameObject[4];
 
     void Start()
     {
         mainSprite = GetComponent<SpriteRenderer>();
-        CreateOutlineSprites();
-        ToggleOutline(false);
-    }
-
-    void CreateOutlineSprites()
-    {
-        Vector3[] offsets = new Vector3[]
+        if (mainSprite != null)
         {
-            new Vector3(outlineThickness, 0, 0),
-            new Vector3(-outlineThickness, 0, 0),
-            new Vector3(0, outlineThickness, 0),
-            new Vector3(0, -outlineThickness, 0)
-        };
-
-        for (int i = 0; i < 4; i++)
-        {
-            GameObject outlineObj = new GameObject("OutlinePiece_" + i);
-            outlineObj.transform.SetParent(transform);
-            outlineObj.transform.localPosition = offsets[i];
-            outlineObj.transform.localScale = Vector3.one;
-
-            SpriteRenderer outlineSprite = outlineObj.AddComponent<SpriteRenderer>();
-            outlineSprite.sprite = mainSprite.sprite;
-            outlineSprite.color = outlineColor;
-            outlineSprite.sortingLayerID = mainSprite.sortingLayerID;
-            outlineSprite.sortingOrder = mainSprite.sortingOrder - 1;
-
-            outlineObjects[i] = outlineObj;
-        }
-    }
-
-    void ToggleOutline(bool isVisible)
-    {
-        foreach (GameObject obj in outlineObjects)
-        {
-            obj.SetActive(isVisible);
+            originalColor = mainSprite.color;
         }
     }
 
     void OnMouseEnter()
     {
-        ToggleOutline(true);
+        if (mainSprite != null)
+        {
+            mainSprite.color = hoverColor;
+        }
     }
 
     void OnMouseExit()
     {
-        ToggleOutline(false);
+        if (mainSprite != null)
+        {
+            mainSprite.color = originalColor;
+        }
     }
 
     void OnMouseDown()
@@ -83,6 +55,7 @@ public class ItemInteract : MonoBehaviour
                 if (dialogueManager.itemsInBag.Count < dialogueManager.maxBagCapacity)
                 {
                     StartCoroutine(FlyToBagRoutine());
+                    if (mainSprite != null) mainSprite.color = originalColor;
                 }
                 else
                 {
