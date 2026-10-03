@@ -100,4 +100,17 @@ public class CustomerWalker : MonoBehaviour
         isWalkingIn = false;
         isWalkingOut = true;
     }
+
+    public void ChangeSprite(Sprite newSprite)
+    {
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        if (newSprite != null)
+        {
+            spriteRenderer.sprite = newSprite;
+        }
+    }
 }

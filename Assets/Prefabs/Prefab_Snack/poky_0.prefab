@@ -148,4 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Poky
-  highlightColor: {r: 0, g: 1, b: 0.17034149, a: 1}
+  hoverColor: {r: 0.43529412, g: 0.43529412, b: 0.43529412, a: 1}
+  flyDuration: 1
+  jumpHeight: 1.5
+  cloneScaleMultiplier: 1.5
+  dialogueManager: {fileID: 0}

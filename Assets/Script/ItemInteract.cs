@@ -59,12 +59,12 @@ public class ItemInteract : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("ถุงเต็มแล้ว!");
+                    dialogueManager.ShowWarning("ถุงเต็มแล้ว!");
                 }
             }
             else
             {
-                Debug.Log("ต้องหยิบถุงก่อน ถึงจะใส่ของได้!");
+                dialogueManager.ShowWarning("ต้องหยิบถุงก่อนสิ!");
             }
         }
     }

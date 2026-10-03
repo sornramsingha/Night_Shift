@@ -4,6 +4,10 @@ using TMPro;
 [System.Serializable]
 public class CustomerDialogue
 {
+
+    [Header("รูปลูกค้า")]
+    public Sprite customerSprite;
+
     [TextArea(2, 4)]
     public string[] sentences;
 
@@ -27,6 +31,9 @@ public class DayManager : MonoBehaviour
     public DaySetting[] days;
     public int currentDayIndex = 0;
 
+    [Header("ข้อความบอกวันที่")]
+    public TextMeshProUGUI inGameDayText;
+
     [Header("Panel วันเริ่มงาน")]
     public GameObject dayTransitionPanel;
     public TextMeshProUGUI dayText;
@@ -48,11 +55,16 @@ public class DayManager : MonoBehaviour
         {
             dayText.text = "คุณรอดชีวิตครบ 7 วัน";
             dayTransitionPanel.SetActive(true);
+            if (inGameDayText != null) inGameDayText.text = "จบ";
             return;
         }
 
         dayTransitionPanel.SetActive(true);
         dayText.text = "วันที่ " + (currentDayIndex + 1);
+        if (inGameDayText != null)
+        {
+            inGameDayText.text = "วันที่ " + (currentDayIndex + 1);
+        }
     }
 
     public void StartShift()
@@ -73,15 +85,18 @@ public class DayManager : MonoBehaviour
         else
         {
             DaySetting today = days[currentDayIndex];
+            CustomerDialogue currentCustomerData = null;
+
             if (customerServedToday < today.dialogues.Length)
             {
-                string[] nextDialogue = today.dialogues[customerServedToday].sentences;
-                dialogueManager.sentences = nextDialogue;
-                dialogueManager.expectedItem = today.dialogues[customerServedToday].requiredItem;
+                currentCustomerData = today.dialogues[customerServedToday];
+
+                dialogueManager.sentences = currentCustomerData.sentences;
+                dialogueManager.expectedItem = currentCustomerData.requiredItem;
             }
             else
             {
-                Debug.LogWarning("ลืมใส่บทพูดให้ลูกค้าคิวที่ " + (customerServedToday + 1) + " ในวันที่ " + (currentDayIndex + 1));
+                Debug.LogWarning("ลืมใส่บทพูด " + (customerServedToday + 1));
             }
 
             customerServedToday++;
@@ -89,6 +104,11 @@ public class DayManager : MonoBehaviour
 
             if (customer != null)
             {
+                if (currentCustomerData != null && currentCustomerData.customerSprite != null)
+                {
+                    customer.ChangeSprite(currentCustomerData.customerSprite);
+                }
+
                 customer.ResetAndWalk();
             }
         }

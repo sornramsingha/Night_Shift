@@ -13,6 +13,10 @@ public class DialogueManager : MonoBehaviour
     public GameObject agreeButton;
     public GameObject disagreeButton;
 
+    public TextMeshProUGUI warningText;
+    public float warningDuration = 2f;
+    private Coroutine warningCoroutine;
+
     public DayManager dayManager;
     public CustomerWalker customerWalker;
 
@@ -56,6 +60,7 @@ public class DialogueManager : MonoBehaviour
         if (giveItemButton != null) giveItemButton.SetActive(false);
         if (activeBagUI != null) activeBagUI.SetActive(false);
         if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
+        if (warningText != null) warningText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -267,5 +272,28 @@ public class DialogueManager : MonoBehaviour
 
         EndCustomerInteraction();
         customerWalker.WalkAway();
+    }
+
+    public void ShowWarning(string message)
+    {
+        if (warningText == null) return;
+
+        // ถ้ามีข้อความเก่ากำลังโชว์อยู่ ให้รีเซ็ตเวลาใหม่
+        if (warningCoroutine != null)
+        {
+            StopCoroutine(warningCoroutine);
+        }
+
+        warningCoroutine = StartCoroutine(WarningRoutine(message));
+    }
+
+    private IEnumerator WarningRoutine(string message)
+    {
+        warningText.text = message;
+        warningText.gameObject.SetActive(true); // เปิดข้อความ
+
+        yield return new WaitForSeconds(warningDuration); // รอเวลา
+
+        warningText.gameObject.SetActive(false); // ปิดข้อความ
     }
 }
