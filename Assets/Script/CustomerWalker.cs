@@ -29,6 +29,7 @@ public class CustomerWalker : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float totalDistanceIn;
     private float totalDistanceOut;
+    private Sprite normalCustomerSprite;
 
     void Start()
     {
@@ -101,16 +102,27 @@ public class CustomerWalker : MonoBehaviour
         isWalkingOut = true;
     }
 
-    public void ChangeSprite(Sprite newSprite)
+    public void SetupCustomer(Sprite normal, bool isAnomaly, Sprite anomaly)
     {
-        if (spriteRenderer == null)
-        {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        }
+        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (newSprite != null)
+        normalCustomerSprite = normal;
+
+        if (isAnomaly && anomaly != null)
         {
-            spriteRenderer.sprite = newSprite;
+            spriteRenderer.sprite = anomaly;
+        }
+        else
+        {
+            spriteRenderer.sprite = normal;
+        }
+    }
+
+    public void CureAnomaly()
+    {
+        if (spriteRenderer != null && normalCustomerSprite != null)
+        {
+            spriteRenderer.sprite = normalCustomerSprite;
         }
     }
 }

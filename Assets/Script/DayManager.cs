@@ -1,6 +1,17 @@
 ﻿using UnityEngine;
 using TMPro;
 
+
+public enum TalismanType
+{
+    None,    
+    Ghost,   
+    Vampire, 
+    SkinWalker,
+    Type4,
+    Type5
+}
+
 [System.Serializable]
 public class CustomerDialogue
 {
@@ -13,6 +24,11 @@ public class CustomerDialogue
 
     [Header("สินค้าที่ต้องการ")]
     public string requiredItem;
+
+    [Header("ระบบสิ่งผิดปกติ (ยันต์)")]
+    public bool hasAnomaly = false;
+    public TalismanType weaknessType = TalismanType.None;
+    public Sprite anomalySprite;
 }
 
 [System.Serializable]
@@ -93,22 +109,18 @@ public class DayManager : MonoBehaviour
 
                 dialogueManager.sentences = currentCustomerData.sentences;
                 dialogueManager.expectedItem = currentCustomerData.requiredItem;
-            }
-            else
-            {
-                Debug.LogWarning("ลืมใส่บทพูด " + (customerServedToday + 1));
+
+                dialogueManager.SetupAnomalyData(currentCustomerData.hasAnomaly, currentCustomerData.weaknessType);
             }
 
             customerServedToday++;
-            Debug.Log("เรียกลูกค้าคนที่: " + customerServedToday);
 
             if (customer != null)
             {
-                if (currentCustomerData != null && currentCustomerData.customerSprite != null)
+                if (currentCustomerData != null)
                 {
-                    customer.ChangeSprite(currentCustomerData.customerSprite);
+                    customer.SetupCustomer(currentCustomerData.customerSprite, currentCustomerData.hasAnomaly, currentCustomerData.anomalySprite);
                 }
-
                 customer.ResetAndWalk();
             }
         }
