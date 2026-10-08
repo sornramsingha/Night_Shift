@@ -237,6 +237,11 @@ public class DialogueManager : MonoBehaviour
     public void PickUpBag()
     {
         if (!isWaitingForOrder) return;
+        if (isHoldingTalisman)
+        {
+            ShowWarning("มือไม่ว่าง! กำลังถือยันต์อยู่");
+            return;
+        }
 
         hasBag = true;
         if (activeBagUI != null) activeBagUI.SetActive(true);
@@ -318,20 +323,46 @@ public class DialogueManager : MonoBehaviour
 
     public void PickUpTalisman(TalismanType type, GameObject talismanObj, Sprite talismanSprite)
     {
+        if (hasBag)
+        {
+            ShowWarning("มือไม่ว่าง! กำลังถือถุงอยู่");
+            return;
+        }
+        if (isHoldingTalisman)
+        {
+            if (heldTalisman == type)
+            {
+                isHoldingTalisman = false;
+                heldTalisman = TalismanType.None;
+                activeTalismanItem = null;
+
+                if (activeTalismanUI != null) activeTalismanUI.SetActive(false);
+                return;
+            }
+            else
+            {
+                heldTalisman = type;
+                activeTalismanItem = talismanObj;
+
+                if (activeTalismanUI != null)
+                {
+                    activeTalismanUI.SetActive(true);
+                    SpriteRenderer sr = activeTalismanUI.GetComponent<SpriteRenderer>();
+                    if (sr != null && talismanSprite != null) sr.sprite = talismanSprite;
+                }
+                return;
+            }
+        }
         isHoldingTalisman = true;
         heldTalisman = type;
         activeTalismanItem = talismanObj;
+
         if (activeTalismanUI != null)
         {
             activeTalismanUI.SetActive(true);
             SpriteRenderer sr = activeTalismanUI.GetComponent<SpriteRenderer>();
-            if (sr != null && talismanSprite != null)
-            {
-                sr.sprite = talismanSprite;
-            }
+            if (sr != null && talismanSprite != null) sr.sprite = talismanSprite;
         }
-
-        ShowWarning("หยิบยันต์: <color=yellow>" + type.ToString() + "</color>");
     }
 
     public void UseTalismanOnCustomer()
@@ -344,14 +375,11 @@ public class DialogueManager : MonoBehaviour
             customerHasAnomaly = false;
 
             if (activeTalismanItem != null) activeTalismanItem.SetActive(false);
-            ShowWarning("<color=green>ไล่สำเร็จ! ลูกค้ากลับเป็นปกติ</color>");
         }
         else
         {
             Debug.Log("แปะยันต์ผิด! ลูกค้าโกรธเดินหนี");
             if (activeTalismanItem != null) activeTalismanItem.SetActive(false);
-
-            ShowWarning("<color=red>พลาด! ลูกค้าไม่ได้ผิดปกติ</color>");
             EndCustomerInteraction();
             customerWalker.WalkAway();
         }

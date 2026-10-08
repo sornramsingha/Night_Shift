@@ -7,9 +7,10 @@ public class ItemInteract : MonoBehaviour
     [Header("ข้อมูลสินค้า")]
     public string itemName;
 
-    [Header("ตั้งค่าสีตอนเมาส์ชี้")]
-    public Color hoverColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-    private Color originalColor = Color.white;
+    [Header("ตั้งค่ารูปตอนเมาส์ชี้")]
+    public Sprite outlineSprite;
+    private Sprite originalSprite;
+    private Vector3 originalScale;
 
     [Header("ตั้งค่าอนิเมชั่น")]
     public float flyDuration = 0.5f;
@@ -26,23 +27,26 @@ public class ItemInteract : MonoBehaviour
         mainSprite = GetComponent<SpriteRenderer>();
         if (mainSprite != null)
         {
-            originalColor = mainSprite.color;
+            originalSprite = mainSprite.sprite;
+            originalScale = transform.localScale;
         }
     }
 
     void OnMouseEnter()
     {
-        if (mainSprite != null)
+        if (mainSprite != null && outlineSprite != null)
         {
-            mainSprite.color = hoverColor;
+            mainSprite.sprite = outlineSprite;
+            transform.localScale = originalScale * 1.1f;
         }
     }
 
     void OnMouseExit()
     {
-        if (mainSprite != null)
+        if (mainSprite != null && originalSprite != null)
         {
-            mainSprite.color = originalColor;
+            mainSprite.sprite = originalSprite;
+            transform.localScale = originalScale;
         }
     }
 
@@ -54,8 +58,12 @@ public class ItemInteract : MonoBehaviour
             {
                 if (dialogueManager.itemsInBag.Count < dialogueManager.maxBagCapacity)
                 {
+                    if (mainSprite != null && originalSprite != null)
+                    {
+                        mainSprite.sprite = originalSprite;
+                    }
+
                     StartCoroutine(FlyToBagRoutine());
-                    if (mainSprite != null) mainSprite.color = originalColor;
                 }
                 else
                 {
@@ -64,7 +72,7 @@ public class ItemInteract : MonoBehaviour
             }
             else
             {
-                dialogueManager.ShowWarning("ต้องหยิบถุงก่อนสิ!");
+                dialogueManager.ShowWarning("ต้องหยิบถุงก่อนสิ!!");
             }
         }
     }
@@ -78,7 +86,7 @@ public class ItemInteract : MonoBehaviour
         Vector3 peakScale = startScale * cloneScaleMultiplier;
 
         SpriteRenderer cloneSprite = clone.AddComponent<SpriteRenderer>();
-        cloneSprite.sprite = mainSprite.sprite;
+        cloneSprite.sprite = originalSprite != null ? originalSprite : mainSprite.sprite;
         cloneSprite.sortingOrder = 100;
 
         Vector3 startPos = transform.position;
@@ -111,7 +119,6 @@ public class ItemInteract : MonoBehaviour
         }
 
         Destroy(clone);
-
         dialogueManager.PickUpItem(itemName);
     }
 }

@@ -6,39 +6,52 @@ public class TalismanInteract : MonoBehaviour
     public TalismanType myType;
     public DialogueManager dialogueManager;
 
-    public Color hoverColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-    private Color originalColor = Color.white;
+    [Header("ตั้งค่ารูปตอนเมาส์ชี้")]
+    public Sprite outlineSprite;
+    private Sprite originalSprite;
+    private Vector3 originalScale;
+
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null) originalColor = spriteRenderer.color;
+        if (spriteRenderer != null)
+        {
+            originalSprite = spriteRenderer.sprite;
+            originalScale = transform.localScale;
+        }
     }
 
     void OnMouseEnter()
     {
-        if (spriteRenderer != null && dialogueManager != null && !dialogueManager.isHoldingTalisman)
+        if (spriteRenderer != null && outlineSprite != null)
         {
-            spriteRenderer.color = hoverColor;
+            spriteRenderer.sprite = outlineSprite;
+            transform.localScale = originalScale * 1.05f;
         }
     }
 
     void OnMouseExit()
     {
-        if (spriteRenderer != null) spriteRenderer.color = originalColor;
+        if (spriteRenderer != null && originalSprite != null)
+        {
+            spriteRenderer.sprite = originalSprite;
+            transform.localScale = originalScale;
+        }
     }
 
     void OnMouseDown()
     {
-        if (dialogueManager != null && !dialogueManager.isHoldingTalisman)
+        if (dialogueManager != null)
         {
-            dialogueManager.PickUpTalisman(myType, this.gameObject, spriteRenderer.sprite);
-            if (spriteRenderer != null) spriteRenderer.color = originalColor;
-        }
-        else if (dialogueManager != null && dialogueManager.isHoldingTalisman)
-        {
-            dialogueManager.ShowWarning("กำลังถือยันต์อยู่!");
+            Sprite spriteToPass = originalSprite != null ? originalSprite : spriteRenderer.sprite;
+
+            dialogueManager.PickUpTalisman(myType, this.gameObject, spriteToPass);
+            if (spriteRenderer != null && originalSprite != null)
+            {
+                spriteRenderer.sprite = originalSprite;
+            }
         }
     }
 }
