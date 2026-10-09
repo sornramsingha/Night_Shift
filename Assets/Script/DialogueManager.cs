@@ -236,10 +236,30 @@ public class DialogueManager : MonoBehaviour
 
     public void PickUpBag()
     {
-        if (!isWaitingForOrder) return;
+        if (!isWaitingForOrder)
+        {
+            ShowWarning("ยังไม่มีออเดอร์!");
+            return;
+        }
+
+        if (isBagOnTray)
+        {
+            ShowWarning("มีถุงวางอยู่บนถาดแล้ว!");
+            return;
+        }
+
         if (isHoldingTalisman)
         {
             ShowWarning("มือไม่ว่าง! กำลังถือยันต์อยู่");
+            return;
+        }
+
+        if (hasBag)
+        {
+            hasBag = false;
+            itemsInBag.Clear();
+
+            if (activeBagUI != null) activeBagUI.SetActive(false);
             return;
         }
 
@@ -264,12 +284,12 @@ public class DialogueManager : MonoBehaviour
         if (!isWaitingForOrder || !hasBag || itemsInBag.Count == 0 || isBagOnTray) return;
 
         isBagOnTray = true;
-        Debug.Log("วางถุงที่ถาดแล้ว");
+        hasBag = false;
 
         if (activeBagUI != null) activeBagUI.SetActive(false);
         if (bagOnTrayUI != null) bagOnTrayUI.SetActive(true);
-
         if (startTalkButton != null) startTalkButton.SetActive(false);
+
         StopAllCoroutines();
         isTyping = false;
         dialogueText.text = "";
@@ -323,6 +343,11 @@ public class DialogueManager : MonoBehaviour
 
     public void PickUpTalisman(TalismanType type, GameObject talismanObj, Sprite talismanSprite)
     {
+        if (!isWaitingForOrder)
+        {
+            ShowWarning("ยังไม่จำเป็นต้องใช้ตอนนี้");
+            return;
+        }
         if (hasBag)
         {
             ShowWarning("มือไม่ว่าง! กำลังถือถุงอยู่");
@@ -367,7 +392,8 @@ public class DialogueManager : MonoBehaviour
 
     public void UseTalismanOnCustomer()
     {
-        if (!isHoldingTalisman) return;
+        if (!isHoldingTalisman || !isWaitingForOrder) return;
+
         if (customerHasAnomaly && heldTalisman == customerWeakness)
         {
             Debug.Log("แปะยันต์ถูกต้อง!");
@@ -380,10 +406,10 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.Log("แปะยันต์ผิด! ลูกค้าโกรธเดินหนี");
             if (activeTalismanItem != null) activeTalismanItem.SetActive(false);
+
             EndCustomerInteraction();
             customerWalker.WalkAway();
         }
-
         isHoldingTalisman = false;
         heldTalisman = TalismanType.None;
         activeTalismanItem = null;

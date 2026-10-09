@@ -1,30 +1,38 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider2D))]
 public class BagInteract : MonoBehaviour
 {
     public DialogueManager dialogueManager;
 
-    [Header("ตั้งค่าสีตอนเมาส์ชี้")]
-    public Color hoverColor = new Color(0.8f, 0.8f, 0.8f, 1f);
-    private Color originalColor = Color.white;
+    [Header("ตั้งค่ารูปตอนเมาส์ชี้")]
+    public Sprite outlineSprite;
+    private Sprite originalSprite;
 
     private SpriteRenderer spriteRenderer;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
-            originalColor = spriteRenderer.color;
+            originalSprite = spriteRenderer.sprite;
         }
     }
+
     void OnMouseEnter()
     {
-        if (dialogueManager != null && spriteRenderer != null)
+        if (spriteRenderer != null && outlineSprite != null)
         {
-            if (dialogueManager.isWaitingForOrder && !dialogueManager.hasBag)
-            {
-                spriteRenderer.color = hoverColor;
-            }
+            spriteRenderer.sprite = outlineSprite;
+        }
+    }
+
+    void OnMouseExit()
+    {
+        if (spriteRenderer != null && originalSprite != null)
+        {
+            spriteRenderer.sprite = originalSprite;
         }
     }
 
@@ -32,19 +40,12 @@ public class BagInteract : MonoBehaviour
     {
         if (dialogueManager != null)
         {
-            if (dialogueManager.isWaitingForOrder && !dialogueManager.hasBag)
-            {
-                dialogueManager.PickUpBag();
-                if (spriteRenderer != null) spriteRenderer.color = originalColor;
-            }
-        }
-    }
+            dialogueManager.PickUpBag();
 
-    void OnMouseExit()
-    {
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = originalColor;
+            if (spriteRenderer != null && originalSprite != null)
+            {
+                spriteRenderer.sprite = originalSprite;
+            }
         }
     }
 }
