@@ -49,7 +49,7 @@ public class CustomerWalker : MonoBehaviour
             if (spriteRenderer != null && totalDistanceIn > 0)
             {
                 float currentDist = Mathf.Abs(transform.position.x - counterPoint.position.x);
-                float distancePercent = Mathf.Clamp01(1f - (currentDist / totalDistanceIn)); // 0 = ไกล, 1 = ถึงเคาน์เตอร์
+                float distancePercent = Mathf.Clamp01(1f - (currentDist / totalDistanceIn));
                 float curveValue = fadeCurve.Evaluate(distancePercent);
                 spriteRenderer.color = Color.Lerp(shadowColor, normalColor, curveValue);
             }
@@ -91,6 +91,8 @@ public class CustomerWalker : MonoBehaviour
         transform.position = spawnPoint.position;
         totalDistanceIn = Mathf.Abs(spawnPoint.position.x - counterPoint.position.x);
         if (spriteRenderer != null) spriteRenderer.color = shadowColor;
+        if (spriteRenderer != null) spriteRenderer.enabled = true;
+
         isWalkingIn = true;
         isWalkingOut = false;
     }
@@ -102,25 +104,27 @@ public class CustomerWalker : MonoBehaviour
         isWalkingOut = true;
     }
 
+    public void Vanish()
+    {
+        isWalkingIn = false;
+        isWalkingOut = false;
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false;
+        }
+        transform.position = exitPoint.position;
+        if (dayManager != null)
+        {
+            dayManager.SpawnNextCustomer();
+        }
+    }
+
     public void SetupCustomer(Sprite normal, bool isAnomaly, Sprite anomaly)
     {
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
 
         normalCustomerSprite = normal;
-
-        if (isAnomaly && anomaly != null)
-        {
-            spriteRenderer.sprite = anomaly;
-        }
-        else
-        {
-            spriteRenderer.sprite = normal;
-        }
-    }
-
-    public void CureAnomaly()
-    {
-        if (spriteRenderer != null && normalCustomerSprite != null)
+        if (spriteRenderer != null)
         {
             spriteRenderer.sprite = normalCustomerSprite;
         }

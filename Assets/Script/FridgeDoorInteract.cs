@@ -28,11 +28,21 @@ public class FridgeDoorInteract : MonoBehaviour
     {
         if (dialogueManager != null && !dialogueManager.isWaitingForOrder)
         {
-            dialogueManager.ShowWarning("ยังไม่มีออเดอร์!");
+            dialogueManager.ShowWarning("ต้องคุยกับลูกค้าให้เรียบร้อยก่อน!");
             return;
         }
+
         isOpen = !isOpen;
         UpdateDoorState(false);
+
+        if (isOpen)
+        {
+            CustomerAnomalyVisual currentCustomer = FindFirstObjectByType<CustomerAnomalyVisual>();
+            if (currentCustomer != null)
+            {
+                currentCustomer.RevealAnomaly();
+            }
+        }
     }
 
     void UpdateDoorState(bool isInitialSetup)

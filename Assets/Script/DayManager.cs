@@ -120,6 +120,11 @@ public class DayManager : MonoBehaviour
                 if (currentCustomerData != null)
                 {
                     customer.SetupCustomer(currentCustomerData.customerSprite, currentCustomerData.hasAnomaly, currentCustomerData.anomalySprite);
+                    CustomerAnomalyVisual visualScript = customer.GetComponent<CustomerAnomalyVisual>();
+                    if (visualScript != null)
+                    {
+                        visualScript.SetupAnomaly(currentCustomerData.customerSprite, currentCustomerData.anomalySprite, currentCustomerData.hasAnomaly);
+                    }
                 }
                 customer.ResetAndWalk();
             }

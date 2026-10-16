@@ -23,6 +23,9 @@ public class DialogueManager : MonoBehaviour
     [Header("ระบบหยิบสินค้า & ถุง")]
     public string expectedItem;
 
+    [Header("ระบบค่าสติ")]
+    public SanityManager sanityManager;
+
     [Header("ระบบยันต์")]
     public bool isHoldingTalisman = false;
     public TalismanType heldTalisman = TalismanType.None;
@@ -306,14 +309,31 @@ public class DialogueManager : MonoBehaviour
         if (!isBagOnTray) return;
 
         bool isCorrect = itemsInBag.Contains(expectedItem);
-        bool hasExtraWrongItems = itemsInBag.Count > 1 || (!isCorrect && itemsInBag.Count == 1);
+        bool isExactlyCorrect = isCorrect && itemsInBag.Count == 1;
 
-        if (isCorrect && !hasExtraWrongItems) Debug.Log("ถูกเป๊ะ");
-        else if (isCorrect && hasExtraWrongItems) Debug.Log("ถูกแต่มั่วปนมา");
-        else Debug.Log("ผิดทั้งหมด");
+        if (customerHasAnomaly)
+        {
+            Debug.Log("พลาด! ขายของให้สิ่งผิดปกติ");
+            ShowWarning("");
+            if (sanityManager != null) sanityManager.ApplyPenalty(sanityManager.penaltyAnomalyWrong);
+        }
+        else
+        {
+            if (isExactlyCorrect)
+            {
+                Debug.Log("ขายถูกต้อง");
+                if (sanityManager != null) sanityManager.ApplyReward(sanityManager.rewardCorrectSell);
+            }
+            else
+            {
+                Debug.Log("ขายของผิดพลาด");
+                ShowWarning("");
+                if (sanityManager != null) sanityManager.ApplyPenalty(sanityManager.penaltyNormalWrong);
+            }
+        }
 
         EndCustomerInteraction();
-        customerWalker.WalkAway();
+        if (customerWalker != null) customerWalker.WalkAway();
     }
 
     public void ShowWarning(string message)
@@ -393,26 +413,36 @@ public class DialogueManager : MonoBehaviour
     public void UseTalismanOnCustomer()
     {
         if (!isHoldingTalisman || !isWaitingForOrder) return;
-
         if (customerHasAnomaly && heldTalisman == customerWeakness)
         {
-            Debug.Log("แปะยันต์ถูกต้อง!");
-            customerWalker.CureAnomaly();
-            customerHasAnomaly = false;
+            Debug.Log("แปะยันต์ถูกต้อง! ขับไล่สำเร็จ");
+
+            if (sanityManager != null) sanityManager.ApplyReward(sanityManager.rewardCorrectBanish);
 
             if (activeTalismanItem != null) activeTalismanItem.SetActive(false);
-        }
-        else
-        {
-            Debug.Log("แปะยันต์ผิด! ลูกค้าโกรธเดินหนี");
-            if (activeTalismanItem != null) activeTalismanItem.SetActive(false);
+            ShowWarning("");
 
             EndCustomerInteraction();
-            customerWalker.WalkAway();
+            if (customerWalker != null) customerWalker.Vanish();
+            customerHasAnomaly = false;
+            }
+            else
+            {
+                Debug.Log("แปะยันต์ผิด! ลูกค้าโกรธเดินหนี");
+
+                if (sanityManager != null) sanityManager.ApplyPenalty(sanityManager.penaltyTalismanWrong);
+
+                if (activeTalismanItem != null) activeTalismanItem.SetActive(false);
+                ShowWarning("");
+
+                EndCustomerInteraction();
+                if (customerWalker != null) customerWalker.WalkAway();
+            }
+
+            isHoldingTalisman = false;
+            heldTalisman = TalismanType.None;
+            activeTalismanItem = null;
+
+            if (activeTalismanUI != null) activeTalismanUI.SetActive(false);
         }
-        isHoldingTalisman = false;
-        heldTalisman = TalismanType.None;
-        activeTalismanItem = null;
-        if (activeTalismanUI != null) activeTalismanUI.SetActive(false);
     }
-}
