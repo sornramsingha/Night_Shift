@@ -23,7 +23,6 @@ public class DialogueManager : MonoBehaviour
     [Header("ระบบหลัก")]
     public DayManager dayManager;
     public CustomerWalker customerWalker;
-    public SanityManager sanityManager;
 
     [Header("ระบบหยิบสินค้า & ถุง")]
     public string expectedItem;
@@ -70,6 +69,8 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        if (customerWalker == null) customerWalker = FindFirstObjectByType<CustomerWalker>();
+
         if (startTalkButton != null)
             startTalkBtnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
 
@@ -295,17 +296,20 @@ public class DialogueManager : MonoBehaviour
         if (customerHasAnomaly)
         {
             Debug.Log("พลาด! ขายของให้สิ่งผิดปกติ");
-            if (sanityManager != null) sanityManager.ApplyPenalty(sanityManager.penaltyAnomalyWrong);
+            if (SanityManager.Instance != null)
+                SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyAnomalyWrong);
         }
         else if (isExactlyCorrect)
         {
             Debug.Log("ขายถูกต้อง");
-            if (sanityManager != null) sanityManager.ApplyReward(sanityManager.rewardCorrectSell);
+            if (SanityManager.Instance != null)
+                SanityManager.Instance.ApplyReward(SanityManager.Instance.rewardCorrectSell);
         }
         else
         {
             Debug.Log("ขายของผิดพลาด");
-            if (sanityManager != null) sanityManager.ApplyPenalty(sanityManager.penaltyNormalWrong);
+            if (SanityManager.Instance != null)
+                SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyNormalWrong);
         }
 
         EndCustomerInteraction();
@@ -355,7 +359,8 @@ public class DialogueManager : MonoBehaviour
         if (customerHasAnomaly && heldTalisman == customerWeakness)
         {
             Debug.Log("แปะยันต์ถูกต้อง! ขับไล่สำเร็จ");
-            if (sanityManager != null) sanityManager.ApplyReward(sanityManager.rewardCorrectBanish);
+            if (SanityManager.Instance != null)
+                SanityManager.Instance.ApplyReward(SanityManager.Instance.rewardCorrectBanish);
 
             customerHasAnomaly = false;
             EndCustomerInteraction();
@@ -364,7 +369,8 @@ public class DialogueManager : MonoBehaviour
         else
         {
             Debug.Log("แปะยันต์ผิด! ลูกค้าโกรธเดินหนี");
-            if (sanityManager != null) sanityManager.ApplyPenalty(sanityManager.penaltyTalismanWrong);
+            if (SanityManager.Instance != null)
+                SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyTalismanWrong);
 
             EndCustomerInteraction();
             if (customerWalker != null) customerWalker.WalkAway();

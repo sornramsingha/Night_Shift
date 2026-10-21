@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public enum TalismanType
 {
@@ -15,10 +16,8 @@ public class CustomerDialogue
 {
     [Header("รูปลูกค้า")]
     public Sprite customerSprite;
-
     [TextArea(2, 4)]
     public string[] sentences;
-
     [Header("สินค้าที่ต้องการ")]
     public string requiredItem;
 
@@ -35,6 +34,12 @@ public class DaySetting
 {
     public string dayName = "Day";
 
-    [Header("บทสนทนาของลูกค้าเรียงตามคิว")]
-    public CustomerDialogue[] dialogues;
+    [Header("จำนวนโควต้าลูกค้าที่จะมาในวันนี้")]
+    public int customersPerDay = 3;
+
+    [Header("กองสุ่มลูกค้าทั้งหมด")]
+    public CustomerDialogue[] possibleCustomersPool;
+
+    [HideInInspector]
+    public List<CustomerDialogue> randomizedQueue = new List<CustomerDialogue>();
 }

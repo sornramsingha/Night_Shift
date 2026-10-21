@@ -103,6 +103,9 @@ public class CustomerAnomalyVisual : MonoBehaviour
             {
                 isCurrentlyShowingAnomaly = true;
                 targetSprite.sprite = permanentAnomalySprite;
+
+                FlexibleAudioPlayer audio = GetComponent<FlexibleAudioPlayer>();
+                if (audio != null) audio.PlaySound();
             }
         }
         else if (revertToNormalOnTurn && normalSprite != null)

@@ -17,9 +17,6 @@ public class ItemInteract : MonoBehaviour
     public float jumpHeight = 1.5f;
     public float cloneScaleMultiplier = 1.5f;
 
-    [Header("ระบบจัดการ")]
-    public DialogueManager dialogueManager;
-
     private SpriteRenderer mainSprite;
 
     void Start()
@@ -52,29 +49,23 @@ public class ItemInteract : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (dialogueManager != null)
+        if (DialogueManager.Instance == null) return;
+        if (!DialogueManager.Instance.hasBag)
         {
-            if (dialogueManager.hasBag)
-            {
-                if (dialogueManager.itemsInBag.Count < dialogueManager.maxBagCapacity)
-                {
-                    if (mainSprite != null && originalSprite != null)
-                    {
-                        mainSprite.sprite = originalSprite;
-                    }
-
-                    StartCoroutine(FlyToBagRoutine());
-                }
-                else
-                {
-                    dialogueManager.ShowWarning("ถุงเต็มแล้ว!");
-                }
-            }
-            else
-            {
-                dialogueManager.ShowWarning("ต้องหยิบถุงก่อนสิ!!");
-            }
+            WarningManager.Show("ต้องหยิบถุงก่อนสิ!!");
+            return;
         }
+        if (DialogueManager.Instance.itemsInBag.Count >= DialogueManager.Instance.maxBagCapacity)
+        {
+            WarningManager.Show("ถุงเต็มแล้ว!");
+            return;
+        }
+        if (mainSprite != null && originalSprite != null)
+        {
+            mainSprite.sprite = originalSprite;
+        }
+
+        StartCoroutine(FlyToBagRoutine());
     }
 
     IEnumerator FlyToBagRoutine()
@@ -90,7 +81,7 @@ public class ItemInteract : MonoBehaviour
         cloneSprite.sortingOrder = 100;
 
         Vector3 startPos = transform.position;
-        Vector3 endPos = dialogueManager.bagDropTarget != null ? dialogueManager.bagDropTarget.position : startPos;
+        Vector3 endPos = DialogueManager.Instance.bagDropTarget != null ? DialogueManager.Instance.bagDropTarget.position : startPos;
         Vector3 peakPos = startPos + (endPos - startPos) / 2f + Vector3.up * jumpHeight;
 
         float time = 0;
@@ -119,6 +110,6 @@ public class ItemInteract : MonoBehaviour
         }
 
         Destroy(clone);
-        dialogueManager.PickUpItem(itemName);
+        DialogueManager.Instance.PickUpItem(itemName);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class DayManager : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class DayManager : MonoBehaviour
 
     [Header("ระบบอื่นๆ")]
     public CustomerWalker customer;
-    public DialogueManager dialogueManager;
 
     private int customerServedToday = 0;
     private CustomerAnomalyVisual customerVisual;
@@ -34,7 +34,6 @@ public class DayManager : MonoBehaviour
         {
             customerVisual = customer.GetComponent<CustomerAnomalyVisual>();
         }
-
         ShowDayTransition();
     }
 
@@ -58,6 +57,19 @@ public class DayManager : MonoBehaviour
     {
         if (dayTransitionPanel != null) dayTransitionPanel.SetActive(false);
         customerServedToday = 0;
+
+        DaySetting today = days[currentDayIndex];
+        today.randomizedQueue = new List<CustomerDialogue>();
+        List<CustomerDialogue> pool = new List<CustomerDialogue>(today.possibleCustomersPool);
+
+        int countToSpawn = Mathf.Min(today.customersPerDay, pool.Count);
+        for (int i = 0; i < countToSpawn; i++)
+        {
+            int randomIndex = Random.Range(0, pool.Count);
+            today.randomizedQueue.Add(pool[randomIndex]);
+            pool.RemoveAt(randomIndex);
+        }
+
         SpawnNextCustomer();
     }
 
@@ -66,15 +78,14 @@ public class DayManager : MonoBehaviour
         if (currentDayIndex >= days.Length) return;
 
         DaySetting today = days[currentDayIndex];
-        if (today.dialogues == null || customerServedToday >= today.dialogues.Length)
+        if (today.randomizedQueue == null || customerServedToday >= today.randomizedQueue.Count)
         {
             Debug.Log("จบวันที่ " + (currentDayIndex + 1));
             currentDayIndex++;
             ShowDayTransition();
             return;
         }
-
-        CustomerDialogue currentCustomerData = today.dialogues[customerServedToday];
+        CustomerDialogue currentCustomerData = today.randomizedQueue[customerServedToday];
         customerServedToday++;
 
         ApplyCustomerData(currentCustomerData);
@@ -83,12 +94,14 @@ public class DayManager : MonoBehaviour
     private void ApplyCustomerData(CustomerDialogue data)
     {
         if (data == null) return;
-        if (dialogueManager != null)
+
+        if (DialogueManager.Instance != null)
         {
-            dialogueManager.sentences = data.sentences;
-            dialogueManager.expectedItem = data.requiredItem;
-            dialogueManager.SetupAnomalyData(data.hasAnomaly, data.weaknessType);
+            DialogueManager.Instance.sentences = data.sentences;
+            DialogueManager.Instance.expectedItem = data.requiredItem;
+            DialogueManager.Instance.SetupAnomalyData(data.hasAnomaly, data.weaknessType);
         }
+
         if (customer != null)
         {
             customer.SetupCustomer(data.customerSprite, data.hasAnomaly, data.permanentAnomalySprite);
@@ -103,7 +116,6 @@ public class DayManager : MonoBehaviour
                     data.canGlitch
                 );
             }
-
             customer.ResetAndWalk();
         }
     }

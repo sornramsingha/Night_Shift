@@ -19,10 +19,6 @@ public class CustomerWalker : MonoBehaviour
     [Tooltip("กราฟปรับความเข้มของสี")]
     public AnimationCurve fadeCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
-    [Header("เชื่อมต่อระบบอื่น")]
-    public DialogueManager dialogueManager;
-    public DayManager dayManager;
-
     private bool isWalkingIn = false;
     private bool isWalkingOut = false;
 
@@ -33,7 +29,7 @@ public class CustomerWalker : MonoBehaviour
 
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         transform.position = spawnPoint.position;
     }
 
@@ -60,7 +56,7 @@ public class CustomerWalker : MonoBehaviour
                 isWalkingIn = false;
 
                 if (spriteRenderer != null) spriteRenderer.color = normalColor;
-                if (dialogueManager != null) dialogueManager.ShowStartTalkButton();
+                if (DialogueManager.Instance != null) DialogueManager.Instance.ShowStartTalkButton();
             }
         }
         else if (isWalkingOut)
@@ -81,7 +77,7 @@ public class CustomerWalker : MonoBehaviour
             if (Mathf.Abs(transform.position.x - exitPoint.position.x) < 0.05f)
             {
                 isWalkingOut = false;
-                if (dayManager != null) dayManager.SpawnNextCustomer();
+                if (DayManager.Instance != null) DayManager.Instance.SpawnNextCustomer();
             }
         }
     }
@@ -90,8 +86,14 @@ public class CustomerWalker : MonoBehaviour
     {
         transform.position = spawnPoint.position;
         totalDistanceIn = Mathf.Abs(spawnPoint.position.x - counterPoint.position.x);
-        if (spriteRenderer != null) spriteRenderer.color = shadowColor;
-        if (spriteRenderer != null) spriteRenderer.enabled = true;
+
+        if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color = shadowColor;
+            spriteRenderer.enabled = true;
+        }
 
         isWalkingIn = true;
         isWalkingOut = false;
@@ -113,15 +115,13 @@ public class CustomerWalker : MonoBehaviour
             spriteRenderer.enabled = false;
         }
         transform.position = exitPoint.position;
-        if (dayManager != null)
-        {
-            dayManager.SpawnNextCustomer();
-        }
+
+        if (DayManager.Instance != null) DayManager.Instance.SpawnNextCustomer();
     }
 
-    public void SetupCustomer(Sprite normal, bool isAnomaly, Sprite anomaly)
+    public void SetupCustomer(Sprite normal, bool isAnomaly, Sprite permanentAnomaly)
     {
-        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         normalCustomerSprite = normal;
         if (spriteRenderer != null)

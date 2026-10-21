@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class SanityManager : MonoBehaviour
 {
+    public static SanityManager Instance;
+
     [Header("ตั้งค่าค่าสติ")]
     public float maxSanity = 100f;
     public float currentSanity;
@@ -17,8 +19,14 @@ public class SanityManager : MonoBehaviour
     public float rewardCorrectSell = 5f;
     public float rewardCorrectBanish = 15f;
 
-    [Header("UI ขอบจอมืด")]
+    [Header("UI ขอบจอมืด (Vignette)")]
     public Image vignetteOverlay;
+    public Sprite[] vignetteStages;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -53,12 +61,14 @@ public class SanityManager : MonoBehaviour
 
     void UpdateVignetteUI()
     {
-        if (vignetteOverlay != null)
+        if (vignetteOverlay != null && vignetteStages != null && vignetteStages.Length > 0)
         {
-            float darknessFactor = 1f - (currentSanity / maxSanity);
+            float damagePercent = 1f - (currentSanity / maxSanity);
+            int spriteIndex = Mathf.Clamp(Mathf.FloorToInt(damagePercent * vignetteStages.Length), 0, vignetteStages.Length - 1);
 
+            vignetteOverlay.sprite = vignetteStages[spriteIndex];
             Color vignetteColor = vignetteOverlay.color;
-            vignetteColor.a = darknessFactor;
+            vignetteColor.a = 1f;
             vignetteOverlay.color = vignetteColor;
         }
     }

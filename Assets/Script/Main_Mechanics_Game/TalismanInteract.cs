@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
-public class BagInteract : MonoBehaviour
+public class TalismanInteract : MonoBehaviour
 {
-    public DialogueManager dialogueManager;
+    public TalismanType myType;
 
     [Header("ตั้งค่ารูปตอนเมาส์ชี้")]
     public Sprite outlineSprite;
     private Sprite originalSprite;
+    private Vector3 originalScale;
 
     private SpriteRenderer spriteRenderer;
 
@@ -17,6 +18,7 @@ public class BagInteract : MonoBehaviour
         if (spriteRenderer != null)
         {
             originalSprite = spriteRenderer.sprite;
+            originalScale = transform.localScale;
         }
     }
 
@@ -25,6 +27,7 @@ public class BagInteract : MonoBehaviour
         if (spriteRenderer != null && outlineSprite != null)
         {
             spriteRenderer.sprite = outlineSprite;
+            transform.localScale = originalScale * 1.05f;
         }
     }
 
@@ -33,18 +36,21 @@ public class BagInteract : MonoBehaviour
         if (spriteRenderer != null && originalSprite != null)
         {
             spriteRenderer.sprite = originalSprite;
+            transform.localScale = originalScale;
         }
     }
 
     void OnMouseDown()
     {
-        if (dialogueManager != null)
+        if (DialogueManager.Instance != null)
         {
-            dialogueManager.PickUpBag();
+            Sprite spriteToPass = originalSprite != null ? originalSprite : spriteRenderer.sprite;
 
+            DialogueManager.Instance.PickUpTalisman(myType, this.gameObject, spriteToPass);
             if (spriteRenderer != null && originalSprite != null)
             {
                 spriteRenderer.sprite = originalSprite;
+                transform.localScale = originalScale;
             }
         }
     }
