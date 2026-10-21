@@ -5,8 +5,6 @@ using System.Collections;
 [RequireComponent(typeof(BoxCollider2D))]
 public class CustomerInteract : MonoBehaviour
 {
-    public DialogueManager dialogueManager;
-
     [Header("ตั้งค่าเวลากด")]
     public float holdDuration = 1.0f;
 
@@ -23,7 +21,7 @@ public class CustomerInteract : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (dialogueManager != null && dialogueManager.isHoldingTalisman)
+        if (DialogueManager.Instance != null && DialogueManager.Instance.isHoldingTalisman)
         {
             if (holdCoroutine != null) StopCoroutine(holdCoroutine);
             holdCoroutine = StartCoroutine(HoldToUseTalismanRoutine());
@@ -37,11 +35,6 @@ public class CustomerInteract : MonoBehaviour
             if (holdCoroutine != null) StopCoroutine(holdCoroutine);
             isHolding = false;
             ResetProgressUI();
-
-            if (dialogueManager != null)
-            {
-                dialogueManager.ShowWarning("");
-            }
         }
     }
 
@@ -60,14 +53,10 @@ public class CustomerInteract : MonoBehaviour
         {
             timer += Time.deltaTime;
             float progress = timer / holdDuration;
+
             if (progressCircleImage != null)
             {
                 progressCircleImage.fillAmount = progress;
-            }
-
-            if (dialogueManager != null)
-            {
-                dialogueManager.ShowWarning("");
             }
 
             yield return null;
@@ -76,9 +65,9 @@ public class CustomerInteract : MonoBehaviour
         isHolding = false;
         ResetProgressUI();
 
-        if (dialogueManager != null)
+        if (DialogueManager.Instance != null)
         {
-            dialogueManager.UseTalismanOnCustomer();
+            DialogueManager.Instance.UseTalismanOnCustomer();
         }
     }
 

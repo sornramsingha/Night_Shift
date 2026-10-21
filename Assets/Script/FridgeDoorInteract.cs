@@ -10,9 +10,6 @@ public class FridgeDoorInteract : MonoBehaviour
     public Sprite closedSprite;
     public Sprite openSprite;
 
-    [Header("ระบบอ้างอิง")]
-    public DialogueManager dialogueManager;
-
     [Header("สินค้าในตู้แช่")]
     public Collider2D[] itemCollidersInFridge;
 
@@ -26,15 +23,14 @@ public class FridgeDoorInteract : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (dialogueManager != null && !dialogueManager.isWaitingForOrder)
+        if (DialogueManager.Instance != null && !DialogueManager.Instance.isWaitingForOrder)
         {
-            dialogueManager.ShowWarning("ต้องคุยกับลูกค้าให้เรียบร้อยก่อน!");
+            WarningManager.Show("ต้องคุยกับลูกค้าให้เรียบร้อยก่อน!");
             return;
         }
 
         isOpen = !isOpen;
         UpdateDoorState(false);
-
     }
 
     void UpdateDoorState(bool isInitialSetup)
@@ -43,16 +39,13 @@ public class FridgeDoorInteract : MonoBehaviour
         {
             spriteRenderer.sprite = isOpen ? openSprite : closedSprite;
         }
+
         if (itemCollidersInFridge != null)
         {
             foreach (Collider2D col in itemCollidersInFridge)
             {
                 if (col != null) col.enabled = isOpen;
             }
-        }
-        if (!isInitialSetup && dialogueManager != null)
-        {
-            dialogueManager.ShowWarning(isOpen ? "" : "");
         }
     }
 }

@@ -9,10 +9,9 @@ public class CameraSwitcher : MonoBehaviour
 
     [Header("ระบบ UI")]
     public GameObject dialogueUIGroup;
-
-    [Header("ระบบถุง")]
     public GameObject bagUIGroup;
     public DialogueManager dialogueManager;
+
     private int currentRoomIndex = 0;
     private bool isPanning = false;
 
@@ -28,33 +27,30 @@ public class CameraSwitcher : MonoBehaviour
     void Update()
     {
         if (isPanning || roomPositions.Length == 0) return;
+        if (Input.GetKeyDown(KeyCode.Q)) TurnLeft();
+        if (Input.GetKeyDown(KeyCode.E)) TurnRight();
+    }
 
-        if (Input.GetKeyDown(KeyCode.Q) && currentRoomIndex > 0)
-        {
+    public void TurnLeft()
+    {
+        if (currentRoomIndex > 0 && !isPanning)
             StartCoroutine(SmoothPanToRoom(currentRoomIndex - 1));
-        }
+    }
 
-        if (Input.GetKeyDown(KeyCode.E) && currentRoomIndex < roomPositions.Length - 1)
-        {
+    public void TurnRight()
+    {
+        if (currentRoomIndex < roomPositions.Length - 1 && !isPanning)
             StartCoroutine(SmoothPanToRoom(currentRoomIndex + 1));
-        }
     }
 
     IEnumerator SmoothPanToRoom(int targetIndex)
     {
         isPanning = true;
-
         if (targetIndex == 0 && currentRoomIndex != 0)
         {
-            CustomerAnomalyVisual currentCustomer = FindFirstObjectByType<CustomerAnomalyVisual>();
-            if (currentCustomer != null)
+            if (CustomerAnomalyVisual.CurrentActive != null)
             {
-                Debug.Log("ตรวจพบลูกค้าตอนหันกล้องกลับมา ส่งคำสั่งสลับร่าง!");
-                currentCustomer.ToggleAnomalyOnTurn();
-            }
-            else
-            {
-                Debug.Log("หันกล้องกลับมา แต่หาตัวลูกค้าไม่เจอ");
+                CustomerAnomalyVisual.CurrentActive.ToggleAnomalyOnTurn();
             }
         }
 
@@ -80,10 +76,8 @@ public class CameraSwitcher : MonoBehaviour
 
     void UpdateUIVisibility()
     {
-        if (dialogueUIGroup != null)
-        {
-            dialogueUIGroup.SetActive(currentRoomIndex == 0);
-        }
+        if (dialogueUIGroup != null) dialogueUIGroup.SetActive(currentRoomIndex == 0);
+
         if (bagUIGroup != null && dialogueManager != null)
         {
             bool shouldShowBag = dialogueManager.hasBag && (currentRoomIndex == 0 || currentRoomIndex == 1);
