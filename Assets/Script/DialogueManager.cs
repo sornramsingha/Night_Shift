@@ -225,6 +225,7 @@ public class DialogueManager : MonoBehaviour
         if (activeBagUI != null) activeBagUI.SetActive(false);
         if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
         if (activeTalismanUI != null) activeTalismanUI.SetActive(false);
+        if (startTalkButton != null) startTalkButton.SetActive(false);
 
         hasBag = false;
         isBagOnTray = false;

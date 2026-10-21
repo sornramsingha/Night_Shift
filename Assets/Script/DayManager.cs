@@ -27,8 +27,10 @@ public class CustomerDialogue
 
     [Header("ระบบสิ่งผิดปกติ (ยันต์)")]
     public bool hasAnomaly = false;
+    public bool canGlitch = true;
     public TalismanType weaknessType = TalismanType.None;
-    public Sprite anomalySprite;
+    public Sprite glitchSprite;
+    public Sprite permanentAnomalySprite;
 }
 
 [System.Serializable]
@@ -119,11 +121,11 @@ public class DayManager : MonoBehaviour
             {
                 if (currentCustomerData != null)
                 {
-                    customer.SetupCustomer(currentCustomerData.customerSprite, currentCustomerData.hasAnomaly, currentCustomerData.anomalySprite);
+                    customer.SetupCustomer(currentCustomerData.customerSprite, currentCustomerData.hasAnomaly, currentCustomerData.permanentAnomalySprite);
                     CustomerAnomalyVisual visualScript = customer.GetComponent<CustomerAnomalyVisual>();
                     if (visualScript != null)
                     {
-                        visualScript.SetupAnomaly(currentCustomerData.customerSprite, currentCustomerData.anomalySprite, currentCustomerData.hasAnomaly);
+                        visualScript.SetupAnomaly(currentCustomerData.customerSprite, currentCustomerData.glitchSprite, currentCustomerData.permanentAnomalySprite, currentCustomerData.hasAnomaly, currentCustomerData.canGlitch);
                     }
                 }
                 customer.ResetAndWalk();

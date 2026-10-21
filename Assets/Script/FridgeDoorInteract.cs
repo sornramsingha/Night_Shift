@@ -35,14 +35,6 @@ public class FridgeDoorInteract : MonoBehaviour
         isOpen = !isOpen;
         UpdateDoorState(false);
 
-        if (isOpen)
-        {
-            CustomerAnomalyVisual currentCustomer = FindFirstObjectByType<CustomerAnomalyVisual>();
-            if (currentCustomer != null)
-            {
-                currentCustomer.RevealAnomaly();
-            }
-        }
     }
 
     void UpdateDoorState(bool isInitialSetup)

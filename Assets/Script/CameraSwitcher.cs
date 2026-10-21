@@ -12,7 +12,7 @@ public class CameraSwitcher : MonoBehaviour
 
     [Header("ระบบถุง")]
     public GameObject bagUIGroup;
-    public DialogueManager dialogueManager; 
+    public DialogueManager dialogueManager;
     private int currentRoomIndex = 0;
     private bool isPanning = false;
 
@@ -43,6 +43,21 @@ public class CameraSwitcher : MonoBehaviour
     IEnumerator SmoothPanToRoom(int targetIndex)
     {
         isPanning = true;
+
+        if (targetIndex == 0 && currentRoomIndex != 0)
+        {
+            CustomerAnomalyVisual currentCustomer = FindFirstObjectByType<CustomerAnomalyVisual>();
+            if (currentCustomer != null)
+            {
+                Debug.Log("ตรวจพบลูกค้าตอนหันกล้องกลับมา ส่งคำสั่งสลับร่าง!");
+                currentCustomer.ToggleAnomalyOnTurn();
+            }
+            else
+            {
+                Debug.Log("หันกล้องกลับมา แต่หาตัวลูกค้าไม่เจอ");
+            }
+        }
+
         currentRoomIndex = targetIndex;
         UpdateUIVisibility();
 
