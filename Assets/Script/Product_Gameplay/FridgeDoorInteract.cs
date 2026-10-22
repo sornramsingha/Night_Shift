@@ -3,6 +3,8 @@
 [RequireComponent(typeof(BoxCollider2D))]
 public class FridgeDoorInteract : MonoBehaviour
 {
+    public static FridgeDoorInteract Instance;
+
     [Header("สถานะ")]
     public bool isOpen = false;
 
@@ -14,6 +16,11 @@ public class FridgeDoorInteract : MonoBehaviour
     public Collider2D[] itemCollidersInFridge;
 
     private SpriteRenderer spriteRenderer;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -46,6 +53,15 @@ public class FridgeDoorInteract : MonoBehaviour
             {
                 if (col != null) col.enabled = isOpen;
             }
+        }
+    }
+
+    public void ForceCloseDoor()
+    {
+        if (isOpen)
+        {
+            isOpen = false;
+            UpdateDoorState(true);
         }
     }
 }

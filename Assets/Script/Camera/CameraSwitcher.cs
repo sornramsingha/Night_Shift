@@ -10,7 +10,6 @@ public class CameraSwitcher : MonoBehaviour
     [Header("ระบบ UI")]
     public GameObject dialogueUIGroup;
     public GameObject bagUIGroup;
-    public DialogueManager dialogueManager;
 
     private int currentRoomIndex = 0;
     private bool isPanning = false;
@@ -27,6 +26,7 @@ public class CameraSwitcher : MonoBehaviour
     void Update()
     {
         if (isPanning || roomPositions.Length == 0) return;
+
         if (Input.GetKeyDown(KeyCode.Q)) TurnLeft();
         if (Input.GetKeyDown(KeyCode.E)) TurnRight();
     }
@@ -46,12 +46,19 @@ public class CameraSwitcher : MonoBehaviour
     IEnumerator SmoothPanToRoom(int targetIndex)
     {
         isPanning = true;
+
+        if (FridgeDoorInteract.Instance != null)
+        {
+            FridgeDoorInteract.Instance.ForceCloseDoor();
+        }
+
         if (targetIndex == 0 && currentRoomIndex != 0)
         {
             if (CustomerAnomalyVisual.CurrentActive != null)
-            {
                 CustomerAnomalyVisual.CurrentActive.ToggleAnomalyOnTurn();
-            }
+
+            if (DialogueManager.Instance != null)
+                DialogueManager.Instance.OnCameraTurnedBack();
         }
 
         currentRoomIndex = targetIndex;
@@ -77,10 +84,9 @@ public class CameraSwitcher : MonoBehaviour
     void UpdateUIVisibility()
     {
         if (dialogueUIGroup != null) dialogueUIGroup.SetActive(currentRoomIndex == 0);
-
-        if (bagUIGroup != null && dialogueManager != null)
+        if (bagUIGroup != null && DialogueManager.Instance != null)
         {
-            bool shouldShowBag = dialogueManager.hasBag && (currentRoomIndex == 0 || currentRoomIndex == 1);
+            bool shouldShowBag = DialogueManager.Instance.hasBag && (currentRoomIndex == 0 || currentRoomIndex == 1);
             bagUIGroup.SetActive(shouldShowBag);
         }
     }

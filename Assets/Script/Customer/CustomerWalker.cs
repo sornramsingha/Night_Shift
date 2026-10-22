@@ -22,14 +22,13 @@ public class CustomerWalker : MonoBehaviour
     private bool isWalkingIn = false;
     private bool isWalkingOut = false;
 
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer shadowFader;
     private float totalDistanceIn;
     private float totalDistanceOut;
-    private Sprite normalCustomerSprite;
 
     void Start()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        shadowFader = GetComponent<SpriteRenderer>();
         transform.position = spawnPoint.position;
     }
 
@@ -42,12 +41,12 @@ public class CustomerWalker : MonoBehaviour
             float newY = counterPoint.position.y + (Mathf.Sin(Time.time * bobbingSpeed) * bobbingHeight);
             transform.position = new Vector3(newX, newY, transform.position.z);
 
-            if (spriteRenderer != null && totalDistanceIn > 0)
+            if (shadowFader != null && totalDistanceIn > 0)
             {
                 float currentDist = Mathf.Abs(transform.position.x - counterPoint.position.x);
                 float distancePercent = Mathf.Clamp01(1f - (currentDist / totalDistanceIn));
                 float curveValue = fadeCurve.Evaluate(distancePercent);
-                spriteRenderer.color = Color.Lerp(shadowColor, normalColor, curveValue);
+                shadowFader.color = Color.Lerp(shadowColor, normalColor, curveValue);
             }
 
             if (Mathf.Abs(transform.position.x - counterPoint.position.x) < 0.05f)
@@ -55,7 +54,7 @@ public class CustomerWalker : MonoBehaviour
                 transform.position = new Vector3(counterPoint.position.x, counterPoint.position.y, transform.position.z);
                 isWalkingIn = false;
 
-                if (spriteRenderer != null) spriteRenderer.color = normalColor;
+                if (shadowFader != null) shadowFader.color = normalColor;
                 if (DialogueManager.Instance != null) DialogueManager.Instance.ShowStartTalkButton();
             }
         }
@@ -66,17 +65,20 @@ public class CustomerWalker : MonoBehaviour
             float newY = exitPoint.position.y + (Mathf.Sin(Time.time * bobbingSpeed) * bobbingHeight);
             transform.position = new Vector3(newX, newY, transform.position.z);
 
-            if (spriteRenderer != null && totalDistanceOut > 0)
+            if (shadowFader != null && totalDistanceOut > 0)
             {
                 float currentDist = Mathf.Abs(transform.position.x - counterPoint.position.x);
                 float distancePercent = Mathf.Clamp01(currentDist / totalDistanceOut);
                 float curveValue = fadeCurve.Evaluate(distancePercent);
-                spriteRenderer.color = Color.Lerp(normalColor, shadowColor, curveValue);
+                shadowFader.color = Color.Lerp(normalColor, shadowColor, curveValue);
             }
 
             if (Mathf.Abs(transform.position.x - exitPoint.position.x) < 0.05f)
             {
                 isWalkingOut = false;
+                if (shadowFader != null) shadowFader.enabled = false;
+                gameObject.SetActive(false);
+
                 if (DayManager.Instance != null) DayManager.Instance.SpawnNextCustomer();
             }
         }
@@ -84,15 +86,17 @@ public class CustomerWalker : MonoBehaviour
 
     public void ResetAndWalk()
     {
+        gameObject.SetActive(true);
+
         transform.position = spawnPoint.position;
         totalDistanceIn = Mathf.Abs(spawnPoint.position.x - counterPoint.position.x);
 
-        if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (shadowFader == null) shadowFader = GetComponent<SpriteRenderer>();
 
-        if (spriteRenderer != null)
+        if (shadowFader != null)
         {
-            spriteRenderer.color = shadowColor;
-            spriteRenderer.enabled = true;
+            shadowFader.color = shadowColor;
+            shadowFader.enabled = true;
         }
 
         isWalkingIn = true;
@@ -110,23 +114,14 @@ public class CustomerWalker : MonoBehaviour
     {
         isWalkingIn = false;
         isWalkingOut = false;
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.enabled = false;
-        }
-        transform.position = exitPoint.position;
+        gameObject.SetActive(false);
 
+        transform.position = exitPoint.position;
         if (DayManager.Instance != null) DayManager.Instance.SpawnNextCustomer();
     }
 
     public void SetupCustomer(Sprite normal, bool isAnomaly, Sprite permanentAnomaly)
     {
-        if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-        normalCustomerSprite = normal;
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.sprite = normalCustomerSprite;
-        }
     }
 }

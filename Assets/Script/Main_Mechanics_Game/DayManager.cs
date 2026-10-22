@@ -94,12 +94,9 @@ public class DayManager : MonoBehaviour
     private void ApplyCustomerData(CustomerDialogue data)
     {
         if (data == null) return;
-
         if (DialogueManager.Instance != null)
         {
-            DialogueManager.Instance.sentences = data.sentences;
-            DialogueManager.Instance.expectedItem = data.requiredItem;
-            DialogueManager.Instance.SetupAnomalyData(data.hasAnomaly, data.weaknessType);
+            DialogueManager.Instance.SetupNewCustomer(data);
         }
 
         if (customer != null)
@@ -108,13 +105,8 @@ public class DayManager : MonoBehaviour
 
             if (customerVisual != null)
             {
-                customerVisual.SetupAnomaly(
-                    data.customerSprite,
-                    data.glitchSprite,
-                    data.permanentAnomalySprite,
-                    data.hasAnomaly,
-                    data.canGlitch
-                );
+                bool isTrick = data.isTrickOrder && data.forceAnomalyAfterTrick;
+                customerVisual.SetupAnomaly(data.customerSprite, data.glitchSprite, data.permanentAnomalySprite, data.hasAnomaly, data.canGlitch, isTrick);
             }
             customer.ResetAndWalk();
         }

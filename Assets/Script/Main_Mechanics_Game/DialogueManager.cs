@@ -15,19 +15,13 @@ public class DialogueManager : MonoBehaviour
     public GameObject agreeButton;
     public GameObject disagreeButton;
 
-    [Header("ระบบแจ้งเตือน")]
-    public TextMeshProUGUI warningText;
-    public float warningDuration = 2f;
-    private Coroutine warningCoroutine;
-
     [Header("ระบบหลัก")]
-    public DayManager dayManager;
     public CustomerWalker customerWalker;
 
     [Header("ระบบหยิบสินค้า & ถุง")]
-    public string expectedItem;
+    public List<string> expectedItems = new List<string>();
     public List<string> itemsInBag = new List<string>();
-    public int maxBagCapacity = 1;
+    public int maxBagCapacity = 2;
 
     [HideInInspector] public bool hasBag = false;
     [HideInInspector] public bool isBagOnTray = false;
@@ -37,9 +31,6 @@ public class DialogueManager : MonoBehaviour
     public bool isHoldingTalisman = false;
     public TalismanType heldTalisman = TalismanType.None;
     public GameObject activeTalismanItem;
-
-    private bool customerHasAnomaly = false;
-    private TalismanType customerWeakness = TalismanType.None;
 
     [Header("UI ถุงและยันต์กลางจอ")]
     public GameObject activeBagUI;
@@ -51,8 +42,7 @@ public class DialogueManager : MonoBehaviour
 
     [Header("ตั้งค่าการพิมพ์")]
     public float typingSpeed = 0.05f;
-    [TextArea(3, 5)]
-    public string[] sentences;
+    [HideInInspector] public string[] sentences;
 
     private int index;
     private bool isTyping = false;
@@ -62,32 +52,31 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;
     private TextMeshProUGUI startTalkBtnText;
 
-    void Awake()
-    {
-        Instance = this;
-    }
+    private CustomerDialogue currentData;
+    private int cameraTurnCount = 0;
+    private bool customerHasAnomaly = false;
+    private TalismanType customerWeakness = TalismanType.None;
+
+    void Awake() { Instance = this; }
 
     void Start()
     {
         if (customerWalker == null) customerWalker = FindFirstObjectByType<CustomerWalker>();
-
-        if (startTalkButton != null)
-            startTalkBtnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
-
-        if (centerTalismanSprite == null && activeTalismanUI != null)
-            centerTalismanSprite = activeTalismanUI.GetComponent<SpriteRenderer>();
+        if (startTalkButton != null) startTalkBtnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (centerTalismanSprite == null && activeTalismanUI != null) centerTalismanSprite = activeTalismanUI.GetComponent<SpriteRenderer>();
 
         ResetAllUI();
-        if (warningText != null) warningText.gameObject.SetActive(false);
     }
 
     void Update()
     {
         if (!isDialogueActive) return;
+
         if (Input.GetMouseButtonDown(1) && index > 0 && !isWaitingForOrder)
         {
             PreviousSentence();
         }
+
         if (Input.GetMouseButtonDown(0) && !isWaitingForChoice)
         {
             if (isTyping)
@@ -98,6 +87,71 @@ public class DialogueManager : MonoBehaviour
             else
             {
                 NextSentence();
+            }
+        }
+    }
+
+    public void SetupNewCustomer(CustomerDialogue data)
+    {
+        currentData = data;
+        sentences = data.sentences;
+
+        expectedItems.Clear();
+        if (data.requiredItems != null) expectedItems.AddRange(data.requiredItems);
+
+        customerHasAnomaly = data.hasAnomaly;
+        customerWeakness = data.weaknessType;
+        cameraTurnCount = 0;
+    }
+
+    public void OnCameraTurnedBack()
+    {
+        if (!isWaitingForOrder || currentData == null) return;
+        if (!hasBag || itemsInBag.Count == 0) return;
+
+        List<string> originalExpectedItems = new List<string>(currentData.requiredItems);
+        bool hasAllOriginalItems = true;
+
+        foreach (string required in originalExpectedItems)
+        {
+            if (!itemsInBag.Contains(required))
+            {
+                hasAllOriginalItems = false;
+                break;
+            }
+        }
+
+        if (!hasAllOriginalItems) return;
+
+        cameraTurnCount++;
+
+        if (currentData.isTrickOrder)
+        {
+            if (cameraTurnCount == 1)
+            {
+                isWaitingForOrder = false;
+
+                if (currentData.additionalItems != null)
+                    expectedItems.AddRange(currentData.additionalItems);
+
+                if (currentData.trickSentences != null && currentData.trickSentences.Length > 0)
+                {
+                    StartDialogue(currentData.trickSentences);
+                }
+            }
+            else if (cameraTurnCount == 2 && currentData.forceAnomalyAfterTrick)
+            {
+                if (CustomerAnomalyVisual.CurrentActive != null)
+                {
+                    if (Random.value > 0.5f)
+                    {
+                        CustomerAnomalyVisual.CurrentActive.ForceRevealAnomaly();
+                    }
+                    else
+                    {
+                        CustomerAnomalyVisual.CurrentActive.TriggerAggressiveGlitch();
+                    }
+                }
             }
         }
     }
@@ -124,7 +178,6 @@ public class DialogueManager : MonoBehaviour
             if (disagreeButton != null) disagreeButton.SetActive(true);
             if (agreeButton != null) agreeButton.SetActive(true);
         }
-
         StartTyping(sentences[index]);
     }
 
@@ -133,6 +186,10 @@ public class DialogueManager : MonoBehaviour
         sentences = newSentences;
         index = 0;
         if (choicePanel != null) choicePanel.SetActive(false);
+        if (startTalkButton != null) startTalkButton.SetActive(false);
+        if (hintText != null) hintText.SetActive(true);
+
+        isDialogueActive = true;
         isWaitingForChoice = false;
 
         StartTyping(sentences[index]);
@@ -171,7 +228,6 @@ public class DialogueManager : MonoBehaviour
             dialogueText.maxVisibleCharacters = visibleCount;
             yield return new WaitForSeconds(typingSpeed);
         }
-
         isTyping = false;
     }
 
@@ -234,12 +290,10 @@ public class DialogueManager : MonoBehaviour
     private void EndCustomerInteraction()
     {
         ResetAllUI();
-
         hasBag = false;
         isBagOnTray = false;
         itemsInBag.Clear();
         isWaitingForOrder = false;
-
         ClearTalismanInHand();
     }
 
@@ -249,9 +303,9 @@ public class DialogueManager : MonoBehaviour
 
     public void PickUpBag()
     {
-        if (!isWaitingForOrder) { ShowWarning("ยังไม่มีออเดอร์!"); return; }
-        if (isBagOnTray) { ShowWarning("มีถุงวางอยู่บนถาดแล้ว!"); return; }
-        if (isHoldingTalisman) { ShowWarning("มือไม่ว่าง! กำลังถือยันต์อยู่"); return; }
+        if (!isWaitingForOrder) { WarningManager.Show("ยังไม่มีออเดอร์!"); return; }
+        if (isBagOnTray) { WarningManager.Show("มีถุงวางอยู่บนถาดแล้ว!"); return; }
+        if (isHoldingTalisman) { WarningManager.Show("มือไม่ว่าง! กำลังถือยันต์อยู่"); return; }
 
         if (hasBag)
         {
@@ -268,8 +322,11 @@ public class DialogueManager : MonoBehaviour
     public void PickUpItem(string itemName)
     {
         if (!isWaitingForOrder || !hasBag) return;
-        if (itemsInBag.Count >= maxBagCapacity) return;
-
+        if (itemsInBag.Count >= maxBagCapacity)
+        {
+            WarningManager.Show("ถุงเต็มแล้ว!");
+            return;
+        }
         itemsInBag.Add(itemName);
     }
 
@@ -291,25 +348,35 @@ public class DialogueManager : MonoBehaviour
     {
         if (!isBagOnTray) return;
 
-        bool isExactlyCorrect = itemsInBag.Contains(expectedItem) && itemsInBag.Count == 1;
+        bool isExactlyCorrect = true;
+        if (itemsInBag.Count != expectedItems.Count)
+        {
+            isExactlyCorrect = false;
+        }
+        else
+        {
+            List<string> tempExpected = new List<string>(expectedItems);
+            foreach (string item in itemsInBag)
+            {
+                if (tempExpected.Contains(item)) tempExpected.Remove(item);
+                else { isExactlyCorrect = false; break; }
+            }
+        }
 
         if (customerHasAnomaly)
         {
             Debug.Log("พลาด! ขายของให้สิ่งผิดปกติ");
-            if (SanityManager.Instance != null)
-                SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyAnomalyWrong);
+            if (SanityManager.Instance != null) SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyAnomalyWrong);
         }
         else if (isExactlyCorrect)
         {
             Debug.Log("ขายถูกต้อง");
-            if (SanityManager.Instance != null)
-                SanityManager.Instance.ApplyReward(SanityManager.Instance.rewardCorrectSell);
+            if (SanityManager.Instance != null) SanityManager.Instance.ApplyReward(SanityManager.Instance.rewardCorrectSell);
         }
         else
         {
             Debug.Log("ขายของผิดพลาด");
-            if (SanityManager.Instance != null)
-                SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyNormalWrong);
+            if (SanityManager.Instance != null) SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyNormalWrong);
         }
 
         EndCustomerInteraction();
@@ -318,7 +385,7 @@ public class DialogueManager : MonoBehaviour
 
     #endregion
 
-    #region --- ระบบยันต์และสิ่งผิดปกติ (Talisman & Anomaly System) ---
+    #region --- ระบบยันต์ (Talisman System) ---
 
     public void SetupAnomalyData(bool hasAnomaly, TalismanType weakness)
     {
@@ -328,14 +395,15 @@ public class DialogueManager : MonoBehaviour
 
     public void PickUpTalisman(TalismanType type, GameObject talismanObj, Sprite talismanSprite)
     {
-        if (!isWaitingForOrder) { ShowWarning("ยังไม่จำเป็นต้องใช้ตอนนี้"); return; }
-        if (hasBag) { ShowWarning("มือไม่ว่าง! กำลังถือถุงอยู่"); return; }
+        if (!isWaitingForOrder) { WarningManager.Show("ยังไม่จำเป็นต้องใช้ตอนนี้"); return; }
+        if (hasBag) { WarningManager.Show("มือไม่ว่าง! กำลังถือถุงอยู่"); return; }
 
         if (isHoldingTalisman && heldTalisman == type)
         {
             ClearTalismanInHand();
             return;
         }
+
         isHoldingTalisman = true;
         heldTalisman = type;
         activeTalismanItem = talismanObj;
@@ -359,8 +427,7 @@ public class DialogueManager : MonoBehaviour
         if (customerHasAnomaly && heldTalisman == customerWeakness)
         {
             Debug.Log("แปะยันต์ถูกต้อง! ขับไล่สำเร็จ");
-            if (SanityManager.Instance != null)
-                SanityManager.Instance.ApplyReward(SanityManager.Instance.rewardCorrectBanish);
+            if (SanityManager.Instance != null) SanityManager.Instance.ApplyReward(SanityManager.Instance.rewardCorrectBanish);
 
             customerHasAnomaly = false;
             EndCustomerInteraction();
@@ -369,8 +436,7 @@ public class DialogueManager : MonoBehaviour
         else
         {
             Debug.Log("แปะยันต์ผิด! ลูกค้าโกรธเดินหนี");
-            if (SanityManager.Instance != null)
-                SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyTalismanWrong);
+            if (SanityManager.Instance != null) SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyTalismanWrong);
 
             EndCustomerInteraction();
             if (customerWalker != null) customerWalker.WalkAway();
@@ -383,37 +449,6 @@ public class DialogueManager : MonoBehaviour
         heldTalisman = TalismanType.None;
         activeTalismanItem = null;
         if (activeTalismanUI != null) activeTalismanUI.SetActive(false);
-    }
-
-    #endregion
-
-    #region --- ระบบแจ้งเตือน (Warning Bridge) ---
-
-    public void ShowWarning(string message)
-    {
-        if (WarningManager.Instance != null)
-        {
-            WarningManager.Show(message);
-            return;
-        }
-        if (warningText == null) return;
-        if (warningCoroutine != null) StopCoroutine(warningCoroutine);
-
-        if (string.IsNullOrEmpty(message))
-        {
-            warningText.gameObject.SetActive(false);
-            return;
-        }
-
-        warningCoroutine = StartCoroutine(WarningRoutine(message));
-    }
-
-    private IEnumerator WarningRoutine(string message)
-    {
-        warningText.text = message;
-        warningText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(warningDuration);
-        warningText.gameObject.SetActive(false);
     }
 
     #endregion
