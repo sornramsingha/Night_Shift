@@ -55,11 +55,13 @@ public class ItemInteract : MonoBehaviour
             WarningManager.Show("ต้องหยิบถุงก่อนสิ!!");
             return;
         }
+
         if (DialogueManager.Instance.itemsInBag.Count >= DialogueManager.Instance.maxBagCapacity)
         {
             WarningManager.Show("ถุงเต็มแล้ว!");
             return;
         }
+
         if (mainSprite != null && originalSprite != null)
         {
             mainSprite.sprite = originalSprite;

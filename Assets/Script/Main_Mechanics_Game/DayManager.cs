@@ -22,6 +22,7 @@ public class DayManager : MonoBehaviour
 
     private int customerServedToday = 0;
     private CustomerAnomalyVisual customerVisual;
+    private CustomerDialogue currentActiveData;
 
     void Awake()
     {
@@ -94,6 +95,8 @@ public class DayManager : MonoBehaviour
     private void ApplyCustomerData(CustomerDialogue data)
     {
         if (data == null) return;
+        currentActiveData = data;
+
         if (DialogueManager.Instance != null)
         {
             DialogueManager.Instance.SetupNewCustomer(data);
@@ -102,13 +105,23 @@ public class DayManager : MonoBehaviour
         if (customer != null)
         {
             customer.SetupCustomer(data.customerSprite, data.hasAnomaly, data.permanentAnomalySprite);
-
-            if (customerVisual != null)
-            {
-                bool isTrick = data.isTrickOrder && data.forceAnomalyAfterTrick;
-                customerVisual.SetupAnomaly(data.customerSprite, data.glitchSprite, data.permanentAnomalySprite, data.hasAnomaly, data.canGlitch, isTrick);
-            }
             customer.ResetAndWalk();
+        }
+    }
+
+    public void ApplyAnomalyVisuals()
+    {
+        if (customer != null && customerVisual != null && currentActiveData != null)
+        {
+            bool isTrick = currentActiveData.isTrickOrder && currentActiveData.forceAnomalyAfterTrick;
+            customerVisual.SetupAnomaly(
+                currentActiveData.customerSprite,
+                currentActiveData.glitchSprite,
+                currentActiveData.permanentAnomalySprite,
+                currentActiveData.hasAnomaly,
+                currentActiveData.canGlitch,
+                isTrick
+            );
         }
     }
 }

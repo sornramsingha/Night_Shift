@@ -101,6 +101,11 @@ public class CustomerWalker : MonoBehaviour
 
         isWalkingIn = true;
         isWalkingOut = false;
+
+        if (DayManager.Instance != null)
+        {
+            DayManager.Instance.ApplyAnomalyVisuals();
+        }
     }
 
     public void WalkAway()

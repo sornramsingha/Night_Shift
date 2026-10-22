@@ -15,13 +15,16 @@ public class DialogueManager : MonoBehaviour
     public GameObject agreeButton;
     public GameObject disagreeButton;
 
+    [Header("UI ปุ่มออเดอร์เสริม")]
+    public GameObject trickBubbleButton;
+
     [Header("ระบบหลัก")]
     public CustomerWalker customerWalker;
 
     [Header("ระบบหยิบสินค้า & ถุง")]
     public List<string> expectedItems = new List<string>();
     public List<string> itemsInBag = new List<string>();
-    public int maxBagCapacity = 2;
+    public int maxBagCapacity = 1;
 
     [HideInInspector] public bool hasBag = false;
     [HideInInspector] public bool isBagOnTray = false;
@@ -57,6 +60,9 @@ public class DialogueManager : MonoBehaviour
     private bool customerHasAnomaly = false;
     private TalismanType customerWeakness = TalismanType.None;
 
+    private bool hasPendingTrickOrder = false;
+    private bool isReadyToTalkTrick = false;
+
     void Awake() { Instance = this; }
 
     void Start()
@@ -64,6 +70,8 @@ public class DialogueManager : MonoBehaviour
         if (customerWalker == null) customerWalker = FindFirstObjectByType<CustomerWalker>();
         if (startTalkButton != null) startTalkBtnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
         if (centerTalismanSprite == null && activeTalismanUI != null) centerTalismanSprite = activeTalismanUI.GetComponent<SpriteRenderer>();
+
+        if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
 
         ResetAllUI();
     }
@@ -98,61 +106,64 @@ public class DialogueManager : MonoBehaviour
 
         expectedItems.Clear();
         if (data.requiredItems != null) expectedItems.AddRange(data.requiredItems);
+        maxBagCapacity = expectedItems.Count;
 
         customerHasAnomaly = data.hasAnomaly;
         customerWeakness = data.weaknessType;
         cameraTurnCount = 0;
+
+        hasPendingTrickOrder = data.isTrickOrder;
+        isReadyToTalkTrick = false;
+        if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
     }
 
     public void OnCameraTurnedBack()
     {
         if (!isWaitingForOrder || currentData == null) return;
-        if (!hasBag || itemsInBag.Count == 0) return;
-
-        List<string> originalExpectedItems = new List<string>(currentData.requiredItems);
-        bool hasAllOriginalItems = true;
-
-        foreach (string required in originalExpectedItems)
-        {
-            if (!itemsInBag.Contains(required))
-            {
-                hasAllOriginalItems = false;
-                break;
-            }
-        }
-
-        if (!hasAllOriginalItems) return;
+        if (itemsInBag.Count == 0) return;
 
         cameraTurnCount++;
-
-        if (currentData.isTrickOrder)
+        if (hasPendingTrickOrder && cameraTurnCount == 1)
         {
-            if (cameraTurnCount == 1)
-            {
-                isWaitingForOrder = false;
+            isReadyToTalkTrick = true;
+            if (trickBubbleButton != null) trickBubbleButton.SetActive(true);
 
-                if (currentData.additionalItems != null)
-                    expectedItems.AddRange(currentData.additionalItems);
-
-                if (currentData.trickSentences != null && currentData.trickSentences.Length > 0)
-                {
-                    StartDialogue(currentData.trickSentences);
-                }
-            }
-            else if (cameraTurnCount == 2 && currentData.forceAnomalyAfterTrick)
+            if (isBagOnTray)
             {
-                if (CustomerAnomalyVisual.CurrentActive != null)
-                {
-                    if (Random.value > 0.5f)
-                    {
-                        CustomerAnomalyVisual.CurrentActive.ForceRevealAnomaly();
-                    }
-                    else
-                    {
-                        CustomerAnomalyVisual.CurrentActive.TriggerAggressiveGlitch();
-                    }
-                }
+                isBagOnTray = false;
+                hasBag = true;
+                if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
+                if (activeBagUI != null) activeBagUI.SetActive(true);
+                if (giveItemButton != null) giveItemButton.SetActive(false);
             }
+        }
+        else if (cameraTurnCount == 2 && currentData.isTrickOrder && currentData.forceAnomalyAfterTrick)
+        {
+            if (CustomerAnomalyVisual.CurrentActive != null)
+            {
+                if (Random.value > 0.5f) CustomerAnomalyVisual.CurrentActive.ForceRevealAnomaly();
+                else CustomerAnomalyVisual.CurrentActive.TriggerAggressiveGlitch();
+            }
+        }
+    }
+
+    public void TriggerTrickDialogue()
+    {
+        if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
+
+        isReadyToTalkTrick = false;
+        hasPendingTrickOrder = false;
+        isWaitingForOrder = false;
+
+        if (currentData.additionalItems != null)
+        {
+            expectedItems.AddRange(currentData.additionalItems);
+            maxBagCapacity = expectedItems.Count;
+        }
+
+        if (currentData.trickSentences != null && currentData.trickSentences.Length > 0)
+        {
+            StartDialogue(currentData.trickSentences);
         }
     }
 
@@ -185,12 +196,17 @@ public class DialogueManager : MonoBehaviour
     {
         sentences = newSentences;
         index = 0;
-        if (choicePanel != null) choicePanel.SetActive(false);
-        if (startTalkButton != null) startTalkButton.SetActive(false);
-        if (hintText != null) hintText.SetActive(true);
 
         isDialogueActive = true;
         isWaitingForChoice = false;
+
+        if (choicePanel != null) choicePanel.SetActive(false);
+        if (startTalkButton != null) startTalkButton.SetActive(false);
+        if (hintText != null) hintText.SetActive(true);
+        if (dialogueText != null) dialogueText.text = "";
+
+        if (agreeButton != null) agreeButton.SetActive(true);
+        if (disagreeButton != null) disagreeButton.SetActive(false);
 
         StartTyping(sentences[index]);
     }
@@ -285,6 +301,7 @@ public class DialogueManager : MonoBehaviour
         if (activeBagUI != null) activeBagUI.SetActive(false);
         if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
         if (activeTalismanUI != null) activeTalismanUI.SetActive(false);
+        if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
     }
 
     private void EndCustomerInteraction()
@@ -333,6 +350,11 @@ public class DialogueManager : MonoBehaviour
     public void PlaceBagOnTray()
     {
         if (!isWaitingForOrder || !hasBag || itemsInBag.Count == 0 || isBagOnTray) return;
+        if (isReadyToTalkTrick)
+        {
+            WarningManager.Show("เหมือนลูกค้าจะสั่งอะไรเพิ่มนะ");
+            return;
+        }
 
         isBagOnTray = true;
         hasBag = false;
