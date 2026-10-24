@@ -36,8 +36,14 @@ public class CustomerDialogue
 public class DaySetting
 {
     public string dayName = "Day";
+
     [Header("จำนวนโควต้าลูกค้าที่จะมาในวันนี้")]
     public int customersPerDay = 3;
+
+    [Header("NPC พิเศษ")]
+    public bool hasGuideNPC = false;
+    public CustomerDialogue guideNPC;
+
     [Header("กองสุ่มลูกค้าทั้งหมด")]
     public CustomerDialogue[] possibleCustomersPool;
     [HideInInspector]

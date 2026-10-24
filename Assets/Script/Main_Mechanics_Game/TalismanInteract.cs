@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class TalismanInteract : MonoBehaviour
@@ -42,6 +43,7 @@ public class TalismanInteract : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (DialogueManager.Instance != null)
         {
             Sprite spriteToPass = originalSprite != null ? originalSprite : spriteRenderer.sprite;

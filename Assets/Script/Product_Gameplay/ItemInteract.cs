@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class ItemInteract : MonoBehaviour
@@ -56,6 +57,7 @@ public class ItemInteract : MonoBehaviour
             return;
         }
 
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (DialogueManager.Instance.itemsInBag.Count >= DialogueManager.Instance.maxBagCapacity)
         {
             WarningManager.Show("ถุงเต็มแล้ว!");

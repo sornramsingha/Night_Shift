@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class CustomerWalker : MonoBehaviour
 {
     [Header("จุดเดินต่างๆ")]
@@ -11,6 +12,10 @@ public class CustomerWalker : MonoBehaviour
     public float walkSpeed = 5f;
     public float bobbingHeight = 0.5f;
     public float bobbingSpeed = 15f;
+
+    [Header("ระบบเสียงเดิน")]
+    public AudioClip footstepSound;
+    public AudioSource audioSource;
 
     [Header("ตั้งค่าเงาดำ (Fade)")]
     public Color shadowColor = Color.black;
@@ -30,6 +35,11 @@ public class CustomerWalker : MonoBehaviour
     {
         shadowFader = GetComponent<SpriteRenderer>();
         transform.position = spawnPoint.position;
+
+        audioSource = GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.loop = true;
+        audioSource.clip = footstepSound;
     }
 
     void Update()
@@ -54,6 +64,7 @@ public class CustomerWalker : MonoBehaviour
                 transform.position = new Vector3(counterPoint.position.x, counterPoint.position.y, transform.position.z);
                 isWalkingIn = false;
 
+                if (audioSource != null) audioSource.Stop();
                 if (shadowFader != null) shadowFader.color = normalColor;
                 if (DialogueManager.Instance != null) DialogueManager.Instance.ShowStartTalkButton();
             }
@@ -76,6 +87,7 @@ public class CustomerWalker : MonoBehaviour
             if (Mathf.Abs(transform.position.x - exitPoint.position.x) < 0.05f)
             {
                 isWalkingOut = false;
+                if (audioSource != null) audioSource.Stop();
                 if (shadowFader != null) shadowFader.enabled = false;
                 gameObject.SetActive(false);
 
@@ -101,6 +113,7 @@ public class CustomerWalker : MonoBehaviour
 
         isWalkingIn = true;
         isWalkingOut = false;
+        if (audioSource != null && footstepSound != null) audioSource.Play();
 
         if (DayManager.Instance != null)
         {
@@ -113,12 +126,14 @@ public class CustomerWalker : MonoBehaviour
         totalDistanceOut = Mathf.Abs(exitPoint.position.x - counterPoint.position.x);
         isWalkingIn = false;
         isWalkingOut = true;
+        if (audioSource != null && footstepSound != null) audioSource.Play();
     }
 
     public void Vanish()
     {
         isWalkingIn = false;
         isWalkingOut = false;
+        if (audioSource != null) audioSource.Stop();
         gameObject.SetActive(false);
 
         transform.position = exitPoint.position;

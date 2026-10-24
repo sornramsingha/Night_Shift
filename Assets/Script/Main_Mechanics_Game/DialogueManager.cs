@@ -18,6 +18,10 @@ public class DialogueManager : MonoBehaviour
     [Header("UI ปุ่มออเดอร์เสริม")]
     public GameObject trickBubbleButton;
 
+    [Header("UI เปลี่ยนถุง")]
+    public GameObject bagConfirmPanel;
+    [HideInInspector] public bool isConfirmingBagReset = false;
+
     [Header("ระบบหลัก")]
     public CustomerWalker customerWalker;
 
@@ -318,6 +322,29 @@ public class DialogueManager : MonoBehaviour
 
     #region --- ระบบถุงและสินค้า (Bag & Item System) ---
 
+    public void ShowBagResetConfirmation()
+    {
+        if (isConfirmingBagReset) return;
+        isConfirmingBagReset = true;
+
+        if (bagConfirmPanel != null) bagConfirmPanel.SetActive(true);
+    }
+
+    public void ConfirmBagResetYes()
+    {
+        isConfirmingBagReset = false;
+        if (bagConfirmPanel != null) bagConfirmPanel.SetActive(false);
+
+        ResetBagItems();
+    }
+
+    public void ConfirmBagResetNo()
+    {
+        isConfirmingBagReset = false;
+        if (bagConfirmPanel != null) bagConfirmPanel.SetActive(false);
+    }
+
+
     public void PickUpBag()
     {
         if (!isWaitingForOrder) { WarningManager.Show("ยังไม่มีออเดอร์!"); return; }
@@ -326,14 +353,21 @@ public class DialogueManager : MonoBehaviour
 
         if (hasBag)
         {
-            hasBag = false;
-            itemsInBag.Clear();
-            if (activeBagUI != null) activeBagUI.SetActive(false);
             return;
         }
 
         hasBag = true;
         if (activeBagUI != null) activeBagUI.SetActive(true);
+    }
+
+    public void ResetBagItems()
+    {
+        if (hasBag)
+        {
+            itemsInBag.Clear();
+            hasBag = false;
+            if (activeBagUI != null) activeBagUI.SetActive(false);
+        }
     }
 
     public void PickUpItem(string itemName)
@@ -352,7 +386,12 @@ public class DialogueManager : MonoBehaviour
         if (!isWaitingForOrder || !hasBag || itemsInBag.Count == 0 || isBagOnTray) return;
         if (isReadyToTalkTrick)
         {
-            WarningManager.Show("เหมือนลูกค้าจะสั่งอะไรเพิ่มนะ");
+            WarningManager.Show("เหมือนลูกค้าจะสั่งอะไรเพิ่มนะ?");
+            return;
+        }
+        if (itemsInBag.Count < maxBagCapacity)
+        {
+            WarningManager.Show("มีออเดอร์ใหม่ ของยังไม่ครบ!");
             return;
         }
 

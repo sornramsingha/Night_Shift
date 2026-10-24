@@ -70,7 +70,10 @@ public class DayManager : MonoBehaviour
             today.randomizedQueue.Add(pool[randomIndex]);
             pool.RemoveAt(randomIndex);
         }
-
+        if (today.hasGuideNPC)
+        {
+            today.randomizedQueue.Insert(0, today.guideNPC);
+        }
         SpawnNextCustomer();
     }
 

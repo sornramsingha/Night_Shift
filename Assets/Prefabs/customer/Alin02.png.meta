@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3de721c46a24f814e849c6d62c0d1e0e
+guid: 927096f008130874eb3c7e88bfed60e9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6923316619624047129
-    second: old_man-2_0
+      213: -8894943213054576503
+    second: Alin02_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: old_man-2_0
+      name: Alin02_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1286
-        height: 1901
+        width: 1443
+        height: 1857
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 912ef34c8cf841060800000000000000
-      internalID: 6923316619624047129
+      spriteID: 9883c907640de8480800000000000000
+      internalID: -8894943213054576503
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      old_man-2_0: 6923316619624047129
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

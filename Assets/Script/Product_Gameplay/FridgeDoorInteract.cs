@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(AudioSource))]
 public class FridgeDoorInteract : MonoBehaviour
 {
     public static FridgeDoorInteract Instance;
 
     [Header("สถานะ")]
     public bool isOpen = false;
+    public AudioClip openSound;
+    public AudioClip closeSound;
 
     [Header("รูปภาพประตู")]
     public Sprite closedSprite;
@@ -16,6 +20,7 @@ public class FridgeDoorInteract : MonoBehaviour
     public Collider2D[] itemCollidersInFridge;
 
     private SpriteRenderer spriteRenderer;
+    private AudioSource audioSource;
 
     void Awake()
     {
@@ -25,11 +30,15 @@ public class FridgeDoorInteract : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
         UpdateDoorState(true);
+
     }
 
     void OnMouseDown()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (DialogueManager.Instance != null && !DialogueManager.Instance.isWaitingForOrder)
         {
             WarningManager.Show("ต้องคุยกับลูกค้าให้เรียบร้อยก่อน!");
@@ -37,6 +46,12 @@ public class FridgeDoorInteract : MonoBehaviour
         }
 
         isOpen = !isOpen;
+        if (audioSource != null)
+        {
+            if (isOpen && openSound != null) audioSource.PlayOneShot(openSound);
+            else if (!isOpen && closeSound != null) audioSource.PlayOneShot(closeSound);
+        }
+
         UpdateDoorState(false);
     }
 
@@ -61,6 +76,7 @@ public class FridgeDoorInteract : MonoBehaviour
         if (isOpen)
         {
             isOpen = false;
+            if (audioSource != null && closeSound != null) audioSource.PlayOneShot(closeSound);
             UpdateDoorState(true);
         }
     }
