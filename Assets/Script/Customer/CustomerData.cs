@@ -14,6 +14,9 @@ public class CustomerDialogue
     [Header("สินค้าที่ต้องการ (ใส่ได้หลายชิ้น)")]
     public string[] requiredItems;
 
+    [Header("ข้อความปุ่มตอบรับ (Dynamic)")]
+    public string acceptButtonText = "ตกลงครับ";
+
     [Header("ระบบออเดอร์หลอก")]
     public bool isTrickOrder = false;
     [TextArea(2, 4)]

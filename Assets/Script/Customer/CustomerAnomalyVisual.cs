@@ -42,7 +42,15 @@ public class CustomerAnomalyVisual : MonoBehaviour
     }
 
     void OnEnable() { CurrentActive = this; }
-    void OnDisable() { StopGlitchCoroutine(); }
+
+    void OnDisable()
+    {
+        StopGlitchCoroutine();
+        if (ShopLightController.Instance != null)
+        {
+            ShopLightController.Instance.SetAggressiveFlicker(false);
+        }
+    }
 
     public void SetupAnomaly(Sprite normal, Sprite glitch, Sprite permanent, bool isGhost, bool enableGlitch, bool isTrickOrderWait)
     {
@@ -60,6 +68,10 @@ public class CustomerAnomalyVisual : MonoBehaviour
         isWaitingForTrickReveal = isTrickOrderWait;
 
         isCurrentlyShowingAnomaly = false;
+        if (ShopLightController.Instance != null)
+        {
+            ShopLightController.Instance.SetAggressiveFlicker(false);
+        }
 
         if (targetSprite != null && normalSprite != null) targetSprite.sprite = normalSprite;
         if (targetAnimator != null) targetAnimator.enabled = true;
@@ -112,6 +124,10 @@ public class CustomerAnomalyVisual : MonoBehaviour
 
                 FlexibleAudioPlayer audio = GetComponent<FlexibleAudioPlayer>();
                 if (audio != null) audio.PlaySound();
+                if (ShopLightController.Instance != null)
+                {
+                    ShopLightController.Instance.SetAggressiveFlicker(true);
+                }
             }
         }
         else if (revertToNormalOnTurn && normalSprite != null)
@@ -119,6 +135,10 @@ public class CustomerAnomalyVisual : MonoBehaviour
             isCurrentlyShowingAnomaly = false;
             targetSprite.sprite = normalSprite;
             if (targetAnimator != null) targetAnimator.enabled = true;
+            if (ShopLightController.Instance != null)
+            {
+                ShopLightController.Instance.SetAggressiveFlicker(false);
+            }
         }
     }
 
@@ -136,6 +156,11 @@ public class CustomerAnomalyVisual : MonoBehaviour
         if (audio != null) audio.PlaySound();
 
         Debug.Log("หันมารอบสอง: โชว์ร่างถาวรเลย!");
+
+        if (ShopLightController.Instance != null)
+        {
+            ShopLightController.Instance.SetAggressiveFlicker(true);
+        }
     }
 
     public void TriggerAggressiveGlitch()
@@ -149,6 +174,11 @@ public class CustomerAnomalyVisual : MonoBehaviour
         flickerDuration = 0.3f;
 
         Debug.Log("หันมารอบสอง: กระพริบรัวขึ้นมาก!");
+
+        if (ShopLightController.Instance != null)
+        {
+            ShopLightController.Instance.SetAggressiveFlicker(true);
+        }
     }
 
     public void StopGlitchCoroutine()

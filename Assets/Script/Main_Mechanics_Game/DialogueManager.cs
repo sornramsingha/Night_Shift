@@ -12,8 +12,9 @@ public class DialogueManager : MonoBehaviour
     public GameObject choicePanel;
     public GameObject startTalkButton;
     public GameObject hintText;
-    public GameObject agreeButton;
-    public GameObject disagreeButton;
+    public GameObject choicePanels;
+    public GameObject acceptOrderButton;
+    public TextMeshProUGUI acceptButtonTextUI;
 
     [Header("UI ปุ่มออเดอร์เสริม")]
     public GameObject trickBubbleButton;
@@ -185,13 +186,10 @@ public class DialogueManager : MonoBehaviour
         if (isWaitingForOrder)
         {
             index = sentences.Length - 1;
-            if (disagreeButton != null) disagreeButton.SetActive(false);
         }
         else
         {
             index = 0;
-            if (disagreeButton != null) disagreeButton.SetActive(true);
-            if (agreeButton != null) agreeButton.SetActive(true);
         }
         StartTyping(sentences[index]);
     }
@@ -208,9 +206,6 @@ public class DialogueManager : MonoBehaviour
         if (startTalkButton != null) startTalkButton.SetActive(false);
         if (hintText != null) hintText.SetActive(true);
         if (dialogueText != null) dialogueText.text = "";
-
-        if (agreeButton != null) agreeButton.SetActive(true);
-        if (disagreeButton != null) disagreeButton.SetActive(false);
 
         StartTyping(sentences[index]);
     }
@@ -261,30 +256,24 @@ public class DialogueManager : MonoBehaviour
         else
         {
             isWaitingForChoice = true;
+
             if (choicePanel != null) choicePanel.SetActive(true);
-            if (startTalkButton != null) startTalkButton.SetActive(false);
+            if (acceptOrderButton != null) acceptOrderButton.SetActive(true);
+            if (acceptButtonTextUI != null && currentData != null)
+            {
+                string btnText = string.IsNullOrEmpty(currentData.acceptButtonText) ? "ตกลง" : currentData.acceptButtonText;
+                acceptButtonTextUI.text = btnText;
+            }
         }
     }
 
     private void PreviousSentence()
     {
         isWaitingForChoice = false;
-        if (choicePanel != null) choicePanel.SetActive(false);
         index--;
+        if (isWaitingForOrder) isWaitingForOrder = false;
+
         StartTyping(sentences[index]);
-    }
-
-    public void ChooseAgree()
-    {
-        CloseDialogueBox();
-        ShowStartTalkButton();
-        isWaitingForOrder = true;
-    }
-
-    public void ChooseDisagree()
-    {
-        EndCustomerInteraction();
-        if (customerWalker != null) customerWalker.WalkAway();
     }
 
     private void CloseDialogueBox()
@@ -295,6 +284,15 @@ public class DialogueManager : MonoBehaviour
         if (dialogueText != null) dialogueText.text = "";
         if (choicePanel != null) choicePanel.SetActive(false);
         if (hintText != null) hintText.SetActive(false);
+    }
+
+    public void AcceptOrderOnClick()
+    {
+        isWaitingForChoice = false;
+        isWaitingForOrder = true;
+
+        ShowStartTalkButton();
+        CloseDialogueBox();
     }
 
     private void ResetAllUI()
