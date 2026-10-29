@@ -21,6 +21,7 @@ public class CustomerInteract : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (DialogueManager.Instance != null && !DialogueManager.Instance.isFacingFront) return;
         if (DialogueManager.Instance != null && DialogueManager.Instance.isHoldingTalisman)
         {
             if (holdCoroutine != null) StopCoroutine(holdCoroutine);

@@ -18,6 +18,9 @@ public class ItemInteract : MonoBehaviour
     public float jumpHeight = 1.5f;
     public float cloneScaleMultiplier = 1.5f;
 
+    private static float lastGlobalClickTime = 0f;
+    private float clickCooldown = 0.5f;
+
     private SpriteRenderer mainSprite;
 
     void Start()
@@ -57,12 +60,12 @@ public class ItemInteract : MonoBehaviour
             return;
         }
 
-        if (EventSystem.current.IsPointerOverGameObject()) return;
-        if (DialogueManager.Instance.itemsInBag.Count >= DialogueManager.Instance.maxBagCapacity)
-        {
-            WarningManager.Show("ถุงเต็มแล้ว!");
-            return;
-        }
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()) return;
+        if (Time.time - lastGlobalClickTime < clickCooldown) return;
+
+        bool isSuccess = DialogueManager.Instance.PickUpItem(itemName);
+        if (!isSuccess) return;
+        lastGlobalClickTime = Time.time;
 
         if (mainSprite != null && originalSprite != null)
         {
@@ -112,8 +115,6 @@ public class ItemInteract : MonoBehaviour
 
             yield return null;
         }
-
         Destroy(clone);
-        DialogueManager.Instance.PickUpItem(itemName);
     }
 }

@@ -33,12 +33,16 @@ public class CameraSwitcher : MonoBehaviour
 
     public void TurnLeft()
     {
+        if (DialogueManager.Instance != null)
+            DialogueManager.Instance.isFacingFront = true;
         if (currentRoomIndex > 0 && !isPanning)
             StartCoroutine(SmoothPanToRoom(currentRoomIndex - 1));
     }
 
     public void TurnRight()
     {
+        if (DialogueManager.Instance != null)
+            DialogueManager.Instance.isFacingFront = false;
         if (currentRoomIndex < roomPositions.Length - 1 && !isPanning)
             StartCoroutine(SmoothPanToRoom(currentRoomIndex + 1));
     }

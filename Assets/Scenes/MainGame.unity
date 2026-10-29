@@ -2255,11 +2255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75731333dd13de4cbec59ce52742325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseIntensity: 1
-  minNormalFlicker: 0.05
+  baseIntensity: 2.5
+  minNormalFlicker: 0.1
   isAggressive: 0
-  minGhostFlicker: 0
-  maxGhostFlicker: 0.05
 --- !u!61 &499950314 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 5111146630281505056, guid: 9f687f53bf587d04b9611ffe6ecfe6ba, type: 3}
@@ -2798,7 +2796,6 @@ GameObject:
   - component: {fileID: 611391166}
   - component: {fileID: 611391161}
   - component: {fileID: 611391165}
-  - component: {fileID: 611391164}
   - component: {fileID: 611391163}
   - component: {fileID: 611391162}
   m_Layer: 0
@@ -2896,7 +2893,7 @@ MonoBehaviour:
   walkSpeed: 7
   bobbingHeight: 0.3
   bobbingSpeed: 10
-  footstepSound: {fileID: 0}
+  footstepSound: {fileID: 8300000, guid: c60a5f650e3e4e64bad68287e1c82148, type: 3}
   audioSource: {fileID: 0}
   shadowColor: {r: 0, g: 0, b: 0, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2973,7 +2970,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3103,24 +3100,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 12.62, y: 18.78}
   m_EdgeRadius: 0
---- !u!114 &611391164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 611391158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bbc89e398e81914e83d973356766e80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundClips: []
-  playOnEnable: 0
-  minVolume: 0.8
-  maxVolume: 1
-  minPitch: 0.9
-  maxPitch: 1.1
 --- !u!114 &611391165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7198,11 +7177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75731333dd13de4cbec59ce52742325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseIntensity: 1
-  minNormalFlicker: 0.05
+  baseIntensity: 2.5
+  minNormalFlicker: 0.1
   isAggressive: 0
-  minGhostFlicker: 0
-  maxGhostFlicker: 0.05
 --- !u!1 &1483972405
 GameObject:
   m_ObjectHideFlags: 0
@@ -7793,7 +7770,6 @@ GameObject:
   - component: {fileID: 1645766815}
   - component: {fileID: 1645766810}
   - component: {fileID: 1645766814}
-  - component: {fileID: 1645766813}
   - component: {fileID: 1645766812}
   - component: {fileID: 1645766811}
   m_Layer: 0
@@ -7891,7 +7867,7 @@ MonoBehaviour:
   walkSpeed: 7
   bobbingHeight: 0.3
   bobbingSpeed: 10
-  footstepSound: {fileID: 0}
+  footstepSound: {fileID: 8300000, guid: c60a5f650e3e4e64bad68287e1c82148, type: 3}
   audioSource: {fileID: 0}
   shadowColor: {r: 0, g: 0, b: 0, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -7968,7 +7944,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8098,24 +8074,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 16.12, y: 18.82}
   m_EdgeRadius: 0
---- !u!114 &1645766813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645766807}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bbc89e398e81914e83d973356766e80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundClips: []
-  playOnEnable: 0
-  minVolume: 0.8
-  maxVolume: 1
-  minPitch: 0.9
-  maxPitch: 1.1
 --- !u!114 &1645766814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9838,7 +9796,6 @@ GameObject:
   - component: {fileID: 1915023334}
   - component: {fileID: 1915023329}
   - component: {fileID: 1915023333}
-  - component: {fileID: 1915023332}
   - component: {fileID: 1915023331}
   - component: {fileID: 1915023330}
   m_Layer: 0
@@ -9936,7 +9893,7 @@ MonoBehaviour:
   walkSpeed: 7
   bobbingHeight: 0.3
   bobbingSpeed: 10
-  footstepSound: {fileID: 0}
+  footstepSound: {fileID: 8300000, guid: c60a5f650e3e4e64bad68287e1c82148, type: 3}
   audioSource: {fileID: 0}
   shadowColor: {r: 0, g: 0, b: 0, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10013,7 +9970,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -10143,24 +10100,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 12.04, y: 17.92}
   m_EdgeRadius: 0
---- !u!114 &1915023332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915023326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bbc89e398e81914e83d973356766e80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soundClips: []
-  playOnEnable: 0
-  minVolume: 0.8
-  maxVolume: 1
-  minPitch: 0.9
-  maxPitch: 1.1
 --- !u!114 &1915023333
 MonoBehaviour:
   m_ObjectHideFlags: 0

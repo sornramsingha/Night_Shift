@@ -25,10 +25,12 @@ public class DialogueManager : MonoBehaviour
 
     [Header("ระบบหลัก")]
     public CustomerWalker customerWalker;
+    [HideInInspector] public bool isFacingFront = true;
 
     [Header("ระบบหยิบสินค้า & ถุง")]
     public List<string> expectedItems = new List<string>();
     public List<string> itemsInBag = new List<string>();
+    private List<string> lockedBaseOrderItems = new List<string>();
     public int maxBagCapacity = 1;
 
     [HideInInspector] public bool hasBag = false;
@@ -110,6 +112,7 @@ public class DialogueManager : MonoBehaviour
         sentences = data.sentences;
 
         expectedItems.Clear();
+        lockedBaseOrderItems.Clear();
         if (data.requiredItems != null) expectedItems.AddRange(data.requiredItems);
         maxBagCapacity = expectedItems.Count;
 
@@ -159,6 +162,7 @@ public class DialogueManager : MonoBehaviour
         isReadyToTalkTrick = false;
         hasPendingTrickOrder = false;
         isWaitingForOrder = false;
+        lockedBaseOrderItems = new List<string>(itemsInBag);
 
         if (currentData.additionalItems != null)
         {
@@ -363,20 +367,29 @@ public class DialogueManager : MonoBehaviour
         if (hasBag)
         {
             itemsInBag.Clear();
-            hasBag = false;
-            if (activeBagUI != null) activeBagUI.SetActive(false);
+            if (lockedBaseOrderItems.Count > 0)
+            {
+                itemsInBag.AddRange(lockedBaseOrderItems);
+                WarningManager.Show("ออเดอร์แรกอยู่ในถุงแล้ว!");
+            }
+            else
+            {
+                hasBag = false;
+                if (activeBagUI != null) activeBagUI.SetActive(false);
+            }
         }
     }
 
-    public void PickUpItem(string itemName)
+    public bool PickUpItem(string itemName)
     {
-        if (!isWaitingForOrder || !hasBag) return;
+        if (!isWaitingForOrder || !hasBag) return false;
         if (itemsInBag.Count >= maxBagCapacity)
         {
             WarningManager.Show("ถุงเต็มแล้ว!");
-            return;
+            return false;
         }
         itemsInBag.Add(itemName);
+        return true;
     }
 
     public void PlaceBagOnTray()
@@ -479,6 +492,8 @@ public class DialogueManager : MonoBehaviour
 
     public void UseTalismanOnCustomer()
     {
+        if (!isFacingFront) return;
+
         if (!isHoldingTalisman || !isWaitingForOrder) return;
 
         if (activeTalismanItem != null) activeTalismanItem.SetActive(false);

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 public class DayManager : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class DayManager : MonoBehaviour
     [Header("Panel วันเริ่มงาน")]
     public GameObject dayTransitionPanel;
     public TextMeshProUGUI dayText;
+
+    [Header("ตั้งค่าเวลาออกของลูกค้า")]
+    public float minCustomerDelay = 3.0f;
+    public float maxCustomerDelay = 5.0f;
 
     [Header("ระบบอื่นๆ")]
     public CustomerWalker customer;
@@ -79,7 +84,22 @@ public class DayManager : MonoBehaviour
 
     public void SpawnNextCustomer()
     {
-        if (currentDayIndex >= days.Length) return;
+        StartCoroutine(WaitAndSpawnRoutine());
+    }
+
+    private IEnumerator WaitAndSpawnRoutine()
+    {
+        if (customerServedToday > 0)
+        {
+            float delay = Random.Range(minCustomerDelay, maxCustomerDelay);
+            yield return new WaitForSeconds(delay);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        if (currentDayIndex >= days.Length) yield break;
 
         DaySetting today = days[currentDayIndex];
         if (today.randomizedQueue == null || customerServedToday >= today.randomizedQueue.Count)
@@ -87,13 +107,15 @@ public class DayManager : MonoBehaviour
             Debug.Log("จบวันที่ " + (currentDayIndex + 1));
             currentDayIndex++;
             ShowDayTransition();
-            return;
+            yield break;
         }
+
         CustomerDialogue currentCustomerData = today.randomizedQueue[customerServedToday];
         customerServedToday++;
 
         ApplyCustomerData(currentCustomerData);
     }
+
 
     private void ApplyCustomerData(CustomerDialogue data)
     {
