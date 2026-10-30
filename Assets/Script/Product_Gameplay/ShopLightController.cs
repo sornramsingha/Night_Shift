@@ -8,9 +8,11 @@ public class ShopLightController : MonoBehaviour
 {
     public static List<ShopLightController> AllLights = new List<ShopLightController>();
     public static ShopLightController Instance;
+    [HideInInspector] public bool isBroken = false;
 
     private Light2D myLight;
     private Coroutine flickerCoroutine;
+    private Coroutine panicCoroutine;
 
     [Header("การตั้งค่าแสงปกติ")]
     public float baseIntensity = 1.0f;
@@ -22,7 +24,6 @@ public class ShopLightController : MonoBehaviour
     void Awake()
     {
         if (Instance == null) Instance = this;
-
         myLight = GetComponent<Light2D>();
         myLight.intensity = baseIntensity;
     }
@@ -37,6 +38,34 @@ public class ShopLightController : MonoBehaviour
     {
         if (AllLights.Contains(this)) AllLights.Remove(this);
         if (flickerCoroutine != null) StopCoroutine(flickerCoroutine);
+        if (panicCoroutine != null) StopCoroutine(panicCoroutine);
+    }
+
+    public void TriggerTemporaryPanic(float duration)
+    {
+        foreach (ShopLightController light in AllLights)
+        {
+            if (light == null || !light.gameObject.activeInHierarchy) continue;
+            if (light.panicCoroutine != null) light.StopCoroutine(light.panicCoroutine);
+
+            light.panicCoroutine = light.StartCoroutine(light.PanicRoutine(duration));
+        }
+    }
+
+    private IEnumerator PanicRoutine(float duration)
+    {
+        isAggressive = true;
+
+        if (flickerCoroutine != null) StopCoroutine(flickerCoroutine);
+        flickerCoroutine = StartCoroutine(FlickerRoutine());
+
+        yield return new WaitForSeconds(duration);
+
+        isAggressive = false;
+        myLight.intensity = baseIntensity;
+
+        if (flickerCoroutine != null) StopCoroutine(flickerCoroutine);
+        flickerCoroutine = StartCoroutine(FlickerRoutine());
     }
 
     public void SetAggressiveFlicker(bool state)
@@ -44,18 +73,21 @@ public class ShopLightController : MonoBehaviour
         foreach (ShopLightController light in AllLights)
         {
             if (light == null) continue;
+            if (light.panicCoroutine != null)
+            {
+                light.StopCoroutine(light.panicCoroutine);
+                light.panicCoroutine = null;
+            }
+
             if (light.isAggressive == state) continue;
 
             light.isAggressive = state;
-            if (light.flickerCoroutine != null)
-            {
-                light.StopCoroutine(light.flickerCoroutine);
-            }
+
+            if (light.flickerCoroutine != null) light.StopCoroutine(light.flickerCoroutine);
             if (!state) light.myLight.intensity = light.baseIntensity;
+
             if (light.gameObject.activeInHierarchy)
-            {
                 light.flickerCoroutine = light.StartCoroutine(light.FlickerRoutine());
-            }
         }
     }
 
@@ -91,6 +123,26 @@ public class ShopLightController : MonoBehaviour
 
                 myLight.intensity = baseIntensity;
             }
+        }
+    }
+
+    public void TriggerLightBreakdown()
+    {
+        isBroken = true;
+        foreach (ShopLightController light in AllLights)
+        {
+            if (light.flickerCoroutine != null) light.StopCoroutine(light.flickerCoroutine);
+            light.myLight.intensity = 0f;
+        }
+    }
+
+    public void EndLightBreakdown()
+    {
+        isBroken = false;
+        foreach (ShopLightController light in AllLights)
+        {
+            light.myLight.intensity = light.baseIntensity;
+            light.flickerCoroutine = light.StartCoroutine(light.FlickerRoutine());
         }
     }
 }

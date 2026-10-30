@@ -96,8 +96,12 @@ public class CustomerAnomalyVisual : MonoBehaviour
                 if (targetAnimator != null) targetAnimator.enabled = false;
                 if (targetSprite != null) targetSprite.sprite = glitchSprite;
 
-                yield return new WaitForSeconds(flickerDuration);
+                if (ShopLightController.Instance != null)
+                {
+                    ShopLightController.Instance.TriggerTemporaryPanic(flickerDuration);
+                }
 
+                yield return new WaitForSeconds(flickerDuration);
                 if (!isCurrentlyShowingAnomaly && targetSprite != null)
                 {
                     targetSprite.sprite = normalSprite;

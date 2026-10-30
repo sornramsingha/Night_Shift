@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CameraSwitcher : MonoBehaviour
 {
+    public static CameraSwitcher Instance;
+
     public Transform[] roomPositions;
     public float panSpeed = 4f;
     public float cooldownTime = 0.2f;
@@ -13,6 +15,11 @@ public class CameraSwitcher : MonoBehaviour
 
     private int currentRoomIndex = 0;
     private bool isPanning = false;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -93,5 +100,34 @@ public class CameraSwitcher : MonoBehaviour
             bool shouldShowBag = DialogueManager.Instance.hasBag && (currentRoomIndex == 0 || currentRoomIndex == 1);
             bagUIGroup.SetActive(shouldShowBag);
         }
+    }
+
+    public IEnumerator FocusOnLight(bool isFocus)
+    {
+        isPanning = true;
+
+        float duration = 0.5f;
+        float time = 0;
+        Camera cam = Camera.main;
+
+        float startSize = cam.orthographicSize;
+        float targetSize = isFocus ? 3.5f : 5.0f;
+
+        Vector3 startPos = transform.position;
+        float baseRoomY = roomPositions[currentRoomIndex].position.y;
+        Vector3 targetPos = new Vector3(startPos.x, isFocus ? baseRoomY + 2f : baseRoomY, startPos.z);
+
+        while (time < 1f)
+        {
+            time += Time.deltaTime / duration;
+            float t = Mathf.SmoothStep(0, 1, time);
+
+            cam.orthographicSize = Mathf.Lerp(startSize, targetSize, t);
+            transform.position = Vector3.Lerp(startPos, targetPos, t);
+
+            yield return null;
+        }
+
+        isPanning = isFocus;
     }
 }

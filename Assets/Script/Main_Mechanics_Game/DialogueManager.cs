@@ -36,6 +36,7 @@ public class DialogueManager : MonoBehaviour
     [HideInInspector] public bool hasBag = false;
     [HideInInspector] public bool isBagOnTray = false;
     [HideInInspector] public bool isWaitingForOrder = false;
+    private bool hasRolledLightEvent = false;
 
     [Header("ระบบยันต์")]
     public bool isHoldingTalisman = false;
@@ -108,6 +109,7 @@ public class DialogueManager : MonoBehaviour
 
     public void SetupNewCustomer(CustomerDialogue data)
     {
+        hasRolledLightEvent = false;
         currentData = data;
         sentences = data.sentences;
 
@@ -123,6 +125,14 @@ public class DialogueManager : MonoBehaviour
         hasPendingTrickOrder = data.isTrickOrder;
         isReadyToTalkTrick = false;
         if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
+
+        if (Random.value <= 0.3f)
+        {
+            if (ShopLightController.Instance != null)
+            {
+                ShopLightController.Instance.TriggerTemporaryPanic(3.0f);
+            }
+        }
     }
 
     public void OnCameraTurnedBack()
@@ -297,6 +307,20 @@ public class DialogueManager : MonoBehaviour
 
         ShowStartTalkButton();
         CloseDialogueBox();
+
+        if (!hasRolledLightEvent)
+        {
+            hasRolledLightEvent = true;
+
+            float rollDice = Random.value;
+            if (rollDice <= 1f)
+            {
+                if (ShopLightController.Instance != null)
+                {
+                    ShopLightController.Instance.TriggerLightBreakdown();
+                }
+            }
+        }
     }
 
     private void ResetAllUI()
@@ -382,6 +406,12 @@ public class DialogueManager : MonoBehaviour
 
     public bool PickUpItem(string itemName)
     {
+        if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
+        {
+            WarningManager.Show("ไฟดับ! ต้องซ่อมไฟก่อน!");
+            return false;
+        }
+
         if (!isWaitingForOrder || !hasBag) return false;
         if (itemsInBag.Count >= maxBagCapacity)
         {
@@ -418,6 +448,12 @@ public class DialogueManager : MonoBehaviour
 
     public void GiveItemToCustomer()
     {
+        if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
+        {
+            WarningManager.Show("มืดขนาดนี้ จะขายของยังไง! ซ่อมไฟก่อน!");
+            return;
+        }
+
         if (!isBagOnTray) return;
 
         bool isExactlyCorrect = true;
