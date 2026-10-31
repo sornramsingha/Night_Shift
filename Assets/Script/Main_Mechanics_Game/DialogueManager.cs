@@ -144,6 +144,10 @@ public class DialogueManager : MonoBehaviour
         currentData = data;
         sentences = data.sentences;
 
+        customerMaxPatience = data.maxPatienceTime;
+        currentPatience = customerMaxPatience;
+        isTimerRunning = false;
+
         expectedItems.Clear();
         lockedBaseOrderItems.Clear();
         if (data.requiredItems != null) expectedItems.AddRange(data.requiredItems);
@@ -251,6 +255,9 @@ public class DialogueManager : MonoBehaviour
         if (choicePanel != null) choicePanel.SetActive(false);
         if (hintText != null) hintText.SetActive(true);
 
+        isTimerRunning = false;
+        if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
+
         isDialogueActive = true;
         isWaitingForChoice = false;
 
@@ -269,6 +276,9 @@ public class DialogueManager : MonoBehaviour
     {
         sentences = newSentences;
         index = 0;
+
+        isTimerRunning = false;
+        if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
 
         isDialogueActive = true;
         isWaitingForChoice = false;
@@ -381,19 +391,13 @@ public class DialogueManager : MonoBehaviour
 
         if (currentData != null)
         {
-            customerMaxPatience = currentData.maxPatienceTime;
-            currentPatience = customerMaxPatience;
             isTimerRunning = true;
-
             if (patienceUIContainer != null) patienceUIContainer.SetActive(true);
         }
     }
 
     private void TriggerCustomerTimeout()
     {
-        isTimerRunning = false;
-
-        if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
 
         WarningManager.Show("ลูกค้ารอนานเกินไป!");
 
@@ -419,6 +423,9 @@ public class DialogueManager : MonoBehaviour
 
     private void EndCustomerInteraction()
     {
+        isTimerRunning = false;
+        if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
+
         ResetAllUI();
         hasBag = false;
         isBagOnTray = false;
