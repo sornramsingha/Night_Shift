@@ -4,6 +4,7 @@ using System.Collections;
 public class CameraSwitcher : MonoBehaviour
 {
     public static CameraSwitcher Instance;
+    private Coroutine activeCamCoroutine;
 
     public Transform[] roomPositions;
     public float panSpeed = 4f;
@@ -12,6 +13,12 @@ public class CameraSwitcher : MonoBehaviour
     [Header("ระบบ UI")]
     public GameObject dialogueUIGroup;
     public GameObject bagUIGroup;
+
+    [Header("ตั้งค่าซูมมินิเกมซ่อมไฟ")]
+    public float normalOrthoSize = 5.0f;
+    public float zoomOrthoSize = 2.5f;
+    public float zoomOffsetY = 3.5f;
+    public float zoomDuration = 0.5f;
 
     private int currentRoomIndex = 0;
     private bool isPanning = false;
@@ -40,18 +47,22 @@ public class CameraSwitcher : MonoBehaviour
 
     public void TurnLeft()
     {
-        if (DialogueManager.Instance != null)
-            DialogueManager.Instance.isFacingFront = true;
+        if (DialogueManager.Instance != null) DialogueManager.Instance.isFacingFront = true;
         if (currentRoomIndex > 0 && !isPanning)
-            StartCoroutine(SmoothPanToRoom(currentRoomIndex - 1));
+        {
+            if (activeCamCoroutine != null) StopCoroutine(activeCamCoroutine);
+            activeCamCoroutine = StartCoroutine(SmoothPanToRoom(currentRoomIndex - 1));
+        }
     }
 
     public void TurnRight()
     {
-        if (DialogueManager.Instance != null)
-            DialogueManager.Instance.isFacingFront = false;
+        if (DialogueManager.Instance != null) DialogueManager.Instance.isFacingFront = false;
         if (currentRoomIndex < roomPositions.Length - 1 && !isPanning)
-            StartCoroutine(SmoothPanToRoom(currentRoomIndex + 1));
+        {
+            if (activeCamCoroutine != null) StopCoroutine(activeCamCoroutine);
+            activeCamCoroutine = StartCoroutine(SmoothPanToRoom(currentRoomIndex + 1));
+        }
     }
 
     IEnumerator SmoothPanToRoom(int targetIndex)
@@ -102,24 +113,29 @@ public class CameraSwitcher : MonoBehaviour
         }
     }
 
+    public void SetFocusLight(bool isFocus)
+    {
+        if (activeCamCoroutine != null) StopCoroutine(activeCamCoroutine);
+        activeCamCoroutine = StartCoroutine(FocusOnLight(isFocus));
+    }
+
     public IEnumerator FocusOnLight(bool isFocus)
     {
         isPanning = true;
 
-        float duration = 0.5f;
         float time = 0;
         Camera cam = Camera.main;
 
         float startSize = cam.orthographicSize;
-        float targetSize = isFocus ? 3.5f : 5.0f;
+        float targetSize = isFocus ? zoomOrthoSize : normalOrthoSize;
 
         Vector3 startPos = transform.position;
         float baseRoomY = roomPositions[currentRoomIndex].position.y;
-        Vector3 targetPos = new Vector3(startPos.x, isFocus ? baseRoomY + 2f : baseRoomY, startPos.z);
+        Vector3 targetPos = new Vector3(startPos.x, isFocus ? baseRoomY + zoomOffsetY : baseRoomY, startPos.z);
 
         while (time < 1f)
         {
-            time += Time.deltaTime / duration;
+            time += Time.deltaTime / zoomDuration;
             float t = Mathf.SmoothStep(0, 1, time);
 
             cam.orthographicSize = Mathf.Lerp(startSize, targetSize, t);
@@ -127,6 +143,9 @@ public class CameraSwitcher : MonoBehaviour
 
             yield return null;
         }
+
+        cam.orthographicSize = targetSize;
+        transform.position = targetPos;
 
         isPanning = isFocus;
     }

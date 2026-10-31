@@ -16,6 +16,15 @@ public class DialogueManager : MonoBehaviour
     public GameObject acceptOrderButton;
     public TextMeshProUGUI acceptButtonTextUI;
 
+    [Header("ระบบหลอดเวลา UI")]
+    public GameObject patienceUIContainer;
+    public UnityEngine.UI.Image patienceFillBar;
+    public Gradient patienceColorGradient;
+
+    private float currentPatience;
+    private float customerMaxPatience;
+    private bool isTimerRunning = false;
+
     [Header("UI ปุ่มออเดอร์เสริม")]
     public GameObject trickBubbleButton;
 
@@ -79,6 +88,7 @@ public class DialogueManager : MonoBehaviour
         if (startTalkButton != null) startTalkBtnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
         if (centerTalismanSprite == null && activeTalismanUI != null) centerTalismanSprite = activeTalismanUI.GetComponent<SpriteRenderer>();
 
+        if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
         if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
 
         ResetAllUI();
@@ -86,24 +96,45 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (!isDialogueActive) return;
-
-        if (Input.GetMouseButtonDown(1) && index > 0 && !isWaitingForOrder)
+        if (isDialogueActive)
         {
-            PreviousSentence();
+            if (Input.GetMouseButtonDown(1) && index > 0 && !isWaitingForOrder)
+            {
+                PreviousSentence();
+            }
+
+            if (Input.GetMouseButtonDown(0) && !isWaitingForChoice)
+            {
+                if (isTyping)
+                {
+                    StopTyping();
+                    dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
+                }
+                else
+                {
+                    NextSentence();
+                }
+            }
         }
 
-        if (Input.GetMouseButtonDown(0) && !isWaitingForChoice)
+        if (!isTimerRunning) return;
+        if (LightRepairMinigame.Instance != null && LightRepairMinigame.Instance.isPlaying) return;
+        currentPatience -= Time.deltaTime;
+
+        if (patienceUIContainer != null)
         {
-            if (isTyping)
+            patienceUIContainer.SetActive(isFacingFront);
+
+            if (isFacingFront && patienceFillBar != null && customerMaxPatience > 0)
             {
-                StopTyping();
-                dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
+                float fillRatio = currentPatience / customerMaxPatience;
+                patienceFillBar.fillAmount = fillRatio;
+                patienceFillBar.color = patienceColorGradient.Evaluate(fillRatio);
             }
-            else
-            {
-                NextSentence();
-            }
+        }
+        if (currentPatience <= 0)
+        {
+            TriggerCustomerTimeout();
         }
     }
 
@@ -183,6 +214,32 @@ public class DialogueManager : MonoBehaviour
         if (currentData.trickSentences != null && currentData.trickSentences.Length > 0)
         {
             StartDialogue(currentData.trickSentences);
+        }
+    }
+
+    public void ToggleMinigameUI(bool isPlayingMinigame)
+    {
+        if (isPlayingMinigame)
+        {
+            if (startTalkButton != null) startTalkButton.SetActive(false);
+            if (giveItemButton != null) giveItemButton.SetActive(false);
+            if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
+        }
+        else
+        {
+            if (isWaitingForOrder && !isBagOnTray)
+            {
+                ShowStartTalkButton();
+            }
+            else if (isBagOnTray)
+            {
+                if (giveItemButton != null) giveItemButton.SetActive(true);
+            }
+
+            if (isTimerRunning && patienceUIContainer != null)
+            {
+                patienceUIContainer.SetActive(true);
+            }
         }
     }
 
@@ -321,6 +378,32 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
+
+        if (currentData != null)
+        {
+            customerMaxPatience = currentData.maxPatienceTime;
+            currentPatience = customerMaxPatience;
+            isTimerRunning = true;
+
+            if (patienceUIContainer != null) patienceUIContainer.SetActive(true);
+        }
+    }
+
+    private void TriggerCustomerTimeout()
+    {
+        isTimerRunning = false;
+
+        if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
+
+        WarningManager.Show("ลูกค้ารอนานเกินไป!");
+
+        if (SanityManager.Instance != null)
+        {
+            SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyNormalWrong);
+        }
+
+        EndCustomerInteraction();
+        if (customerWalker != null) customerWalker.WalkAway();
     }
 
     private void ResetAllUI()
@@ -489,6 +572,8 @@ public class DialogueManager : MonoBehaviour
 
         EndCustomerInteraction();
         if (customerWalker != null) customerWalker.WalkAway();
+        isTimerRunning = false;
+        if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
     }
 
     #endregion
@@ -550,6 +635,8 @@ public class DialogueManager : MonoBehaviour
 
             EndCustomerInteraction();
             if (customerWalker != null) customerWalker.WalkAway();
+            isTimerRunning = false;
+            if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
         }
     }
 

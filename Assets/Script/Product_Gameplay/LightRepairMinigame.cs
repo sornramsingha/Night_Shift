@@ -31,6 +31,7 @@ public class LightRepairMinigame : MonoBehaviour
 
     public void StartMinigame()
     {
+        if (DialogueManager.Instance != null) DialogueManager.Instance.ToggleMinigameUI(true);
         if (isPlaying) return;
 
         isPlaying = true;
@@ -46,7 +47,7 @@ public class LightRepairMinigame : MonoBehaviour
 
         if (CameraSwitcher.Instance != null)
         {
-            StartCoroutine(CameraSwitcher.Instance.FocusOnLight(true));
+            CameraSwitcher.Instance.SetFocusLight(true);
         }
     }
 
@@ -95,12 +96,12 @@ public class LightRepairMinigame : MonoBehaviour
         else
         {
             Debug.Log("พลาด! ลองใหม่");
-            if (SanityManager.Instance != null) SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyNormalWrong);
         }
     }
 
     private void FinishMinigame()
     {
+        if (DialogueManager.Instance != null) DialogueManager.Instance.ToggleMinigameUI(false);
         isPlaying = false;
         minigameUI.SetActive(false);
 
@@ -112,7 +113,7 @@ public class LightRepairMinigame : MonoBehaviour
 
         if (CameraSwitcher.Instance != null)
         {
-            StartCoroutine(CameraSwitcher.Instance.FocusOnLight(false));
+            CameraSwitcher.Instance.SetFocusLight(false);
         }
     }
 }

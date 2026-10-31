@@ -47,6 +47,7 @@ public class ShopLightController : MonoBehaviour
         {
             if (light == null || !light.gameObject.activeInHierarchy) continue;
             if (light.panicCoroutine != null) light.StopCoroutine(light.panicCoroutine);
+            if (light.isBroken) continue;
 
             light.panicCoroutine = light.StartCoroutine(light.PanicRoutine(duration));
         }
@@ -73,6 +74,7 @@ public class ShopLightController : MonoBehaviour
         foreach (ShopLightController light in AllLights)
         {
             if (light == null) continue;
+            if (light.isBroken) continue;
             if (light.panicCoroutine != null)
             {
                 light.StopCoroutine(light.panicCoroutine);

@@ -17,6 +17,9 @@ public class CustomerDialogue
     [Header("ข้อความปุ่มตอบรับ (Dynamic)")]
     public string acceptButtonText = "ตกลงครับ";
 
+    [Header("ระบบความอดทน")]
+    public float maxPatienceTime = 30f;
+
     [Header("ระบบออเดอร์หลอก")]
     public bool isTrickOrder = false;
     [TextArea(2, 4)]
