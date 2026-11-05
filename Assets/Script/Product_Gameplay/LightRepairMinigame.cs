@@ -1,119 +1,197 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Rendering.Universal;
 
 public class LightRepairMinigame : MonoBehaviour
 {
     public static LightRepairMinigame Instance;
 
-    [Header("UI Elements")]
-    public GameObject minigameUI;
-    public RectTransform targetZone;
-    public RectTransform cursor;
+    [Header("อ้างอิงหลอดไฟจริงในฉาก")]
+    public Transform realBulbTransform;
+    public SpriteRenderer realBulbSprite;
+    private Light2D realLight2D;
 
-    [Header("Settings")]
-    public float cursorSpeed = 350f;
-    public float maxCursorDistance = 100f;
-    public float initialTargetWidth = 200f;
-    public float widthDecreasePerSuccess = 50f;
+    [Header("ตั้งค่าเกมเพลย์")]
+    public int requiredKnocks = 3;
+    public float successChance = 0.7f;
+
+    [Header("ตั้งค่าแรงสั่นตอนเคาะ")]
+    public float shakeDuration = 0.15f;
+    public float shakePosForce = 1f;
+    public float shakeRotForce = 100f;
 
     [HideInInspector] public bool isPlaying = false;
+    private int currentKnocks = 0;
+    private bool isTestingLight = false;
 
-    private float currentCursorSpeed;
-    private int currentSuccesses = 0;
-    private int moveDirection = 1;
+    private Vector3 originalBulbPos;
+    private Vector3 originalBulbRot;
+    private Coroutine activeShake;
+
+    private string[] failDialogues = {
+        "ไฟไม่ติด... เป็นบ้าอะไรเนี่ย!",
+        "เฮงซวยเอ๊ย ติดสิวะ!",
+        "ทำไมซวยแบบนี้เนี่ย... เอาใหม่ๆ",
+        "สายไฟขาดหรือไงวะ ติดสิโว้ย!"
+    };
 
     void Awake()
     {
         Instance = this;
-        if (minigameUI != null) minigameUI.SetActive(false);
     }
 
     public void StartMinigame()
     {
-        if (DialogueManager.Instance != null) DialogueManager.Instance.ToggleMinigameUI(true);
         if (isPlaying) return;
 
+        Debug.Log("<color=yellow>[มินิเกม] เริ่มซ่อมไฟ!</color>");
         isPlaying = true;
-        currentSuccesses = 0;
-        currentCursorSpeed = cursorSpeed;
+        currentKnocks = 0;
+        isTestingLight = false;
 
-        targetZone.sizeDelta = new Vector2(initialTargetWidth, targetZone.sizeDelta.y);
-
-        cursor.anchoredPosition = Vector2.zero;
-        moveDirection = Random.value > 0.5f ? 1 : -1;
-
-        minigameUI.SetActive(true);
-
-        if (CameraSwitcher.Instance != null)
+        if (realBulbTransform != null)
         {
-            CameraSwitcher.Instance.SetFocusLight(true);
+            originalBulbPos = realBulbTransform.localPosition;
+            originalBulbRot = realBulbTransform.localEulerAngles;
+
+            // หา Light2D ทั้งในตัวมันเองและลูกๆ
+            realLight2D = realBulbTransform.GetComponentInChildren<Light2D>();
+        }
+
+        if (DialogueManager.Instance != null) DialogueManager.Instance.ToggleMinigameUI(true);
+        if (CameraSwitcher.Instance != null) CameraSwitcher.Instance.SetFocusLight(true);
+    }
+
+    public void OnBulbClicked()
+    {
+        if (!isPlaying)
+        {
+            StartMinigame();
+        }
+
+        // ถ้ากำลังเทสไฟกระพริบอยู่ จะล็อกไม่ให้กด
+        if (isTestingLight)
+        {
+            Debug.Log("<color=red>[มินิเกม] กำลังเทสไฟอยู่ เคาะไม่ได้!</color>");
+            return;
+        }
+
+        currentKnocks++;
+        Debug.Log($"<color=lime>[มินิเกม] เคาะครั้งที่ {currentKnocks}/{requiredKnocks}</color>");
+
+        if (activeShake != null)
+        {
+            StopCoroutine(activeShake);
+            if (realBulbTransform != null)
+            {
+                realBulbTransform.localPosition = originalBulbPos;
+                realBulbTransform.localEulerAngles = originalBulbRot;
+            }
+        }
+
+        activeShake = StartCoroutine(ShakeBulbRoutine());
+
+        if (currentKnocks >= requiredKnocks)
+        {
+            Debug.Log("<color=cyan>[มินิเกม] เคาะครบแล้ว! เริ่มทดสอบไฟกระพริบ...</color>");
+            StartCoroutine(TestLightRoutine());
         }
     }
 
-    void Update()
+    private IEnumerator ShakeBulbRoutine()
     {
-        if (!isPlaying) return;
-        cursor.anchoredPosition += Vector2.right * moveDirection * currentCursorSpeed * Time.deltaTime;
+        float elapsed = 0f;
+        Color originalColor = Color.white;
 
-        if (cursor.anchoredPosition.x >= maxCursorDistance)
+        if (realBulbSprite != null)
         {
-            cursor.anchoredPosition = new Vector2(maxCursorDistance, cursor.anchoredPosition.y);
-            moveDirection = -1;
+            originalColor = realBulbSprite.color;
+            realBulbSprite.color = new Color(0.4f, 0.4f, 0.4f); // ดรอปสีให้รู้ว่าโดนเคาะชัดๆ
         }
-        else if (cursor.anchoredPosition.x <= -maxCursorDistance)
+
+        while (elapsed < shakeDuration)
         {
-            cursor.anchoredPosition = new Vector2(-maxCursorDistance, cursor.anchoredPosition.y);
-            moveDirection = 1;
+            float xPos = Random.Range(-shakePosForce, shakePosForce);
+            float yPos = Random.Range(-shakePosForce, shakePosForce);
+            float zRot = Random.Range(-shakeRotForce, shakeRotForce);
+
+            if (realBulbTransform != null)
+            {
+                realBulbTransform.localPosition = originalBulbPos + new Vector3(xPos, yPos, 0);
+                realBulbTransform.localEulerAngles = originalBulbRot + new Vector3(0, 0, zRot);
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        // คืนค่ากลับที่เดิม
+        if (realBulbTransform != null)
         {
-            CheckHit();
+            realBulbTransform.localPosition = originalBulbPos;
+            realBulbTransform.localEulerAngles = originalBulbRot;
         }
+        if (realBulbSprite != null) realBulbSprite.color = originalColor;
     }
 
-    private void CheckHit()
+    private IEnumerator TestLightRoutine()
     {
-        float targetWidth = targetZone.sizeDelta.x;
-        float currentPos = cursor.anchoredPosition.x;
-        float targetPos = targetZone.anchoredPosition.x;
+        isTestingLight = true;
 
-        if (Mathf.Abs(currentPos - targetPos) <= targetWidth / 2f)
+        float baseIntens = 1.0f;
+        if (ShopLightController.Instance != null) baseIntens = ShopLightController.Instance.baseIntensity;
+
+        // กระพริบเช็คผล
+        if (realLight2D != null)
         {
-            currentSuccesses++;
-            Debug.Log("ซ่อมสำเร็จครั้งที่: " + currentSuccesses);
+            realLight2D.intensity = baseIntens * 0.8f;
+            yield return new WaitForSeconds(0.15f);
+            realLight2D.intensity = 0f;
+            yield return new WaitForSeconds(0.15f);
+            realLight2D.intensity = baseIntens * 0.5f;
+            yield return new WaitForSeconds(0.1f);
+            realLight2D.intensity = 0f;
+        }
+        else if (realBulbSprite != null)
+        {
+            // ถ้าไม่เจอ Light2D ให้กระพริบรูป Sprite สีเหลืองแก้ขัดไปก่อน
+            realBulbSprite.color = Color.yellow;
+            yield return new WaitForSeconds(0.15f);
+            realBulbSprite.color = Color.black;
+            yield return new WaitForSeconds(0.15f);
+            realBulbSprite.color = Color.yellow;
+            yield return new WaitForSeconds(0.1f);
+            realBulbSprite.color = Color.black;
+        }
 
-            if (currentSuccesses >= 3)
-            {
-                FinishMinigame();
-            }
-            else
-            {
-                targetZone.sizeDelta = new Vector2(targetZone.sizeDelta.x - widthDecreasePerSuccess, targetZone.sizeDelta.y);
-                currentCursorSpeed += 50f;
-            }
+        yield return new WaitForSeconds(0.5f);
+
+        float roll = Random.value;
+        if (roll <= successChance)
+        {
+            Debug.Log("<color=white>[มินิเกม] ซ่อมสำเร็จ!</color>");
+            FinishMinigame();
         }
         else
         {
-            Debug.Log("พลาด! ลองใหม่");
+            Debug.Log("<color=orange>[มินิเกม] ซ่อมพลาด! รีเซ็ตให้เคาะใหม่</color>");
+            currentKnocks = 0;
+            isTestingLight = false;
+
+            if (realLight2D != null) realLight2D.intensity = 0f;
+            if (realBulbSprite != null) realBulbSprite.color = Color.white;
+
+            string dialogue = failDialogues[Random.Range(0, failDialogues.Length)];
+            WarningManager.Show(dialogue);
         }
     }
 
     private void FinishMinigame()
     {
-        if (DialogueManager.Instance != null) DialogueManager.Instance.ToggleMinigameUI(false);
         isPlaying = false;
-        minigameUI.SetActive(false);
 
-        if (ShopLightController.Instance != null)
-        {
-            ShopLightController.Instance.SetAggressiveFlicker(false);
-            ShopLightController.Instance.EndLightBreakdown();
-        }
-
-        if (CameraSwitcher.Instance != null)
-        {
-            CameraSwitcher.Instance.SetFocusLight(false);
-        }
+        if (ShopLightController.Instance != null) ShopLightController.Instance.EndLightBreakdown();
+        if (DialogueManager.Instance != null) DialogueManager.Instance.ToggleMinigameUI(false);
+        if (CameraSwitcher.Instance != null) CameraSwitcher.Instance.SetFocusLight(false);
     }
 }

@@ -31,6 +31,13 @@ public class ShopLightController : MonoBehaviour
     void OnEnable()
     {
         if (!AllLights.Contains(this)) AllLights.Add(this);
+        if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
+        {
+            isBroken = true;
+            if (myLight != null) myLight.intensity = 0f;
+            return;
+        }
+
         flickerCoroutine = StartCoroutine(FlickerRoutine());
     }
 
@@ -130,20 +137,25 @@ public class ShopLightController : MonoBehaviour
 
     public void TriggerLightBreakdown()
     {
-        isBroken = true;
         foreach (ShopLightController light in AllLights)
         {
+            light.isBroken = true;
+
             if (light.flickerCoroutine != null) light.StopCoroutine(light.flickerCoroutine);
-            light.myLight.intensity = 0f;
+            if (light.panicCoroutine != null) light.StopCoroutine(light.panicCoroutine);
+
+            light.isAggressive = false;
+            if (light.myLight != null) light.myLight.intensity = 0f;
         }
     }
 
     public void EndLightBreakdown()
     {
-        isBroken = false;
         foreach (ShopLightController light in AllLights)
         {
-            light.myLight.intensity = light.baseIntensity;
+            light.isBroken = false;
+
+            if (light.myLight != null) light.myLight.intensity = light.baseIntensity;
             light.flickerCoroutine = light.StartCoroutine(light.FlickerRoutine());
         }
     }

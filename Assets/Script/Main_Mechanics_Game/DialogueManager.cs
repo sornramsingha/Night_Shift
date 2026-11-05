@@ -620,6 +620,11 @@ public class DialogueManager : MonoBehaviour
 
     public void UseTalismanOnCustomer()
     {
+        if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
+        {
+            WarningManager.Show("มืดขนาดนี้ มองไม่เห็น ต้องซ่อมไฟก่อน!");
+            return;
+        }
         if (!isFacingFront) return;
 
         if (!isHoldingTalisman || !isWaitingForOrder) return;
