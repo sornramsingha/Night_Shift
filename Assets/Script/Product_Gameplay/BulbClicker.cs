@@ -6,9 +6,9 @@ public class BulbClicker : MonoBehaviour
     {
         if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
         {
-            if (LightRepairMinigame.Instance != null)
+            if (LightRepairMinigame.Instance != null && !LightRepairMinigame.Instance.isPlaying)
             {
-                LightRepairMinigame.Instance.OnBulbClicked();
+                LightRepairMinigame.Instance.StartMinigame();
             }
         }
     }

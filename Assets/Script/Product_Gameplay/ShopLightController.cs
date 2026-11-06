@@ -147,6 +147,11 @@ public class ShopLightController : MonoBehaviour
             light.isAggressive = false;
             if (light.myLight != null) light.myLight.intensity = 0f;
         }
+
+        if (WarningManager.Instance != null)
+        {
+            WarningManager.Show("บ้าจริงไฟดับ ต้องซ่อมไฟก่อน!");
+        }
     }
 
     public void EndLightBreakdown()
@@ -157,6 +162,11 @@ public class ShopLightController : MonoBehaviour
 
             if (light.myLight != null) light.myLight.intensity = light.baseIntensity;
             light.flickerCoroutine = light.StartCoroutine(light.FlickerRoutine());
+        }
+
+        if (WarningManager.Instance != null)
+        {
+            WarningManager.Show("กลับมาปกติแล้ว!");
         }
     }
 }
