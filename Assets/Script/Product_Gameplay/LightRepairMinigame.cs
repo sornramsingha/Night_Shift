@@ -15,6 +15,10 @@ public class LightRepairMinigame : MonoBehaviour
     public int requiredKnocks = 3;
     public float successChance = 0.7f;
 
+    [Header("ตั้งค่าการหน่วงเวลา")]
+    public float knockCooldown = 0.5f;
+    private float nextKnockTime = 0f;
+
     [Header("ตั้งค่าแรงแกว่งตอนเคาะ")]
     public float swingDuration = 0.5f;
     public float maxSwingAngle = 30f;
@@ -53,7 +57,11 @@ public class LightRepairMinigame : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
             {
-                RegisterKnock();
+                if (Time.unscaledTime >= nextKnockTime)
+                {
+                    RegisterKnock();
+                    nextKnockTime = Time.unscaledTime + knockCooldown;
+                }
             }
         }
     }
@@ -62,8 +70,14 @@ public class LightRepairMinigame : MonoBehaviour
     {
         if (isPlaying) return;
 
+        if (WarningManager.Instance != null)
+        {
+            WarningManager.Show("กดเมาส์ซ้ายเพื่อเคาะหลอดไฟ!");
+        }
+
         isPlaying = true;
         currentKnocks = 0;
+        nextKnockTime = 0f;
 
         if (realBulbTransform != null)
         {

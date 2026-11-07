@@ -16,6 +16,12 @@ public class DialogueManager : MonoBehaviour
     public GameObject acceptOrderButton;
     public TextMeshProUGUI acceptButtonTextUI;
 
+    [Header("ตั้งค่ากรอบข้อความ")]
+    public RectTransform dialogueBoxRect;
+    public float normalShakeAmount = 2f;
+    public float anomalyShakeAmount = 6f;
+    private Vector3 originalBoxPos;
+
     [Header("ระบบหลอดเวลา UI")]
     public GameObject patienceUIContainer;
     public UnityEngine.UI.Image patienceFillBar;
@@ -86,6 +92,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (customerWalker == null) customerWalker = FindFirstObjectByType<CustomerWalker>();
         if (startTalkButton != null) startTalkBtnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
+        if (dialogueBoxRect != null) originalBoxPos = dialogueBoxRect.localPosition;
         if (centerTalismanSprite == null && activeTalismanUI != null) centerTalismanSprite = activeTalismanUI.GetComponent<SpriteRenderer>();
 
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
@@ -98,6 +105,29 @@ public class DialogueManager : MonoBehaviour
     {
         if (isDialogueActive)
         {
+            if (dialogueBoxRect != null)
+            {
+                float stressFactor = 0f;
+                if (customerMaxPatience > 0) stressFactor = 1f - (currentPatience / customerMaxPatience);
+                float speed = 5f + (stressFactor * 15f);
+                float currentNormalShake = 1f + (stressFactor * normalShakeAmount);
+
+                if (customerHasAnomaly && stressFactor > 0.5f)
+                {
+                    float glitchIntensity = (stressFactor - 0.5f) * 2f;
+                    float glitchShake = 2f + (glitchIntensity * anomalyShakeAmount);
+
+                    float rx = Random.Range(-glitchShake, glitchShake);
+                    float ry = Random.Range(-glitchShake, glitchShake);
+                    dialogueBoxRect.localPosition = originalBoxPos + new Vector3(rx, ry, 0);
+                }
+                else
+                {
+                    float ry = Mathf.Sin(Time.unscaledTime * speed) * currentNormalShake;
+                    dialogueBoxRect.localPosition = originalBoxPos + new Vector3(0, ry, 0);
+                }
+            }
+
             if (Input.GetMouseButtonDown(1) && index > 0 && !isWaitingForOrder)
             {
                 PreviousSentence();
@@ -257,6 +287,7 @@ public class DialogueManager : MonoBehaviour
 
         isTimerRunning = false;
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
+        if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(true);
 
         isDialogueActive = true;
         isWaitingForChoice = false;
@@ -279,6 +310,7 @@ public class DialogueManager : MonoBehaviour
 
         isTimerRunning = false;
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
+        if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(true);
 
         isDialogueActive = true;
         isWaitingForChoice = false;
@@ -365,6 +397,12 @@ public class DialogueManager : MonoBehaviour
         if (dialogueText != null) dialogueText.text = "";
         if (choicePanel != null) choicePanel.SetActive(false);
         if (hintText != null) hintText.SetActive(false);
+
+        if (dialogueBoxRect != null)
+        {
+            dialogueBoxRect.localPosition = originalBoxPos;
+            dialogueBoxRect.gameObject.SetActive(false);
+        }
     }
 
     public void AcceptOrderOnClick()
@@ -431,6 +469,7 @@ public class DialogueManager : MonoBehaviour
         isBagOnTray = false;
         itemsInBag.Clear();
         isWaitingForOrder = false;
+        dialogueBoxRect.gameObject.SetActive(false);
         ClearTalismanInHand();
     }
 
@@ -463,14 +502,17 @@ public class DialogueManager : MonoBehaviour
 
     public void PickUpBag()
     {
+        if (isDialogueActive)
+        {
+            WarningManager.Show("ฟังออเดอร์ให้จบก่อน!");
+            return;
+        }
+
         if (!isWaitingForOrder) { WarningManager.Show("ยังไม่มีออเดอร์!"); return; }
         if (isBagOnTray) { WarningManager.Show("มีถุงวางอยู่บนถาดแล้ว!"); return; }
         if (isHoldingTalisman) { WarningManager.Show("มือไม่ว่าง! กำลังถือยันต์อยู่"); return; }
 
-        if (hasBag)
-        {
-            return;
-        }
+        if (hasBag) return;
 
         hasBag = true;
         if (activeBagUI != null) activeBagUI.SetActive(true);
@@ -502,12 +544,26 @@ public class DialogueManager : MonoBehaviour
             return false;
         }
 
-        if (!isWaitingForOrder || !hasBag) return false;
+        if (isDialogueActive)
+        {
+            WarningManager.Show("ลูกค้ายังพูดไม่จบ!");
+            return false;
+        }
+
+        if (!isWaitingForOrder)
+        {
+            WarningManager.Show("ยังไม่ได้กดรับออเดอร์เลย!");
+            return false;
+        }
+
+        if (!hasBag) return false;
+
         if (itemsInBag.Count >= maxBagCapacity)
         {
             WarningManager.Show("ถุงเต็มแล้ว!");
             return false;
         }
+
         itemsInBag.Add(itemName);
         return true;
     }
@@ -541,6 +597,12 @@ public class DialogueManager : MonoBehaviour
         if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
         {
             WarningManager.Show("มืดขนาดนี้ จะขายของยังไง! ซ่อมไฟก่อน!");
+            return;
+        }
+
+        if (isDialogueActive)
+        {
+            WarningManager.Show("คุยกับลูกค้าก่อนสิ!");
             return;
         }
 
