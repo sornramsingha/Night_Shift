@@ -8,6 +8,7 @@ public class CustomerDialogue
 {
     [Header("รูปลูกค้า")]
     public Sprite customerSprite;
+    public RuntimeAnimatorController customerAnimator;
     [TextArea(2, 4)]
     public string[] sentences;
 

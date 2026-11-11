@@ -27,6 +27,10 @@ public class DialogueManager : MonoBehaviour
     public UnityEngine.UI.Image patienceFillBar;
     public Gradient patienceColorGradient;
 
+    [Header("ระบบอนิเมชั่นลูกค้า")]
+    public Animator customerAnimatorComp;
+    private SpriteRenderer customerSpriteRenderer;
+
     private float currentPatience;
     private float customerMaxPatience;
     private bool isTimerRunning = false;
@@ -97,6 +101,12 @@ public class DialogueManager : MonoBehaviour
 
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
         if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
+
+        if (customerAnimatorComp != null)
+        {
+            customerSpriteRenderer = customerAnimatorComp.GetComponent<SpriteRenderer>();
+            customerAnimatorComp.gameObject.SetActive(false);
+        }
 
         ResetAllUI();
     }
@@ -173,6 +183,18 @@ public class DialogueManager : MonoBehaviour
         hasRolledLightEvent = false;
         currentData = data;
         sentences = data.sentences;
+
+        if (customerAnimatorComp != null)
+        {
+            if (data.customerAnimator != null)
+            {
+                customerAnimatorComp.runtimeAnimatorController = data.customerAnimator;
+            }
+            else
+            {
+                customerAnimatorComp.runtimeAnimatorController = null;
+            }
+        }
 
         customerMaxPatience = data.maxPatienceTime;
         currentPatience = customerMaxPatience;
@@ -289,6 +311,16 @@ public class DialogueManager : MonoBehaviour
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
         if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(true);
 
+        if (customerAnimatorComp != null)
+        {
+            customerAnimatorComp.gameObject.SetActive(true);
+            customerAnimatorComp.enabled = false;
+        }
+        if (customerSpriteRenderer != null && currentData != null)
+        {
+            customerSpriteRenderer.sprite = currentData.customerSprite;
+        }
+
         isDialogueActive = true;
         isWaitingForChoice = false;
 
@@ -335,6 +367,10 @@ public class DialogueManager : MonoBehaviour
     private void StartTyping(string sentence)
     {
         StopTyping();
+        if (customerAnimatorComp != null && customerAnimatorComp.runtimeAnimatorController != null)
+        {
+            customerAnimatorComp.enabled = true;
+        }
         typingCoroutine = StartCoroutine(TypeSentence(sentence));
     }
 
@@ -342,6 +378,12 @@ public class DialogueManager : MonoBehaviour
     {
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
         isTyping = false;
+
+        if (customerAnimatorComp != null) customerAnimatorComp.enabled = false;
+        if (customerSpriteRenderer != null && currentData != null)
+        {
+            customerSpriteRenderer.sprite = currentData.customerSprite;
+        }
     }
 
     private IEnumerator TypeSentence(string sentence)
