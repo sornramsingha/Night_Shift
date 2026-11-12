@@ -85,9 +85,6 @@ public class LightRepairMinigame : MonoBehaviour
             originalBulbRot = realBulbTransform.localEulerAngles;
             realLight2D = realBulbTransform.GetComponentInChildren<Light2D>();
         }
-
-
-        if (vignetteUI != null) vignetteUI.SetActive(true);
         if (bgmSource != null && heartbeatClip != null)
         {
             bgmSource.clip = heartbeatClip;
@@ -214,8 +211,6 @@ public class LightRepairMinigame : MonoBehaviour
     private void FinishMinigame()
     {
         isPlaying = false;
-
-        if (vignetteUI != null) vignetteUI.SetActive(false);
         if (bgmSource != null) bgmSource.Stop();
 
         if (ShopLightController.Instance != null) ShopLightController.Instance.EndLightBreakdown();

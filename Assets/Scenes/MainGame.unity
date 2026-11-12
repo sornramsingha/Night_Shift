@@ -1427,9 +1427,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 285681660}
+  - component: {fileID: 285681663}
   - component: {fileID: 285681662}
   - component: {fileID: 285681661}
-  - component: {fileID: 285681663}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1485,7 +1485,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
+    rgba: 4292664540
   m_fontColor: {r: 0.8627451, g: 0.8627451, b: 0.8627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1571,13 +1571,13 @@ MonoBehaviour:
   isForceFullLineHeight: 0
   isTokenize: 1
   separator: 
-  tmpText: {fileID: 0}
-  lastKnownText: 
-  outputString: 
-  lastWordCount: 0
+  tmpText: {fileID: 285681661}
+  lastKnownText: Quit Game
+  outputString: Quit Game
+  lastWordCount: 1
   guiMode: 0
   guiColor: {r: 0, g: 0.5, b: 0.8, a: 1}
-  isInitialized: 0
+  isInitialized: 1
 --- !u!1 &294180087
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,6 +1738,7 @@ GameObject:
   - component: {fileID: 322016695}
   - component: {fileID: 322016698}
   - component: {fileID: 322016697}
+  - component: {fileID: 322016699}
   m_Layer: 0
   m_Name: MinigameManager
   m_TagString: Untagged
@@ -1980,6 +1981,58 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &322016699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322016694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 00000000
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &329743236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2688,7 +2741,7 @@ Transform:
   m_GameObject: {fileID: 454082338}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.17164917, y: -4.14, z: 0}
+  m_LocalPosition: {x: -0.17164917, y: -4.08, z: 0}
   m_LocalScale: {x: 7.17249, y: 31.540567, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2761,6 +2814,7 @@ MonoBehaviour:
   isBroken: 0
   baseIntensity: 2.5
   minNormalFlicker: 0.1
+  darkVignetteUI: {fileID: 1068894861}
   isAggressive: 0
 --- !u!61 &454082342
 BoxCollider2D:
@@ -4192,9 +4246,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 898779433}
+  - component: {fileID: 898779436}
   - component: {fileID: 898779435}
   - component: {fileID: 898779434}
-  - component: {fileID: 898779436}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4250,7 +4304,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
+    rgba: 4292664540
   m_fontColor: {r: 0.8627451, g: 0.8627451, b: 0.8627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -4336,13 +4390,13 @@ MonoBehaviour:
   isForceFullLineHeight: 0
   isTokenize: 1
   separator: 
-  tmpText: {fileID: 0}
-  lastKnownText: 
-  outputString: 
-  lastWordCount: 0
+  tmpText: {fileID: 898779434}
+  lastKnownText: Setting
+  outputString: Setting
+  lastWordCount: 1
   guiMode: 0
   guiColor: {r: 0, g: 0.5, b: 0.8, a: 1}
-  isInitialized: 0
+  isInitialized: 1
 --- !u!1 &910151603
 GameObject:
   m_ObjectHideFlags: 0
@@ -4728,14 +4782,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9411765}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8148533346510686881, guid: 2c5603d28c5ac334f98e8a44199dfe2b, type: 3}
+  m_Sprite: {fileID: 6829272439161528463, guid: dcd9faf3e4181a549acc99146933c796, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5156,9 +5210,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1160176976}
+  - component: {fileID: 1160176979}
   - component: {fileID: 1160176978}
   - component: {fileID: 1160176977}
-  - component: {fileID: 1160176979}
   m_Layer: 5
   m_Name: PauseText
   m_TagString: Untagged
@@ -5214,7 +5268,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4292664540
   m_fontColor: {r: 0.8627451, g: 0.8627451, b: 0.8627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -5300,13 +5354,13 @@ MonoBehaviour:
   isForceFullLineHeight: 0
   isTokenize: 1
   separator: 
-  tmpText: {fileID: 0}
-  lastKnownText: 
-  outputString: 
-  lastWordCount: 0
+  tmpText: {fileID: 1160176977}
+  lastKnownText: Pause Game
+  outputString: Pause Game
+  lastWordCount: 1
   guiMode: 0
   guiColor: {r: 0, g: 0.5, b: 0.8, a: 1}
-  isInitialized: 0
+  isInitialized: 1
 --- !u!1 &1170443267
 GameObject:
   m_ObjectHideFlags: 0
@@ -5767,7 +5821,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1196930437
 RectTransform:
@@ -7472,11 +7526,11 @@ RectTransform:
   m_LocalScale: {x: 2.3081, y: 2.3081, z: 2.3081}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1931948014}
+  m_Father: {fileID: 2029222781}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -173.51941, y: 0.005493164}
+  m_AnchoredPosition: {x: 76.48059, y: 250.0055}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1467081437
@@ -7564,7 +7618,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 60.75334, y: 0, z: -127.07196, w: 0}
+  m_margin: {x: 61.357292, y: 0, z: -124.656265, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7738,6 +7792,7 @@ MonoBehaviour:
   isBroken: 0
   baseIntensity: 2.5
   minNormalFlicker: 0.1
+  darkVignetteUI: {fileID: 1068894861}
   isAggressive: 0
 --- !u!1 &1483972405
 GameObject:
@@ -9841,9 +9896,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1851448924}
+  - component: {fileID: 1851448927}
   - component: {fileID: 1851448926}
   - component: {fileID: 1851448925}
-  - component: {fileID: 1851448927}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -9899,7 +9954,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
+    rgba: 4292664540
   m_fontColor: {r: 0.8627451, g: 0.8627451, b: 0.8627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -9985,13 +10040,13 @@ MonoBehaviour:
   isForceFullLineHeight: 0
   isTokenize: 1
   separator: 
-  tmpText: {fileID: 0}
-  lastKnownText: 
-  outputString: 
-  lastWordCount: 0
+  tmpText: {fileID: 1851448925}
+  lastKnownText: Main Menu
+  outputString: Main Menu
+  lastWordCount: 1
   guiMode: 0
   guiColor: {r: 0, g: 0.5, b: 0.8, a: 1}
-  isInitialized: 0
+  isInitialized: 1
 --- !u!1 &1851807939
 GameObject:
   m_ObjectHideFlags: 0
@@ -10547,8 +10602,8 @@ MonoBehaviour:
   acceptOrderButton: {fileID: 680260984}
   acceptButtonTextUI: {fileID: 2121755651}
   dialogueBoxRect: {fileID: 1931948014}
-  normalShakeAmount: 12
-  anomalyShakeAmount: 6
+  normalShakeAmount: 10
+  anomalyShakeAmount: 8
   patienceUIContainer: {fileID: 1468717086}
   patienceFillBar: {fileID: 1787993270}
   patienceColorGradient:
@@ -11366,8 +11421,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1467081436}
+  m_Children: []
   m_Father: {fileID: 2029222781}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -12001,6 +12055,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1931948014}
+  - {fileID: 1467081436}
   - {fileID: 790149411}
   - {fileID: 2088365180}
   - {fileID: 1861748541}
@@ -12776,9 +12831,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2147248377}
+  - component: {fileID: 2147248380}
   - component: {fileID: 2147248379}
   - component: {fileID: 2147248378}
-  - component: {fileID: 2147248380}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -12834,7 +12889,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
+    rgba: 4292664540
   m_fontColor: {r: 0.8627451, g: 0.8627451, b: 0.8627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -12920,13 +12975,13 @@ MonoBehaviour:
   isForceFullLineHeight: 0
   isTokenize: 1
   separator: 
-  tmpText: {fileID: 0}
-  lastKnownText: 
-  outputString: 
-  lastWordCount: 0
+  tmpText: {fileID: 2147248378}
+  lastKnownText: Resume
+  outputString: Resume
+  lastWordCount: 1
   guiMode: 0
   guiColor: {r: 0, g: 0.5, b: 0.8, a: 1}
-  isInitialized: 0
+  isInitialized: 1
 --- !u!1001 &317629281266273913
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -159,6 +159,15 @@ public class DialogueManager : MonoBehaviour
 
         if (!isTimerRunning) return;
         if (LightRepairMinigame.Instance != null && LightRepairMinigame.Instance.isPlaying) return;
+
+        if (Time.timeScale == 0f)
+        {
+            if (patienceUIContainer != null && patienceUIContainer.activeSelf)
+            {
+                patienceUIContainer.SetActive(false);
+            }
+            return;
+        }
         currentPatience -= Time.deltaTime;
 
         if (patienceUIContainer != null)

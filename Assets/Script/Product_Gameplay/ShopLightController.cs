@@ -18,6 +18,9 @@ public class ShopLightController : MonoBehaviour
     public float baseIntensity = 1.0f;
     public float minNormalFlicker = 0.1f;
 
+    [Header("UI ความมืดตอนไฟดับ")]
+    public GameObject darkVignetteUI;
+
     [Header("การตั้งค่าตอนผิดปกติ")]
     public bool isAggressive = false;
 
@@ -137,6 +140,8 @@ public class ShopLightController : MonoBehaviour
 
     public void TriggerLightBreakdown()
     {
+        if (darkVignetteUI != null) darkVignetteUI.SetActive(true);
+
         foreach (ShopLightController light in AllLights)
         {
             light.isBroken = true;
@@ -156,6 +161,8 @@ public class ShopLightController : MonoBehaviour
 
     public void EndLightBreakdown()
     {
+        if (darkVignetteUI != null) darkVignetteUI.SetActive(false);
+
         foreach (ShopLightController light in AllLights)
         {
             light.isBroken = false;
