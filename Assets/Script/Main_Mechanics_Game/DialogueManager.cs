@@ -186,14 +186,13 @@ public class DialogueManager : MonoBehaviour
 
         if (customerAnimatorComp != null)
         {
-            if (data.customerAnimator != null)
-            {
-                customerAnimatorComp.runtimeAnimatorController = data.customerAnimator;
-            }
-            else
-            {
-                customerAnimatorComp.runtimeAnimatorController = null;
-            }
+            customerAnimatorComp.runtimeAnimatorController = null;
+            customerAnimatorComp.enabled = false;
+        }
+
+        if (customerSpriteRenderer != null)
+        {
+            customerSpriteRenderer.sprite = data.customerSprite;
         }
 
         customerMaxPatience = data.maxPatienceTime;
@@ -311,14 +310,13 @@ public class DialogueManager : MonoBehaviour
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
         if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(true);
 
-        if (customerAnimatorComp != null)
+        if (customerAnimatorComp != null && currentData != null && currentData.customerAnimator != null)
         {
             customerAnimatorComp.gameObject.SetActive(true);
-            customerAnimatorComp.enabled = false;
-        }
-        if (customerSpriteRenderer != null && currentData != null)
-        {
-            customerSpriteRenderer.sprite = currentData.customerSprite;
+
+            customerAnimatorComp.runtimeAnimatorController = currentData.customerAnimator;
+            customerAnimatorComp.enabled = true;
+            customerAnimatorComp.speed = 1f;
         }
 
         isDialogueActive = true;
@@ -344,6 +342,15 @@ public class DialogueManager : MonoBehaviour
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
         if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(true);
 
+        if (customerAnimatorComp != null && currentData != null && currentData.customerAnimator != null)
+        {
+            customerAnimatorComp.gameObject.SetActive(true);
+
+            customerAnimatorComp.runtimeAnimatorController = currentData.customerAnimator;
+            customerAnimatorComp.enabled = true;
+            customerAnimatorComp.speed = 1f;
+        }
+
         isDialogueActive = true;
         isWaitingForChoice = false;
 
@@ -367,10 +374,6 @@ public class DialogueManager : MonoBehaviour
     private void StartTyping(string sentence)
     {
         StopTyping();
-        if (customerAnimatorComp != null && customerAnimatorComp.runtimeAnimatorController != null)
-        {
-            customerAnimatorComp.enabled = true;
-        }
         typingCoroutine = StartCoroutine(TypeSentence(sentence));
     }
 
@@ -378,12 +381,6 @@ public class DialogueManager : MonoBehaviour
     {
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
         isTyping = false;
-
-        if (customerAnimatorComp != null) customerAnimatorComp.enabled = false;
-        if (customerSpriteRenderer != null && currentData != null)
-        {
-            customerSpriteRenderer.sprite = currentData.customerSprite;
-        }
     }
 
     private IEnumerator TypeSentence(string sentence)
@@ -445,6 +442,17 @@ public class DialogueManager : MonoBehaviour
             dialogueBoxRect.localPosition = originalBoxPos;
             dialogueBoxRect.gameObject.SetActive(false);
         }
+
+        if (customerAnimatorComp != null)
+        {
+            customerAnimatorComp.runtimeAnimatorController = null;
+            customerAnimatorComp.enabled = false;
+        }
+
+        if (customerSpriteRenderer != null && currentData != null)
+        {
+            customerSpriteRenderer.sprite = currentData.customerSprite;
+        }
     }
 
     public void AcceptOrderOnClick()
@@ -478,7 +486,6 @@ public class DialogueManager : MonoBehaviour
 
     private void TriggerCustomerTimeout()
     {
-
         WarningManager.Show("ลูกค้ารอนานเกินไป!");
 
         if (SanityManager.Instance != null)
@@ -540,7 +547,6 @@ public class DialogueManager : MonoBehaviour
         isConfirmingBagReset = false;
         if (bagConfirmPanel != null) bagConfirmPanel.SetActive(false);
     }
-
 
     public void PickUpBag()
     {
