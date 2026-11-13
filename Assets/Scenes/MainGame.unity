@@ -1762,11 +1762,12 @@ MonoBehaviour:
   realBulbSprite: {fileID: 1709464438}
   requiredKnocks: 3
   successChance: 0.7
+  sparkIntensity: 0.85
+  sparkDuration: 0.12
   knockCooldown: 1
   swingDuration: 0.75
   maxSwingAngle: 30
   swingSpeed: 30
-  vignetteUI: {fileID: 1068894861}
   sfxSource: {fileID: 322016698}
   bgmSource: {fileID: 322016697}
   knockClip: {fileID: 8300000, guid: ea399cc81f2cf7342b9c850da43f6d29, type: 3}
@@ -2811,11 +2812,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75731333dd13de4cbec59ce52742325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBroken: 0
   baseIntensity: 2.5
   minNormalFlicker: 0.1
-  darkVignetteUI: {fileID: 1068894861}
   isAggressive: 0
+  darkVignetteRect: {fileID: 1068894862}
+  maxDarknessTime: 20
+  startVignetteScale: 1.5
+  minVignetteScale: 0.6
 --- !u!61 &454082342
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4767,7 +4770,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 6000, y: 4000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1068894863
 MonoBehaviour:
@@ -4782,7 +4785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9411765}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7789,11 +7792,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d75731333dd13de4cbec59ce52742325, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBroken: 0
   baseIntensity: 2.5
   minNormalFlicker: 0.1
-  darkVignetteUI: {fileID: 1068894861}
   isAggressive: 0
+  darkVignetteRect: {fileID: 0}
+  maxDarknessTime: 15
+  startVignetteScale: 1.2
+  minVignetteScale: 0.35
 --- !u!1 &1483972405
 GameObject:
   m_ObjectHideFlags: 0
