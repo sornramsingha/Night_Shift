@@ -210,7 +210,11 @@ public class DialogueManager : MonoBehaviour
 
         expectedItems.Clear();
         lockedBaseOrderItems.Clear();
-        if (data.requiredItems != null) expectedItems.AddRange(data.requiredItems);
+        if (data.requiredItems != null)
+        {
+            expectedItems.AddRange(data.requiredItems);
+            lockedBaseOrderItems.AddRange(data.requiredItems);
+        }
         maxBagCapacity = expectedItems.Count;
 
         customerHasAnomaly = data.hasAnomaly;
@@ -267,7 +271,15 @@ public class DialogueManager : MonoBehaviour
         isReadyToTalkTrick = false;
         hasPendingTrickOrder = false;
         isWaitingForOrder = false;
-        lockedBaseOrderItems = new List<string>(itemsInBag);
+
+        if (itemsInBag.Count > 0)
+        {
+            hasBag = true;
+            isBagOnTray = false;
+            if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
+            if (activeBagUI != null) activeBagUI.SetActive(true);
+            if (giveItemButton != null) giveItemButton.SetActive(false);
+        }
 
         if (currentData.additionalItems != null)
         {
@@ -577,19 +589,17 @@ public class DialogueManager : MonoBehaviour
 
     public void ResetBagItems()
     {
-        if (hasBag)
+        if (hasBag || isBagOnTray)
         {
             itemsInBag.Clear();
-            if (lockedBaseOrderItems.Count > 0)
-            {
-                itemsInBag.AddRange(lockedBaseOrderItems);
-                WarningManager.Show("ออเดอร์แรกอยู่ในถุงแล้ว!");
-            }
-            else
-            {
-                hasBag = false;
-                if (activeBagUI != null) activeBagUI.SetActive(false);
-            }
+            hasBag = false;
+            isBagOnTray = false;
+
+            if (activeBagUI != null) activeBagUI.SetActive(false);
+            if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
+            if (giveItemButton != null) giveItemButton.SetActive(false);
+
+            WarningManager.Show("เปลี่ยนถุงใหม่ ต้องหยิบใหม่ทั้งหมด");
         }
     }
 
@@ -627,15 +637,22 @@ public class DialogueManager : MonoBehaviour
 
     public void PlaceBagOnTray()
     {
-        if (!isWaitingForOrder || !hasBag || itemsInBag.Count == 0 || isBagOnTray) return;
+        if (!isWaitingForOrder)
+        {
+            WarningManager.Show("ต้องรับออเดอร์จากลูกค้าก่อน!");
+            return;
+        }
+        if (!hasBag || itemsInBag.Count == 0 || isBagOnTray) return;
+
         if (isReadyToTalkTrick)
         {
             WarningManager.Show("เหมือนลูกค้าจะสั่งอะไรเพิ่มนะ?");
             return;
         }
+
         if (itemsInBag.Count < maxBagCapacity)
         {
-            WarningManager.Show("มีออเดอร์ใหม่ ของยังไม่ครบ!");
+            WarningManager.Show($"ของในถุงยังไม่ครบ! ({itemsInBag.Count}/{maxBagCapacity})");
             return;
         }
 

@@ -5,6 +5,7 @@ public class CameraSwitcher : MonoBehaviour
 {
     public static CameraSwitcher Instance;
     private Coroutine activeCamCoroutine;
+    [HideInInspector] public bool isTransitioning = false;
 
     public Transform[] roomPositions;
     public float panSpeed = 4f;
@@ -68,6 +69,7 @@ public class CameraSwitcher : MonoBehaviour
     IEnumerator SmoothPanToRoom(int targetIndex)
     {
         isPanning = true;
+        isTransitioning = true;
 
         if (FridgeDoorInteract.Instance != null)
         {
@@ -101,6 +103,7 @@ public class CameraSwitcher : MonoBehaviour
         transform.position = targetPosition;
         yield return new WaitForSeconds(cooldownTime);
         isPanning = false;
+        isTransitioning = false;
     }
 
     void UpdateUIVisibility()

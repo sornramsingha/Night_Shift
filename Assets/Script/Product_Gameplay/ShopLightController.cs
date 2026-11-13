@@ -220,7 +220,7 @@ public class ShopLightController : MonoBehaviour
         if (darkVignetteRect != null)
         {
             darkVignetteRect.localScale = new Vector3(startVignetteScale, startVignetteScale, 1f);
-            SetVignetteAlpha(0.9f);
+            SetVignetteAlpha(1f);
             darkVignetteRect.gameObject.SetActive(true);
         }
 
@@ -259,7 +259,7 @@ public class ShopLightController : MonoBehaviour
             float t = Mathf.Clamp01(elapsed / duration);
 
             darkVignetteRect.localScale = Vector3.Lerp(currentScale, targetScale, t);
-            SetVignetteAlpha(0.9f - t);
+            SetVignetteAlpha(1f - t);
             yield return null;
         }
 
@@ -299,7 +299,7 @@ public class ShopLightController : MonoBehaviour
         if (darkVignetteRect != null)
         {
             darkVignetteRect.localScale = new Vector3(startVignetteScale, startVignetteScale, 1f);
-            SetVignetteAlpha(0.9f);
+            SetVignetteAlpha(1f);
             darkVignetteRect.gameObject.SetActive(false);
         }
 

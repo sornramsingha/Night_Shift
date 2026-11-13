@@ -74,6 +74,9 @@ public class LightRepairMinigame : MonoBehaviour
     {
         if (isPlaying) return;
 
+        if (DialogueManager.Instance != null && !DialogueManager.Instance.isFacingFront) return;
+        if (CameraSwitcher.Instance != null && CameraSwitcher.Instance.isTransitioning) return;
+
         isPlaying = true;
         currentKnocks = 0;
         nextKnockTime = 0f;
@@ -148,7 +151,7 @@ public class LightRepairMinigame : MonoBehaviour
             yield return new WaitForSecondsRealtime(sparkDuration);
 
             realLight2D.intensity = 0f;
-            if (ShopLightController.Instance != null) ShopLightController.Instance.FlashDarknessAlpha(0.9f);
+            if (ShopLightController.Instance != null) ShopLightController.Instance.FlashDarknessAlpha(1f);
             yield return new WaitForSecondsRealtime(0.05f);
 
             realLight2D.intensity = baseIntens * (sparkIntensity * 0.6f);
@@ -156,7 +159,7 @@ public class LightRepairMinigame : MonoBehaviour
             yield return new WaitForSecondsRealtime(sparkDuration * 0.6f);
 
             realLight2D.intensity = 0f;
-            if (ShopLightController.Instance != null) ShopLightController.Instance.FlashDarknessAlpha(0.9f);
+            if (ShopLightController.Instance != null) ShopLightController.Instance.FlashDarknessAlpha(1f);
         }
     }
 
@@ -212,11 +215,11 @@ public class LightRepairMinigame : MonoBehaviour
         if (realLight2D != null)
         {
             realLight2D.intensity = baseIntens * 0.5f;
-            if (ShopLightController.Instance != null) ShopLightController.Instance.FlashDarknessAlpha(0.9f);
+            if (ShopLightController.Instance != null) ShopLightController.Instance.FlashDarknessAlpha(1f);
             yield return new WaitForSecondsRealtime(0.12f);
 
             realLight2D.intensity = 0.5f;
-            if (ShopLightController.Instance != null) ShopLightController.Instance.FlashDarknessAlpha(0.9f);
+            if (ShopLightController.Instance != null) ShopLightController.Instance.FlashDarknessAlpha(1f);
             yield return new WaitForSecondsRealtime(0.15f);
         }
 
