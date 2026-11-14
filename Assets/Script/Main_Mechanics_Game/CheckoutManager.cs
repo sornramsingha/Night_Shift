@@ -19,24 +19,25 @@ public class CheckoutManager : MonoBehaviour
     public GameObject checkoutPanel;
     [HideInInspector] public bool isCheckoutOpen = false;
 
-    [Header("แสดงข้อมูลการจ่ายเงินของลูกค้า")]
+    [Header("แสดงข้อมูลการจ่ายเงินและยอดทอน")]
     public Image customerMoneyImage;
-    public TextMeshProUGUI customerPaidText;
-    public TextMeshProUGUI bagItemsListText;
+    public TextMeshProUGUI customerPaidText;      
+    public TextMeshProUGUI bagItemsListText;      
+    public TextMeshProUGUI totalPriceText;        
+    public TextMeshProUGUI requiredChangeText;    
 
     [Header("ตั้งค่าแบงก์และเงินผี")]
     public List<BanknoteVisual> banknoteVisuals = new List<BanknoteVisual>();
     [Range(0f, 1f)] public float ghostMoneyChance = 0.35f;
 
-    [Header("หน้าจอเครื่องคิดเลข")]
-    public TextMeshProUGUI calculatorDisplayText;
+    [Header("หน้าจอเครื่องคิดเลข & ช่องเงินทอน")]
+    public TextMeshProUGUI calculatorDisplayText; 
+    public TextMeshProUGUI changeToGiveText;      
+
     private string currentInput = "0";
     private int storedValue = 0;
     private string pendingOperator = "";
     private bool isNewNumber = true;
-
-    [Header("ช่องทอนเงินที่จะส่งคืนลูกค้า")]
-    public TextMeshProUGUI changeToGiveText;
     private int currentChangeToGive = 0;
 
     [Header("ค่าสติที่ได้รับ ลดลงเมื่อคิดเงิน")]
@@ -45,6 +46,7 @@ public class CheckoutManager : MonoBehaviour
 
     private int actualOrderTotal = 0;
     private int customerPaidAmount = 0;
+    private int requiredChangeAmount = 0;
     private bool isGhostMoney = false;
     private bool hasRolledPaymentForCurrentCustomer = false;
 
@@ -59,6 +61,7 @@ public class CheckoutManager : MonoBehaviour
         hasRolledPaymentForCurrentCustomer = false;
         isGhostMoney = false;
         customerPaidAmount = 0;
+        requiredChangeAmount = 0;
         CloseCheckout();
     }
 
@@ -78,7 +81,6 @@ public class CheckoutManager : MonoBehaviour
 
         isCheckoutOpen = true;
         if (checkoutPanel != null) checkoutPanel.SetActive(true);
-
         actualOrderTotal = (MoneyManager.Instance != null)
             ? MoneyManager.Instance.CalculateTotal(expectedItems)
             : 0;
@@ -90,19 +92,52 @@ public class CheckoutManager : MonoBehaviour
             isGhostMoney = customerHasAnomaly && (Random.value <= ghostMoneyChance);
         }
 
+        requiredChangeAmount = Mathf.Max(0, customerPaidAmount - actualOrderTotal);
+
         if (customerPaidText != null)
         {
-            customerPaidText.text = $"รับเงินมา: {customerPaidAmount} Baht";
+            customerPaidText.text = $"ได้รับเงินมา : {customerPaidAmount} บาท";
         }
         UpdateBanknoteVisual(customerPaidAmount, isGhostMoney);
 
+        if (totalPriceText != null)
+        {
+            totalPriceText.text = $"ค่าสินค้าทั้งหมด : {actualOrderTotal} บาท";
+        }
+        if (requiredChangeText != null)
+        {
+            requiredChangeText.text = $"ต้องทอนเงิน : {requiredChangeAmount} บาท";
+        }
+
         if (bagItemsListText != null)
         {
-            bagItemsListText.text = "สินค้าในถุง:\n- " + string.Join("\n- ", itemsInBag);
+            Dictionary<string, int> itemCounts = new Dictionary<string, int>();
+            foreach (string item in itemsInBag)
+            {
+                if (itemCounts.ContainsKey(item)) itemCounts[item]++;
+                else itemCounts[item] = 1;
+            }
+
+            List<string> displayLines = new List<string>();
+            foreach (var kvp in itemCounts)
+            {
+                string itemName = kvp.Key;
+                int count = kvp.Value;
+                int unitPrice = (MoneyManager.Instance != null) ? MoneyManager.Instance.GetItemPrice(itemName) : 0;
+
+                string line = (count > 1)
+                    ? $"- {itemName} ({unitPrice} บาท) x{count}"
+                    : $"- {itemName} ({unitPrice} บาท)";
+                displayLines.Add(line);
+            }
+
+            bagItemsListText.text =
+                $"สินค้า :\n{string.Join("\n", displayLines)}\n\n" +
+                $"ค่าสินค้าทั้งหมด : {actualOrderTotal} บาท\n" +
+                $"ต้องทอนเงิน : {requiredChangeAmount} บาท";
         }
 
         OnCalcClear();
-        ResetChangeToGive();
     }
 
     public void CloseCheckout()
@@ -153,7 +188,7 @@ public class CheckoutManager : MonoBehaviour
         }
     }
 
-    #region --- ระบบปุ่มกดเครื่องคิดเลข (ผูกกับ Button OnClick ใน Inspector) ---
+    #region --- ระบบปุ่มกดตัวเลขและอัปเดตช่องทอนเงินแบบเรียลไทม์ ---
 
     public void OnCalcDigit(string digit)
     {
@@ -166,7 +201,8 @@ public class CheckoutManager : MonoBehaviour
         {
             currentInput += digit;
         }
-        UpdateCalcDisplay();
+
+        SyncInputToChange();
     }
 
     public void OnCalcOperator(string op)
@@ -199,8 +235,8 @@ public class CheckoutManager : MonoBehaviour
         storedValue = result;
         pendingOperator = "";
         isNewNumber = true;
-        UpdateCalcDisplay();
-        UseCalculatorResultAsChange();
+
+        SyncInputToChange();
     }
 
     public void OnCalcClear()
@@ -209,53 +245,36 @@ public class CheckoutManager : MonoBehaviour
         storedValue = 0;
         pendingOperator = "";
         isNewNumber = true;
-        UpdateCalcDisplay();
-        ResetChangeToGive();
+
+        SyncInputToChange();
     }
 
-    private void UpdateCalcDisplay()
+    private void SyncInputToChange()
     {
         if (calculatorDisplayText != null)
             calculatorDisplayText.text = currentInput;
-    }
-
-    #endregion
-
-    #region --- ระบบจัดเตรียมเงินทอน & ยืนยันการขาย ---
-
-    public void UseCalculatorResultAsChange()
-    {
-        if (!string.IsNullOrEmpty(pendingOperator)) OnCalcEquals();
 
         int val = 0;
         int.TryParse(currentInput, out val);
         currentChangeToGive = Mathf.Max(0, val);
-        UpdateChangeUI();
-    }
 
-    public void AddChangeAmount(int amount)
-    {
-        currentChangeToGive = Mathf.Max(0, currentChangeToGive + amount);
-        UpdateChangeUI();
-    }
-
-    public void ResetChangeToGive()
-    {
-        currentChangeToGive = 0;
-        UpdateChangeUI();
-    }
-
-    private void UpdateChangeUI()
-    {
         if (changeToGiveText != null)
-            changeToGiveText.text = $"เงินทอน: {currentChangeToGive} ฿";
+            changeToGiveText.text = $"เงินทอน : {currentChangeToGive} บาท";
     }
+
+    #endregion
+
+    #region --- ยืนยันการทอนเงิน ---
 
     public void ConfirmCheckoutAndGiveItem()
     {
         if (DialogueManager.Instance == null) return;
 
-        UseCalculatorResultAsChange();
+        if (!string.IsNullOrEmpty(pendingOperator))
+        {
+            OnCalcEquals();
+        }
+
         CloseCheckout();
         DialogueManager.Instance.CompleteSaleWithChange(actualOrderTotal, customerPaidAmount, currentChangeToGive, isGhostMoney);
     }

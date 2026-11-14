@@ -229,7 +229,7 @@ public partial class DialogueManager
             {
                 SanityManager.Instance.ApplyReward(CheckoutManager.Instance.sanityRewardExactChange);
             }
-            WarningManager.Show($"ทอนเงินถูกต้อง! (+{actualTotal} ฿)");
+            WarningManager.Show($"ทอนเงินถูกต้อง! (+{actualTotal} บาท)");
         }
         else
         {

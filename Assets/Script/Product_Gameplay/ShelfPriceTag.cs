@@ -12,7 +12,7 @@ public class ShelfPriceTag : MonoBehaviour
         if (MoneyManager.Instance == null) return;
 
         int price = MoneyManager.Instance.GetItemPrice(itemName);
-        string formatted = $"{price} ฿";
+        string formatted = $"{price} บาท";
 
         if (uiPriceText != null) uiPriceText.text = formatted;
         if (worldPriceText != null) worldPriceText.text = formatted;
