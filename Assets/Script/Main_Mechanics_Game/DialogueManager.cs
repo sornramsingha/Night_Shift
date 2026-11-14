@@ -3,7 +3,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
-public class DialogueManager : MonoBehaviour
+public partial class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance;
 
@@ -77,7 +77,7 @@ public class DialogueManager : MonoBehaviour
     private int index;
     private bool isTyping = false;
     private bool isWaitingForChoice = false;
-    private bool isDialogueActive = false;
+    [HideInInspector] public bool isDialogueActive = false;
 
     private Coroutine typingCoroutine;
     private TextMeshProUGUI startTalkBtnText;
@@ -113,61 +113,67 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (isDialogueActive)
+        UpdateDialogueInputAndShake();
+        UpdatePatienceTimer();
+    }
+
+    private void UpdateDialogueInputAndShake()
+    {
+        if (!isDialogueActive) return;
+
+        if (dialogueBoxRect != null)
         {
-            if (dialogueBoxRect != null)
+            float stressFactor = (customerMaxPatience > 0) ? 1f - (currentPatience / customerMaxPatience) : 0f;
+            float speed = 5f + (stressFactor * 15f);
+            float currentNormalShake = 1f + (stressFactor * normalShakeAmount);
+
+            if (customerHasAnomaly && stressFactor > 0.5f)
             {
-                float stressFactor = 0f;
-                if (customerMaxPatience > 0) stressFactor = 1f - (currentPatience / customerMaxPatience);
-                float speed = 5f + (stressFactor * 15f);
-                float currentNormalShake = 1f + (stressFactor * normalShakeAmount);
+                float glitchIntensity = (stressFactor - 0.5f) * 2f;
+                float glitchShake = 2f + (glitchIntensity * anomalyShakeAmount);
 
-                if (customerHasAnomaly && stressFactor > 0.5f)
-                {
-                    float glitchIntensity = (stressFactor - 0.5f) * 2f;
-                    float glitchShake = 2f + (glitchIntensity * anomalyShakeAmount);
-
-                    float rx = Random.Range(-glitchShake, glitchShake);
-                    float ry = Random.Range(-glitchShake, glitchShake);
-                    dialogueBoxRect.localPosition = originalBoxPos + new Vector3(rx, ry, 0);
-                }
-                else
-                {
-                    float ry = Mathf.Sin(Time.unscaledTime * speed) * currentNormalShake;
-                    dialogueBoxRect.localPosition = originalBoxPos + new Vector3(0, ry, 0);
-                }
+                float rx = Random.Range(-glitchShake, glitchShake);
+                float ry = Random.Range(-glitchShake, glitchShake);
+                dialogueBoxRect.localPosition = originalBoxPos + new Vector3(rx, ry, 0);
             }
-
-            if (Input.GetMouseButtonDown(1) && index > 0 && !isWaitingForOrder)
+            else
             {
-                PreviousSentence();
-            }
-
-            if (Input.GetMouseButtonDown(0) && !isWaitingForChoice)
-            {
-                if (isTyping)
-                {
-                    StopTyping();
-                    dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
-                }
-                else
-                {
-                    NextSentence();
-                }
+                float ry = Mathf.Sin(Time.unscaledTime * speed) * currentNormalShake;
+                dialogueBoxRect.localPosition = originalBoxPos + new Vector3(0, ry, 0);
             }
         }
 
+        if (Input.GetMouseButtonDown(1) && index > 0 && !isWaitingForOrder)
+        {
+            PreviousSentence();
+        }
+
+        if (Input.GetMouseButtonDown(0) && !isWaitingForChoice)
+        {
+            if (isTyping)
+            {
+                StopTyping();
+                dialogueText.maxVisibleCharacters = dialogueText.textInfo.characterCount;
+            }
+            else
+            {
+                NextSentence();
+            }
+        }
+    }
+
+    private void UpdatePatienceTimer()
+    {
         if (!isTimerRunning) return;
         if (LightRepairMinigame.Instance != null && LightRepairMinigame.Instance.isPlaying) return;
 
         if (Time.timeScale == 0f)
         {
             if (patienceUIContainer != null && patienceUIContainer.activeSelf)
-            {
                 patienceUIContainer.SetActive(false);
-            }
             return;
         }
+
         currentPatience -= Time.deltaTime;
 
         if (patienceUIContainer != null)
@@ -181,6 +187,7 @@ public class DialogueManager : MonoBehaviour
                 patienceFillBar.color = patienceColorGradient.Evaluate(fillRatio);
             }
         }
+
         if (currentPatience <= 0)
         {
             TriggerCustomerTimeout();
@@ -225,71 +232,14 @@ public class DialogueManager : MonoBehaviour
         isReadyToTalkTrick = false;
         if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
 
-        if (Random.value <= 0.3f)
+        if (Random.value <= 0.3f && ShopLightController.Instance != null)
         {
-            if (ShopLightController.Instance != null)
-            {
-                ShopLightController.Instance.TriggerTemporaryPanic(3.0f);
-            }
-        }
-    }
-
-    public void OnCameraTurnedBack()
-    {
-        if (!isWaitingForOrder || currentData == null) return;
-        if (itemsInBag.Count == 0) return;
-
-        cameraTurnCount++;
-        if (hasPendingTrickOrder && cameraTurnCount == 1)
-        {
-            isReadyToTalkTrick = true;
-            if (trickBubbleButton != null) trickBubbleButton.SetActive(true);
-
-            if (isBagOnTray)
-            {
-                isBagOnTray = false;
-                hasBag = true;
-                if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
-                if (activeBagUI != null) activeBagUI.SetActive(true);
-                if (giveItemButton != null) giveItemButton.SetActive(false);
-            }
-        }
-        else if (cameraTurnCount == 2 && currentData.isTrickOrder && currentData.forceAnomalyAfterTrick)
-        {
-            if (CustomerAnomalyVisual.CurrentActive != null)
-            {
-                if (Random.value > 0.5f) CustomerAnomalyVisual.CurrentActive.ForceRevealAnomaly();
-                else CustomerAnomalyVisual.CurrentActive.TriggerAggressiveGlitch();
-            }
-        }
-    }
-
-    public void TriggerTrickDialogue()
-    {
-        if (trickBubbleButton != null) trickBubbleButton.SetActive(false);
-
-        isReadyToTalkTrick = false;
-        hasPendingTrickOrder = false;
-        isWaitingForOrder = false;
-
-        if (itemsInBag.Count > 0)
-        {
-            hasBag = true;
-            isBagOnTray = false;
-            if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
-            if (activeBagUI != null) activeBagUI.SetActive(true);
-            if (giveItemButton != null) giveItemButton.SetActive(false);
+            ShopLightController.Instance.TriggerTemporaryPanic(3.0f);
         }
 
-        if (currentData.additionalItems != null)
+        if (CheckoutManager.Instance != null)
         {
-            expectedItems.AddRange(currentData.additionalItems);
-            maxBagCapacity = expectedItems.Count;
-        }
-
-        if (currentData.trickSentences != null && currentData.trickSentences.Length > 0)
-        {
-            StartDialogue(currentData.trickSentences);
+            CheckoutManager.Instance.ResetForNewCustomer();
         }
     }
 
@@ -303,23 +253,13 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            if (isWaitingForOrder && !isBagOnTray)
-            {
-                ShowStartTalkButton();
-            }
-            else if (isBagOnTray)
-            {
-                if (giveItemButton != null) giveItemButton.SetActive(true);
-            }
+            if (isWaitingForOrder && !isBagOnTray) ShowStartTalkButton();
+            else if (isBagOnTray && giveItemButton != null) giveItemButton.SetActive(true);
 
             if (isTimerRunning && patienceUIContainer != null)
-            {
                 patienceUIContainer.SetActive(true);
-            }
         }
     }
-
-    #region --- ระบบบทสนทนา (Dialogue System) ---
 
     public void BeginConversation()
     {
@@ -334,7 +274,6 @@ public class DialogueManager : MonoBehaviour
         if (customerAnimatorComp != null && currentData != null && currentData.customerAnimator != null)
         {
             customerAnimatorComp.gameObject.SetActive(true);
-
             customerAnimatorComp.runtimeAnimatorController = currentData.customerAnimator;
             customerAnimatorComp.enabled = true;
             customerAnimatorComp.speed = 1f;
@@ -342,15 +281,8 @@ public class DialogueManager : MonoBehaviour
 
         isDialogueActive = true;
         isWaitingForChoice = false;
+        index = isWaitingForOrder ? sentences.Length - 1 : 0;
 
-        if (isWaitingForOrder)
-        {
-            index = sentences.Length - 1;
-        }
-        else
-        {
-            index = 0;
-        }
         StartTyping(sentences[index]);
     }
 
@@ -366,7 +298,6 @@ public class DialogueManager : MonoBehaviour
         if (customerAnimatorComp != null && currentData != null && currentData.customerAnimator != null)
         {
             customerAnimatorComp.gameObject.SetActive(true);
-
             customerAnimatorComp.runtimeAnimatorController = currentData.customerAnimator;
             customerAnimatorComp.enabled = true;
             customerAnimatorComp.speed = 1f;
@@ -429,13 +360,11 @@ public class DialogueManager : MonoBehaviour
         else
         {
             isWaitingForChoice = true;
-
             if (choicePanel != null) choicePanel.SetActive(true);
             if (acceptOrderButton != null) acceptOrderButton.SetActive(true);
             if (acceptButtonTextUI != null && currentData != null)
             {
-                string btnText = string.IsNullOrEmpty(currentData.acceptButtonText) ? "ตกลง" : currentData.acceptButtonText;
-                acceptButtonTextUI.text = btnText;
+                acceptButtonTextUI.text = string.IsNullOrEmpty(currentData.acceptButtonText) ? "ตกลง" : currentData.acceptButtonText;
             }
         }
     }
@@ -445,7 +374,6 @@ public class DialogueManager : MonoBehaviour
         isWaitingForChoice = false;
         index--;
         if (isWaitingForOrder) isWaitingForOrder = false;
-
         StartTyping(sentences[index]);
     }
 
@@ -487,14 +415,9 @@ public class DialogueManager : MonoBehaviour
         if (!hasRolledLightEvent)
         {
             hasRolledLightEvent = true;
-
-            float rollDice = Random.value;
-            if (rollDice <= 1f)
+            if (Random.value <= 1f && ShopLightController.Instance != null)
             {
-                if (ShopLightController.Instance != null)
-                {
-                    ShopLightController.Instance.TriggerLightBreakdown();
-                }
+                ShopLightController.Instance.TriggerLightBreakdown();
             }
         }
 
@@ -508,7 +431,6 @@ public class DialogueManager : MonoBehaviour
     private void TriggerCustomerTimeout()
     {
         WarningManager.Show("ลูกค้ารอนานเกินไป!");
-
         if (SanityManager.Instance != null)
         {
             SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyNormalWrong);
@@ -533,268 +455,14 @@ public class DialogueManager : MonoBehaviour
     {
         isTimerRunning = false;
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
+        if (CheckoutManager.Instance != null) CheckoutManager.Instance.CloseCheckout();
 
         ResetAllUI();
         hasBag = false;
         isBagOnTray = false;
         itemsInBag.Clear();
         isWaitingForOrder = false;
-        dialogueBoxRect.gameObject.SetActive(false);
+        if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(false);
         ClearTalismanInHand();
     }
-
-    #endregion
-
-    #region --- ระบบถุงและสินค้า (Bag & Item System) ---
-
-    public void ShowBagResetConfirmation()
-    {
-        if (isConfirmingBagReset) return;
-        isConfirmingBagReset = true;
-
-        if (bagConfirmPanel != null) bagConfirmPanel.SetActive(true);
-    }
-
-    public void ConfirmBagResetYes()
-    {
-        isConfirmingBagReset = false;
-        if (bagConfirmPanel != null) bagConfirmPanel.SetActive(false);
-
-        ResetBagItems();
-    }
-
-    public void ConfirmBagResetNo()
-    {
-        isConfirmingBagReset = false;
-        if (bagConfirmPanel != null) bagConfirmPanel.SetActive(false);
-    }
-
-    public void PickUpBag()
-    {
-        if (isDialogueActive)
-        {
-            WarningManager.Show("ฟังออเดอร์ให้จบก่อน!");
-            return;
-        }
-
-        if (!isWaitingForOrder) { WarningManager.Show("ยังไม่มีออเดอร์!"); return; }
-        if (isBagOnTray) { WarningManager.Show("มีถุงวางอยู่บนถาดแล้ว!"); return; }
-        if (isHoldingTalisman) { WarningManager.Show("มือไม่ว่าง! กำลังถือยันต์อยู่"); return; }
-
-        if (hasBag) return;
-
-        hasBag = true;
-        if (activeBagUI != null) activeBagUI.SetActive(true);
-    }
-
-    public void ResetBagItems()
-    {
-        if (hasBag || isBagOnTray)
-        {
-            itemsInBag.Clear();
-            hasBag = false;
-            isBagOnTray = false;
-
-            if (activeBagUI != null) activeBagUI.SetActive(false);
-            if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
-            if (giveItemButton != null) giveItemButton.SetActive(false);
-
-            WarningManager.Show("เปลี่ยนถุงใหม่ ต้องหยิบใหม่ทั้งหมด");
-        }
-    }
-
-    public bool PickUpItem(string itemName)
-    {
-        if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
-        {
-            WarningManager.Show("ไฟดับ! ต้องซ่อมไฟก่อน!");
-            return false;
-        }
-
-        if (isDialogueActive)
-        {
-            WarningManager.Show("ลูกค้ายังพูดไม่จบ!");
-            return false;
-        }
-
-        if (!isWaitingForOrder)
-        {
-            WarningManager.Show("ยังไม่ได้กดรับออเดอร์เลย!");
-            return false;
-        }
-
-        if (!hasBag) return false;
-
-        if (itemsInBag.Count >= maxBagCapacity)
-        {
-            WarningManager.Show("ถุงเต็มแล้ว!");
-            return false;
-        }
-
-        itemsInBag.Add(itemName);
-        return true;
-    }
-
-    public void PlaceBagOnTray()
-    {
-        if (!isWaitingForOrder)
-        {
-            WarningManager.Show("ต้องรับออเดอร์จากลูกค้าก่อน!");
-            return;
-        }
-        if (!hasBag || itemsInBag.Count == 0 || isBagOnTray) return;
-
-        if (isReadyToTalkTrick)
-        {
-            WarningManager.Show("เหมือนลูกค้าจะสั่งอะไรเพิ่มนะ?");
-            return;
-        }
-
-        if (itemsInBag.Count < maxBagCapacity)
-        {
-            WarningManager.Show($"ของในถุงยังไม่ครบ! ({itemsInBag.Count}/{maxBagCapacity})");
-            return;
-        }
-
-        isBagOnTray = true;
-        hasBag = false;
-
-        CloseDialogueBox();
-        if (activeBagUI != null) activeBagUI.SetActive(false);
-        if (bagOnTrayUI != null) bagOnTrayUI.SetActive(true);
-        if (startTalkButton != null) startTalkButton.SetActive(false);
-        if (giveItemButton != null) giveItemButton.SetActive(true);
-    }
-
-    public void GiveItemToCustomer()
-    {
-        if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
-        {
-            WarningManager.Show("มืดขนาดนี้ จะขายของยังไง! ซ่อมไฟก่อน!");
-            return;
-        }
-
-        if (isDialogueActive)
-        {
-            WarningManager.Show("คุยกับลูกค้าก่อนสิ!");
-            return;
-        }
-
-        if (!isBagOnTray) return;
-
-        bool isExactlyCorrect = true;
-        if (itemsInBag.Count != expectedItems.Count)
-        {
-            isExactlyCorrect = false;
-        }
-        else
-        {
-            List<string> tempExpected = new List<string>(expectedItems);
-            foreach (string item in itemsInBag)
-            {
-                if (tempExpected.Contains(item)) tempExpected.Remove(item);
-                else { isExactlyCorrect = false; break; }
-            }
-        }
-
-        if (customerHasAnomaly)
-        {
-            Debug.Log("พลาด! ขายของให้สิ่งผิดปกติ");
-            if (SanityManager.Instance != null) SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyAnomalyWrong);
-        }
-        else if (isExactlyCorrect)
-        {
-            Debug.Log("ขายถูกต้อง");
-            if (SanityManager.Instance != null) SanityManager.Instance.ApplyReward(SanityManager.Instance.rewardCorrectSell);
-        }
-        else
-        {
-            Debug.Log("ขายของผิดพลาด");
-            if (SanityManager.Instance != null) SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyNormalWrong);
-        }
-
-        EndCustomerInteraction();
-        if (customerWalker != null) customerWalker.WalkAway();
-        isTimerRunning = false;
-        if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
-    }
-
-    #endregion
-
-    #region --- ระบบยันต์ (Talisman System) ---
-
-    public void SetupAnomalyData(bool hasAnomaly, TalismanType weakness)
-    {
-        customerHasAnomaly = hasAnomaly;
-        customerWeakness = weakness;
-    }
-
-    public void PickUpTalisman(TalismanType type, GameObject talismanObj, Sprite talismanSprite)
-    {
-        if (!isWaitingForOrder) { WarningManager.Show("ยังไม่จำเป็นต้องใช้ตอนนี้"); return; }
-        if (hasBag) { WarningManager.Show("มือไม่ว่าง! กำลังถือถุงอยู่"); return; }
-
-        if (isHoldingTalisman && heldTalisman == type)
-        {
-            ClearTalismanInHand();
-            return;
-        }
-
-        isHoldingTalisman = true;
-        heldTalisman = type;
-        activeTalismanItem = talismanObj;
-
-        if (activeTalismanUI != null)
-        {
-            activeTalismanUI.SetActive(true);
-            if (centerTalismanSprite != null && talismanSprite != null)
-            {
-                centerTalismanSprite.sprite = talismanSprite;
-            }
-        }
-    }
-
-    public void UseTalismanOnCustomer()
-    {
-        if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
-        {
-            WarningManager.Show("มืดขนาดนี้ มองไม่เห็น ต้องซ่อมไฟก่อน!");
-            return;
-        }
-        if (!isFacingFront) return;
-
-        if (!isHoldingTalisman || !isWaitingForOrder) return;
-
-        if (activeTalismanItem != null) activeTalismanItem.SetActive(false);
-
-        if (customerHasAnomaly && heldTalisman == customerWeakness)
-        {
-            Debug.Log("แปะยันต์ถูกต้อง! ขับไล่สำเร็จ");
-            if (SanityManager.Instance != null) SanityManager.Instance.ApplyReward(SanityManager.Instance.rewardCorrectBanish);
-
-            customerHasAnomaly = false;
-            EndCustomerInteraction();
-            if (customerWalker != null) customerWalker.Vanish();
-        }
-        else
-        {
-            Debug.Log("แปะยันต์ผิด! ลูกค้าโกรธเดินหนี");
-            if (SanityManager.Instance != null) SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyTalismanWrong);
-
-            EndCustomerInteraction();
-            if (customerWalker != null) customerWalker.WalkAway();
-            isTimerRunning = false;
-            if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
-        }
-    }
-
-    private void ClearTalismanInHand()
-    {
-        isHoldingTalisman = false;
-        heldTalisman = TalismanType.None;
-        activeTalismanItem = null;
-        if (activeTalismanUI != null) activeTalismanUI.SetActive(false);
-    }
-
-    #endregion
 }
