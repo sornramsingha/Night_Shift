@@ -1,0 +1,573 @@
+fileFormatVersion: 2
+guid: 9654588052acfab49a1ed3f2e4333ee8
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4900029039051724394
+    second: nomal-state3Arthit_0
+  - first:
+      213: -5084356284158040143
+    second: nomal-state3Arthit_1
+  - first:
+      213: -730040197066347190
+    second: nomal-state3Arthit_2
+  - first:
+      213: -5953651399264296897
+    second: nomal-state3Arthit_3
+  - first:
+      213: 8670308426591281996
+    second: nomal-state3Arthit_4
+  - first:
+      213: 5339268830657273056
+    second: nomal-state3Arthit_5
+  - first:
+      213: -5965190870636622080
+    second: nomal-state3Arthit_6
+  - first:
+      213: 6110975147636429798
+    second: nomal-state3Arthit_7
+  - first:
+      213: -3651414579767145525
+    second: nomal-state3Arthit_8
+  - first:
+      213: 4735250614154345670
+    second: nomal-state3Arthit_9
+  - first:
+      213: -7137380060703899424
+    second: nomal-state3Arthit_10
+  - first:
+      213: 8713364468430495306
+    second: nomal-state3Arthit_11
+  - first:
+      213: 5390610412311927742
+    second: nomal-state3Arthit_12
+  - first:
+      213: 7346190901866257516
+    second: nomal-state3Arthit_13
+  - first:
+      213: -7202512707976939240
+    second: nomal-state3Arthit_14
+  - first:
+      213: -5537056557881200309
+    second: nomal-state3Arthit_15
+  - first:
+      213: 7378033568480580807
+    second: nomal-state3Arthit_16
+  - first:
+      213: 263560354333791625
+    second: nomal-state3Arthit_17
+  - first:
+      213: 8244210585304225805
+    second: nomal-state3Arthit_18
+  - first:
+      213: -8765776747218424598
+    second: nomal-state3Arthit_19
+  - first:
+      213: -5909732915252772548
+    second: nomal-state3Arthit_20
+  - first:
+      213: -4488992554029016251
+    second: nomal-state3Arthit_21
+  - first:
+      213: -351350659613472285
+    second: nomal-state3Arthit_22
+  - first:
+      213: 3747157468356970320
+    second: nomal-state3Arthit_23
+  - first:
+      213: -1136416780179142331
+    second: nomal-state3Arthit_24
+  - first:
+      213: -9214156318084667364
+    second: nomal-state3Arthit_25
+  - first:
+      213: 3052987011329886837
+    second: nomal-state3Arthit_26
+  - first:
+      213: -6360045323694032097
+    second: nomal-state3Arthit_27
+  - first:
+      213: -1698487418724761206
+    second: nomal-state3Arthit_28
+  - first:
+      213: 3160391719557149957
+    second: nomal-state3Arthit_29
+  - first:
+      213: -5315972313456322286
+    second: nomal-state3Arthit_30
+  - first:
+      213: 8177887092396672787
+    second: nomal-state3Arthit_31
+  - first:
+      213: -4736736996906083238
+    second: nomal-state3Arthit_32
+  - first:
+      213: 2611375560954540932
+    second: nomal-state3Arthit_33
+  - first:
+      213: 362378289161645612
+    second: nomal-state3Arthit_34
+  - first:
+      213: 6830194494669326169
+    second: nomal-state3Arthit_35
+  - first:
+      213: -2162828074503570268
+    second: nomal-state3Arthit_36
+  - first:
+      213: 3213595854977018044
+    second: nomal-state3Arthit_37
+  - first:
+      213: -6227350718655987519
+    second: nomal-state3Arthit_38
+  - first:
+      213: 9176618586140261276
+    second: nomal-state3Arthit_39
+  - first:
+      213: 4171329695651201198
+    second: nomal-state3Arthit_40
+  - first:
+      213: -74798117739200857
+    second: nomal-state3Arthit_41
+  - first:
+      213: 2008569057052128198
+    second: nomal-state3Arthit_42
+  - first:
+      213: 6258637455609201413
+    second: nomal-state3Arthit_43
+  - first:
+      213: -566178179102091172
+    second: nomal-state3Arthit_44
+  - first:
+      213: -6121615283013245981
+    second: nomal-state3Arthit_45
+  - first:
+      213: -3848570580524040018
+    second: nomal-state3Arthit_46
+  - first:
+      213: -4216558148469885056
+    second: nomal-state3Arthit_47
+  - first:
+      213: 5163687136176608706
+    second: nomal-state3Arthit_48
+  - first:
+      213: 7267865443464745024
+    second: nomal-state3Arthit_49
+  - first:
+      213: -4652649480506699285
+    second: nomal-state3Arthit_50
+  - first:
+      213: 4195455256179101941
+    second: nomal-state3Arthit_51
+  - first:
+      213: -3506760881669750787
+    second: nomal-state3Arthit_52
+  - first:
+      213: -4950548407084694572
+    second: nomal-state3Arthit_53
+  - first:
+      213: 4661689166110528393
+    second: nomal-state3Arthit_54
+  - first:
+      213: -3253689778186077727
+    second: nomal-state3Arthit_55
+  - first:
+      213: -8189333440336587604
+    second: nomal-state3Arthit_56
+  - first:
+      213: -1725551324273594815
+    second: nomal-state3Arthit_57
+  - first:
+      213: 4881737847767329421
+    second: nomal-state3Arthit_58
+  - first:
+      213: 6364446083976077628
+    second: nomal-state3Arthit_59
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 170
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: nomal-state3Arthit_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f3f8155bc930854daf704a550548ae0
+      internalID: -558122921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_1
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18b8b1f5ad669824c8ecb714c91a5bf6
+      internalID: 1485028263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_2
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f308cb92453d3f479db2afab37b039c
+      internalID: 1673938165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_3
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 779515ed05ce73647a7bd911f4029281
+      internalID: -1718857321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d51819dad42f0e94995e90cffe9dc5c2
+      internalID: -1728118474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_5
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ec9c70fa6874b140bc947c21e7e8b49
+      internalID: -102757592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_6
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42d23b1e83ce78742ab8054fcc972e82
+      internalID: -1742835190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_7
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5b985272123a934a8902e4363b9f301
+      internalID: -1073862415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52127fa657e38a84c917a92bfc219359
+      internalID: -1782019209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_9
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b64ebed9cd235f3439017825620689c8
+      internalID: -689200494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_10
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6eafddb83663db746a96f6d3eb547088
+      internalID: -1160586435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3Arthit_11
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8bc2d759ec4af34382f6e8a09764131
+      internalID: -2066911654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 00b24e5500169474d901ac6f72ce69ec
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      nomal-state3Arthit_0: -558122921
+      nomal-state3Arthit_1: 1485028263
+      nomal-state3Arthit_10: -1160586435
+      nomal-state3Arthit_11: -2066911654
+      nomal-state3Arthit_2: 1673938165
+      nomal-state3Arthit_3: -1718857321
+      nomal-state3Arthit_4: -1728118474
+      nomal-state3Arthit_5: -102757592
+      nomal-state3Arthit_6: -1742835190
+      nomal-state3Arthit_7: -1073862415
+      nomal-state3Arthit_8: -1782019209
+      nomal-state3Arthit_9: -689200494
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

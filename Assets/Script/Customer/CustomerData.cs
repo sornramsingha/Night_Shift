@@ -18,6 +18,10 @@ public class CustomerDialogue
     [Header("ข้อความปุ่มตอบรับ (Dynamic)")]
     public string acceptButtonText = "ตกลงครับ";
 
+    [Header("อนิเมชันตามระดับอารมณ์")]
+    public RuntimeAnimatorController annoyedAnimator;
+    public RuntimeAnimatorController angryAnimator;
+
     [Header("ระบบความอดทน")]
     public float maxPatienceTime = 30f;
 

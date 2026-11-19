@@ -31,7 +31,7 @@ public class ShopLightController : MonoBehaviour
     [Header("การตั้งค่าตอนผิดปกติ")]
     public bool isAggressive = false;
 
-    [Header("ระบบความมืดกลืนกิน (Vignette Creep)")]
+    [Header("ระบบขอบดำหดลง")]
     public RectTransform darkVignetteRect;
     public float maxDarknessTime = 15f;
     public float startVignetteScale = 1.2f;

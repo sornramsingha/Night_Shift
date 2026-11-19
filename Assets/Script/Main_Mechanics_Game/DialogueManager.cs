@@ -34,6 +34,7 @@ public partial class DialogueManager : MonoBehaviour
     private float currentPatience;
     private float customerMaxPatience;
     private bool isTimerRunning = false;
+    private int currentMoodStage = 0;
 
     [Header("UI ปุ่มออเดอร์เสริม")]
     public GameObject trickBubbleButton;
@@ -175,6 +176,7 @@ public partial class DialogueManager : MonoBehaviour
         }
 
         currentPatience -= Time.deltaTime;
+        UpdateCustomerMoodVisual();
 
         if (patienceUIContainer != null)
         {
@@ -214,6 +216,7 @@ public partial class DialogueManager : MonoBehaviour
         customerMaxPatience = data.maxPatienceTime;
         currentPatience = customerMaxPatience;
         isTimerRunning = false;
+        currentMoodStage = 0;
 
         expectedItems.Clear();
         lockedBaseOrderItems.Clear();
@@ -391,16 +394,13 @@ public partial class DialogueManager : MonoBehaviour
             dialogueBoxRect.localPosition = originalBoxPos;
             dialogueBoxRect.gameObject.SetActive(false);
         }
-
-        if (customerAnimatorComp != null)
+        if (currentData != null && isWaitingForOrder)
         {
-            customerAnimatorComp.runtimeAnimatorController = null;
-            customerAnimatorComp.enabled = false;
+            UpdateCustomerMoodVisual(true);
         }
-
-        if (customerSpriteRenderer != null && currentData != null)
+        else
         {
-            customerSpriteRenderer.sprite = currentData.customerSprite;
+            SetCustomerStaticIdle();
         }
     }
 
@@ -415,7 +415,7 @@ public partial class DialogueManager : MonoBehaviour
         if (!hasRolledLightEvent)
         {
             hasRolledLightEvent = true;
-            if (Random.value <= 1f && ShopLightController.Instance != null)
+            if (Random.value <= 0.35f && ShopLightController.Instance != null)
             {
                 ShopLightController.Instance.TriggerLightBreakdown();
             }
@@ -464,5 +464,57 @@ public partial class DialogueManager : MonoBehaviour
         isWaitingForOrder = false;
         if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(false);
         ClearTalismanInHand();
+    }
+
+    private void UpdateCustomerMoodVisual(bool forceUpdate = false)
+    {
+        if (currentData == null || isDialogueActive) return;
+
+        float ratio = (customerMaxPatience > 0f) ? (currentPatience / customerMaxPatience) : 1f;
+        int targetStage = 0;
+
+        if (ratio <= 0.3f) targetStage = 2;       
+        else if (ratio <= 0.6f) targetStage = 1;  
+        else targetStage = 0;        
+
+        if (!forceUpdate && targetStage == currentMoodStage) return;
+        currentMoodStage = targetStage;
+
+        if (targetStage == 2 && currentData.angryAnimator != null)
+        {
+            PlayCustomerAnimator(currentData.angryAnimator);
+        }
+        else if (targetStage == 1 && currentData.annoyedAnimator != null)
+        {
+            PlayCustomerAnimator(currentData.annoyedAnimator);
+        }
+        else
+        {
+            SetCustomerStaticIdle();
+        }
+    }
+
+    private void PlayCustomerAnimator(RuntimeAnimatorController controller)
+    {
+        if (customerAnimatorComp == null || controller == null) return;
+
+        customerAnimatorComp.gameObject.SetActive(true);
+        customerAnimatorComp.runtimeAnimatorController = controller;
+        customerAnimatorComp.enabled = true;
+        customerAnimatorComp.speed = 1f;
+    }
+
+    private void SetCustomerStaticIdle()
+    {
+        if (customerAnimatorComp != null)
+        {
+            customerAnimatorComp.runtimeAnimatorController = null;
+            customerAnimatorComp.enabled = false;
+        }
+
+        if (customerSpriteRenderer != null && currentData != null)
+        {
+            customerSpriteRenderer.sprite = currentData.customerSprite;
+        }
     }
 }

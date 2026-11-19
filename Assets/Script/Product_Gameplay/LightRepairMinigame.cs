@@ -208,7 +208,7 @@ public class LightRepairMinigame : MonoBehaviour
         if (ShopLightController.Instance != null)
         {
             baseIntens = ShopLightController.Instance.baseIntensity;
-            ShopLightController.Instance.FlashDarknessAlpha(0.9f);
+            ShopLightController.Instance.FlashDarknessAlpha(1f);
         }
 
         if (bgmSource != null) bgmSource.Stop();

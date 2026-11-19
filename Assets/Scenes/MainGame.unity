@@ -13286,7 +13286,7 @@ Animator:
   m_GameObject: {fileID: 1667897605}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8707a973019033a4a9510cf0cccf1b20, type: 2}
+  m_Controller: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -15981,6 +15981,8 @@ MonoBehaviour:
       sentences: []
       requiredItems: []
       acceptButtonText: "\u0E15\u0E01\u0E25\u0E07\u0E04\u0E23\u0E31\u0E1A"
+      annoyedAnimator: {fileID: 0}
+      angryAnimator: {fileID: 0}
       maxPatienceTime: 30
       isTrickOrder: 0
       trickSentences: []
@@ -16001,6 +16003,8 @@ MonoBehaviour:
       requiredItems:
       - Zoda
       acceptButtonText: "\u0E15\u0E01\u0E25\u0E07\u0E04\u0E23\u0E31\u0E1A"
+      annoyedAnimator: {fileID: 0}
+      angryAnimator: {fileID: 0}
       maxPatienceTime: 40
       isTrickOrder: 1
       trickSentences:
@@ -16023,6 +16027,8 @@ MonoBehaviour:
       - Laza
       - Laza
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22\u0E04\u0E23\u0E31\u0E1A"
+      annoyedAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 0b1fd932f0af6734d935fc2e28e38ce2, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 1
       trickSentences:
@@ -16045,6 +16051,8 @@ MonoBehaviour:
       requiredItems:
       - Zoda
       acceptButtonText: "\u0E08\u0E31\u0E14\u0E44\u0E1B"
+      annoyedAnimator: {fileID: 0}
+      angryAnimator: {fileID: 0}
       maxPatienceTime: 40
       isTrickOrder: 1
       trickSentences:
@@ -16059,7 +16067,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: -3345688592583504575, guid: 9a23e3e4f05b87947b399674afb33d97, type: 3}
     - customerSprite: {fileID: -1163499552767116836, guid: de6970992d1bf854e8a6ca7a97a050fe, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E19\u0E22\u0E33\u0E32\u0E33\u0E32\u0E40\u0E48\u0E33\u0E19\u0E22\u0E46\u0E48\u0E23\u0E19\u0E14\u0E2A\u0E32\u0E1F\u0E2B\t\t\u0E01\u0E2B\u0E1F\u0E40\u0E14\u0E14
         Straw"
@@ -16068,6 +16076,8 @@ MonoBehaviour:
       requiredItems:
       - Strawberry
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences: []
