@@ -14570,12 +14570,20 @@ MonoBehaviour:
   days:
   - dayName: 1
     customersPerDay: 4
-    hasGuideNPC: 0
+    hasGuideNPC: 1
     guideNPC:
-      customerSprite: {fileID: 3735677353298144711, guid: a67785250b8d571418c7b982b0b4c439, type: 3}
+      customerSprite: {fileID: 643509818559334928, guid: 523b75d194e292a478aeaa2658d59978, type: 3}
       customerAnimator: {fileID: 0}
-      sentences: []
-      requiredItems: []
+      sentences:
+      - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E21\u0E32\u0E17\u0E33\u0E07\u0E32\u0E19\u0E27\u0E31\u0E19\u0E41\u0E23\u0E01\u0E2B\u0E23\u0E2D
+        \u0E44\u0E21\u0E48\u0E04\u0E38\u0E49\u0E19\u0E2B\u0E19\u0E49\u0E32"
+      - "\u0E04\u0E37\u0E19\u0E41\u0E23\u0E01\u0E46 \u0E01\u0E47\u0E41\u0E1A\u0E1A\u0E19\u0E35\u0E49\u0E41\u0E2B\u0E25\u0E30
+        \u0E25\u0E2D\u0E07\u0E21\u0E2D\u0E07\u0E2B\u0E19\u0E49\u0E32 \u0E21\u0E2D\u0E07\u0E21\u0E37\u0E2D
+        \u0E2B\u0E23\u0E37\u0E2D\u0E08\u0E31\u0E07\u0E2B\u0E27\u0E30\u0E1E\u0E39\u0E14\u0E02\u0E2D\u0E07\u0E25\u0E39\u0E01\u0E04\u0E49\u0E32\u0E43\u0E2B\u0E49\u0E14\u0E35\u0E46
+        \u0E40\u0E1C\u0E37\u0E48\u0E2D\u0E21\u0E35\u0E2D\u0E30\u0E44\u0E23\u0E14\u0E39\u0E44\u0E21\u0E48\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E04\u0E19"
+      - "\u0E1C\u0E21\u0E02\u0E2D\u0E25\u0E32\u0E0B\u0E48\u0E32 1 \u0E2B\u0E48\u0E2D\u0E04\u0E23\u0E31\u0E1A"
+      requiredItems:
+      - Laza
       acceptButtonText: "\u0E15\u0E01\u0E25\u0E07\u0E04\u0E23\u0E31\u0E1A"
       annoyedAnimator: {fileID: 0}
       angryAnimator: {fileID: 0}
@@ -14629,7 +14637,7 @@ MonoBehaviour:
       isTrickOrder: 1
       trickSentences:
       - "\u0E2D\u0E4A\u0E30 \u0E09\u0E31\u0E19\u0E25\u0E37\u0E21\u0E27\u0E48\u0E32\u0E15\u0E49\u0E2D\u0E07\u0E0B\u0E37\u0E49\u0E2D\u0E0A\u0E47\u0E2D\u0E04\u0E42\u0E01\u0E41\u0E25\u0E15\u0E44\u0E1B\u0E43\u0E2B\u0E49\u0E41\u0E1F\u0E19\u0E14\u0E49\u0E27\u0E22"
-      - "\u0E0A\u0E48\u0E27\u0E22\u0E2B\u0E22\u0E34\u0E1A\u0E0A\u0E47\u0E2D\u0E04\u0E42\u0E01\u0E41\u0E25\u0E15\u0E2A\u0E35\u0E41\u0E14\u0E07\u0E43\u0E2B\u0E49\u0E1C\u0E21\u0E14\u0E49\u0E27\u0E22\u0E44\u0E14\u0E49\u0E44\u0E2B\u0E21\u0E04\u0E30"
+      - "\u0E0A\u0E48\u0E27\u0E22\u0E2B\u0E22\u0E34\u0E1A\u0E0A\u0E47\u0E2D\u0E04\u0E42\u0E01\u0E41\u0E25\u0E15\u0E2A\u0E35\u0E41\u0E14\u0E07\u0E43\u0E2B\u0E49\u0E09\u0E31\u0E19\u0E14\u0E49\u0E27\u0E22\u0E44\u0E14\u0E49\u0E44\u0E2B\u0E21\u0E04\u0E30"
       additionalItems:
       - Kiki
       forceAnomalyAfterTrick: 0
@@ -14653,7 +14661,7 @@ MonoBehaviour:
       isTrickOrder: 1
       trickSentences:
       - "\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E08\u0E30\u0E44\u0E21\u0E48\u0E1E\u0E2D
-        \u0E02\u0E2D\u0E19\u0E49\u0E33 Strawberry \u0E14\u0E49\u0E27\u0E22\u0E01\u0E23\u0E30\u0E1B\u0E4B\u0E2D\u0E07\u0E19\u0E36\u0E07\u0E44\u0E14\u0E49\u0E44\u0E2B\u0E21"
+        \u0E02\u0E2D\u0E19\u0E49\u0E33 Strawberry \u0E01\u0E23\u0E30\u0E1B\u0E4B\u0E2D\u0E07\u0E19\u0E36\u0E07\u0E14\u0E49\u0E27\u0E22\u0E44\u0E14\u0E49\u0E44\u0E2B\u0E21"
       additionalItems:
       - Strawberry
       forceAnomalyAfterTrick: 1
@@ -14665,10 +14673,8 @@ MonoBehaviour:
     - customerSprite: {fileID: -1163499552767116836, guid: de6970992d1bf854e8a6ca7a97a050fe, type: 3}
       customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
-      - "\u0E19\u0E22\u0E33\u0E32\u0E33\u0E32\u0E40\u0E48\u0E33\u0E19\u0E22\u0E46\u0E48\u0E23\u0E19\u0E14\u0E2A\u0E32\u0E1F\u0E2B\t\t\u0E01\u0E2B\u0E1F\u0E40\u0E14\u0E14
-        Straw"
-      - "\u0E33\u0E40\u0E22\u0E1A\u0E34\u0E41\u0E27\u0E48\u0E2A\u0E48\u0E22/\u0E02\u0E08\u0E20\u0E15\u0E02\u0E08/-\u0E15\u0E38\u0E08\u0E16-\u0E02\u0E38
-        berry"
+      - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E14\u0E36\u0E01\u0E1B\u0E48\u0E32\u0E19\u0E19\u0E35\u0E49\u0E22\u0E31\u0E07\u0E44\u0E21\u0E48\u0E44\u0E14\u0E49\u0E1E\u0E31\u0E01\u0E2D\u0E35\u0E01\u0E40\u0E2B\u0E23\u0E2D\u0E04\u0E23\u0E31\u0E1A\u0E40\u0E19\u0E35\u0E48\u0E22"
+      - "\u0E02\u0E2D\u0E19\u0E49\u0E33 Strawberry \u0E01\u0E23\u0E30\u0E1B\u0E4B\u0E2D\u0E07\u0E19\u0E36\u0E07\u0E44\u0E14\u0E49\u0E44\u0E2B\u0E21\u0E04\u0E23\u0E31\u0E1A"
       requiredItems:
       - Strawberry
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
@@ -14681,6 +14687,136 @@ MonoBehaviour:
       forceAnomalyAfterTrick: 0
       hasAnomaly: 0
       canGlitch: 0
+      weaknessType: 0
+      glitchSprite: {fileID: 0}
+      permanentAnomalySprite: {fileID: 0}
+    randomizedQueue: []
+  - dayName: 2
+    customersPerDay: 5
+    hasGuideNPC: 1
+    guideNPC:
+      customerSprite: {fileID: 726694589, guid: db8bc9efaa66f9d4089bc1baf288e646, type: 3}
+      customerAnimator: {fileID: 0}
+      sentences:
+      - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E21\u0E32\u0E40\u0E1D\u0E49\u0E32\u0E01\u0E30\u0E14\u0E36\u0E01\u0E2D\u0E35\u0E01\u0E41\u0E25\u0E49\u0E27\u0E19\u0E30
+        \u0E2D\u0E32\u0E01\u0E32\u0E28\u0E04\u0E37\u0E19\u0E19\u0E35\u0E49\u0E14\u0E39\u0E41\u0E1B\u0E25\u0E01\u0E46
+        \u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E01\u0E31\u0E19\u0E19"
+      - "\u0E16\u0E49\u0E32\u0E40\u0E08\u0E2D\u0E2D\u0E30\u0E44\u0E23\u0E17\u0E35\u0E48\u0E44\u0E21\u0E48\u0E19\u0E48\u0E32\u0E43\u0E0A\u0E48\u0E04\u0E19\u0E08\u0E23\u0E34\u0E07\u0E46
+        \u0E22\u0E31\u0E19\u0E15\u0E4C\u0E19\u0E48\u0E30\u0E0A\u0E48\u0E27\u0E22\u0E44\u0E14\u0E49
+        \u0E41\u0E15\u0E48\u0E16\u0E49\u0E32\u0E43\u0E0A\u0E49\u0E1C\u0E34\u0E14\u0E01\u0E31\u0E1A\u0E04\u0E19\u0E1B\u0E01\u0E15\u0E34\u0E01\u0E47\u0E40\u0E2A\u0E35\u0E22\u0E02\u0E2D\u0E07\u0E1F\u0E23\u0E35\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E01\u0E31\u0E19\u0E19\u0E30"
+      - "\u0E1C\u0E21\u0E02\u0E2D\u0E0A\u0E47\u0E2D\u0E01\u0E42\u0E01\u0E41\u0E25\u0E15\u0E2A\u0E35\u0E41\u0E14\u0E07
+        1 \u0E0A\u0E34\u0E49\u0E19\u0E04\u0E23\u0E31\u0E1A"
+      requiredItems:
+      - Kiki
+      acceptButtonText: "\u0E15\u0E01\u0E25\u0E07\u0E04\u0E23\u0E31\u0E1A"
+      annoyedAnimator: {fileID: 0}
+      angryAnimator: {fileID: 0}
+      maxPatienceTime: 30
+      isTrickOrder: 0
+      trickSentences: []
+      additionalItems: []
+      forceAnomalyAfterTrick: 0
+      hasAnomaly: 0
+      canGlitch: 0
+      weaknessType: 0
+      glitchSprite: {fileID: 0}
+      permanentAnomalySprite: {fileID: 0}
+    possibleCustomersPool:
+    - customerSprite: {fileID: 5146657569325550173, guid: d233dc745ed64014f9094d525e00ca00, type: 3}
+      customerAnimator: {fileID: 0}
+      sentences:
+      - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35 \u0E23\u0E49\u0E32\u0E19\u0E19\u0E35\u0E49\u0E14\u0E39\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E08\u0E30\u0E40\u0E01\u0E47\u0E1A\u0E40\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E02\u0E2D\u0E07\u0E22\u0E32\u0E22\u0E40\u0E2D\u0E32\u0E44\u0E27\u0E49\u0E40\u0E22\u0E2D\u0E30\u0E19\u0E30
+        \u0E41\u0E15\u0E48\u0E1A\u0E32\u0E07\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E01\u0E47\u0E14\u0E39\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E40\u0E27\u0E25\u0E32\u0E1C\u0E48\u0E32\u0E19\u0E21\u0E32\u0E19\u0E32\u0E19\u0E21\u0E32\u0E01\u0E41\u0E25\u0E49\u0E27"
+      - "\u0E2A\u0E34\u0E48\u0E07\u0E17\u0E35\u0E48\u0E17\u0E33\u0E1E\u0E25\u0E32\u0E14\u0E44\u0E27\u0E49\u0E01\u0E31\u0E1A\u0E22\u0E32\u0E22\u0E43\u0E19\u0E2D\u0E14\u0E35\u0E15
+        \u0E21\u0E31\u0E19\u0E04\u0E07\u0E44\u0E21\u0E48\u0E44\u0E14\u0E49\u0E2B\u0E32\u0E22\u0E44\u0E1B\u0E07\u0E48\u0E32\u0E22\u0E46
+        \u0E41\u0E04\u0E48\u0E40\u0E14\u0E34\u0E19\u0E2B\u0E19\u0E35\u0E2D\u0E2D\u0E01\u0E21\u0E32\u0E19\u0E30"
+      - "\u0E02\u0E2D\u0E19\u0E49\u0E33\u0E2A\u0E15\u0E2D\u0E40\u0E1A\u0E2D\u0E23\u0E4C\u0E19\u0E31\u0E48\u0E19
+        1 \u0E02\u0E27\u0E14\u0E2A\u0E34"
+      requiredItems:
+      - Strawberry
+      acceptButtonText: "\u0E15\u0E01\u0E25\u0E07\u0E04\u0E23\u0E31\u0E1A"
+      annoyedAnimator: {fileID: 0}
+      angryAnimator: {fileID: 0}
+      maxPatienceTime: 40
+      isTrickOrder: 0
+      trickSentences:
+      - "\u0E25\u0E37\u0E21\u0E44\u0E1B \u0E1E\u0E35\u0E48\u0E02\u0E2D\u0E2D\u0E30\u0E44\u0E23\u0E2B\u0E27\u0E32\u0E19\u0E46\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E14\u0E49\u0E27\u0E22\u0E2A\u0E34"
+      additionalItems:
+      - DailyMilk
+      forceAnomalyAfterTrick: 0
+      hasAnomaly: 0
+      canGlitch: 0
+      weaknessType: 1
+      glitchSprite: {fileID: -3345688592583504575, guid: 9a23e3e4f05b87947b399674afb33d97, type: 3}
+      permanentAnomalySprite: {fileID: 0}
+    - customerSprite: {fileID: 1116930560, guid: 60bac1ed3c46db04fb51cdb47218be90, type: 3}
+      customerAnimator: {fileID: 9100000, guid: 8707a973019033a4a9510cf0cccf1b20, type: 2}
+      sentences:
+      - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E08\u0E49\u0E30... \u0E22\u0E32\u0E22\u0E02\u0E2D\u0E07\u0E19\u0E32\u0E22\u0E1B\u0E25\u0E48\u0E2D\u0E22\u0E43\u0E2B\u0E49\u0E21\u0E32\u0E40\u0E1D\u0E49\u0E32\u0E23\u0E49\u0E32\u0E19\u0E14\u0E36\u0E01\u0E46
+        \u0E04\u0E19\u0E40\u0E14\u0E35\u0E22\u0E27\u0E41\u0E1A\u0E1A\u0E19\u0E35\u0E49\u0E40\u0E25\u0E22\u0E40\u0E2B\u0E23\u0E2D?"
+      - "\u0E16\u0E49\u0E32\u0E2D\u0E22\u0E32\u0E01\u0E23\u0E39\u0E49\u0E27\u0E48\u0E32\u0E17\u0E33\u0E44\u0E21\u0E15\u0E31\u0E27\u0E40\u0E2D\u0E07\u0E16\u0E36\u0E07\u0E21\u0E32\u0E2D\u0E22\u0E39\u0E48\u0E15\u0E23\u0E07\u0E19\u0E35\u0E49...
+        \u0E25\u0E2D\u0E07\u0E19\u0E36\u0E01\u0E16\u0E36\u0E07\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48\u0E17\u0E33\u0E43\u0E2B\u0E49\u0E22\u0E32\u0E22\u0E40\u0E2A\u0E35\u0E22\u0E43\u0E08\u0E14\u0E39\u0E2A\u0E34"
+      - "\u0E02\u0E2D\u0E25\u0E32\u0E0B\u0E48\u0E32 1 \u0E2B\u0E48\u0E2D\u0E08\u0E49\u0E30"
+      requiredItems:
+      - Laza
+      acceptButtonText: "\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22\u0E04\u0E23\u0E31\u0E1A"
+      annoyedAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 0b1fd932f0af6734d935fc2e28e38ce2, type: 2}
+      maxPatienceTime: 40
+      isTrickOrder: 1
+      trickSentences:
+      - "\u0E2D\u0E48\u0E2D \u0E25\u0E37\u0E21\u0E44\u0E1B \u0E02\u0E2D\u0E42\u0E0B\u0E14\u0E32\u0E14\u0E49\u0E27\u0E22
+        1 \u0E02\u0E27\u0E14"
+      additionalItems:
+      - Zoda
+      forceAnomalyAfterTrick: 0
+      hasAnomaly: 0
+      canGlitch: 0
+      weaknessType: 0
+      glitchSprite: {fileID: 0}
+      permanentAnomalySprite: {fileID: 0}
+    - customerSprite: {fileID: 726694589, guid: db8bc9efaa66f9d4089bc1baf288e646, type: 3}
+      customerAnimator: {fileID: 0}
+      sentences:
+      - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E01\u0E23\u0E30\u0E14\u0E39\u0E01\u0E1C\u0E21\u0E21\u0E31\u0E19\u0E25\u0E31\u0E48\u0E19\u0E41\u0E1B\u0E25\u0E01\u0E46"
+      - "\u0E02\u0E2D\u0E0B\u0E37\u0E49\u0E2D Zoda \u0E44\u0E1B\u0E22\u0E31\u0E14\u0E43\u0E19\u0E15\u0E31\u0E27\u0E41\u0E17\u0E19\u0E44\u0E14\u0E49\u0E44\u0E2B\u0E21\u0E04\u0E23\u0E31\u0E1A"
+      requiredItems:
+      - Zoda
+      acceptButtonText: "\u0E08\u0E31\u0E14\u0E44\u0E1B"
+      annoyedAnimator: {fileID: 0}
+      angryAnimator: {fileID: 0}
+      maxPatienceTime: 40
+      isTrickOrder: 1
+      trickSentences:
+      - "\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E08\u0E30\u0E44\u0E21\u0E48\u0E1E\u0E2D
+        \u0E02\u0E2D\u0E19\u0E49\u0E33 Strawberry \u0E01\u0E23\u0E30\u0E1B\u0E4B\u0E2D\u0E07\u0E19\u0E36\u0E07\u0E14\u0E49\u0E27\u0E22\u0E44\u0E14\u0E49\u0E44\u0E2B\u0E21"
+      additionalItems:
+      - Strawberry
+      forceAnomalyAfterTrick: 1
+      hasAnomaly: 1
+      canGlitch: 0
+      weaknessType: 3
+      glitchSprite: {fileID: -2066911654, guid: 9654588052acfab49a1ed3f2e4333ee8, type: 3}
+      permanentAnomalySprite: {fileID: -3345688592583504575, guid: 9a23e3e4f05b87947b399674afb33d97, type: 3}
+    - customerSprite: {fileID: 3735677353298144711, guid: a67785250b8d571418c7b982b0b4c439, type: 3}
+      customerAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
+      sentences:
+      - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E48\u0E30 \u0E40\u0E08\u0E2D\u0E01\u0E31\u0E19\u0E04\u0E37\u0E19\u0E17\u0E35\u0E48\u0E2A\u0E2D\u0E07\u0E41\u0E25\u0E49\u0E27\u0E2A\u0E34\u0E19\u0E30"
+      - "\u0E22\u0E32\u0E22\u0E2A\u0E31\u0E48\u0E07\u0E43\u0E2B\u0E49\u0E40\u0E1D\u0E49\u0E32\u0E23\u0E49\u0E32\u0E19\u0E01\u0E47\u0E08\u0E23\u0E34\u0E07
+        \u0E41\u0E15\u0E48\u0E19\u0E32\u0E22\u0E41\u0E19\u0E48\u0E43\u0E08\u0E41\u0E25\u0E49\u0E27\u0E40\u0E2B\u0E23\u0E2D\u0E27\u0E48\u0E32\u0E04\u0E37\u0E19\u0E19\u0E35\u0E49\u0E08\u0E30\u0E08\u0E1A\u0E25\u0E07\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E40\u0E21\u0E37\u0E48\u0E2D\u0E27\u0E32\u0E19?"
+      - "\u0E02\u0E2D\u0E19\u0E49\u0E33 Strawberry 1 \u0E01\u0E23\u0E30\u0E1B\u0E4B\u0E2D\u0E07\u0E04\u0E48\u0E30"
+      requiredItems:
+      - Strawberry
+      acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
+      annoyedAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 0b1fd932f0af6734d935fc2e28e38ce2, type: 2}
+      maxPatienceTime: 40
+      isTrickOrder: 0
+      trickSentences: []
+      additionalItems: []
+      forceAnomalyAfterTrick: 0
+      hasAnomaly: 0
+      canGlitch: 1
       weaknessType: 0
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
