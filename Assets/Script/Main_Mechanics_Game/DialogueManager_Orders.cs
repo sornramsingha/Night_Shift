@@ -96,6 +96,12 @@ public partial class DialogueManager
 
     public void ResetBagItems()
     {
+        if (CheckoutManager.Instance != null && CheckoutManager.Instance.hasReceivedMoney)
+        {
+            WarningManager.Show("รับเงินลูกค้ามาแล้ว เปลี่ยนถุงไม่ได้!");
+            return;
+        }
+
         if (hasBag || isBagOnTray)
         {
             itemsInBag.Clear();
@@ -105,6 +111,7 @@ public partial class DialogueManager
             if (activeBagUI != null) activeBagUI.SetActive(false);
             if (bagOnTrayUI != null) bagOnTrayUI.SetActive(false);
             if (giveItemButton != null) giveItemButton.SetActive(false);
+            if (CheckoutManager.Instance != null) CheckoutManager.Instance.HideHandMoney();
 
             WarningManager.Show("เปลี่ยนถุงใหม่ ต้องหยิบใหม่ทั้งหมด");
         }
@@ -167,26 +174,11 @@ public partial class DialogueManager
         if (activeBagUI != null) activeBagUI.SetActive(false);
         if (bagOnTrayUI != null) bagOnTrayUI.SetActive(true);
         if (startTalkButton != null) startTalkButton.SetActive(false);
-        if (giveItemButton != null) giveItemButton.SetActive(true);
-    }
-
-    public void GiveItemToCustomer()
-    {
-        if (ShopLightController.Instance != null && ShopLightController.Instance.isBroken)
-        {
-            WarningManager.Show("มืดขนาดนี้ จะขายของยังไง! ซ่อมไฟก่อน!");
-            return;
-        }
-        if (isDialogueActive)
-        {
-            WarningManager.Show("คุยกับลูกค้าก่อนสิ!");
-            return;
-        }
-        if (!isBagOnTray) return;
+        if (giveItemButton != null) giveItemButton.SetActive(false);
 
         if (CheckoutManager.Instance != null)
         {
-            CheckoutManager.Instance.OpenCheckout(expectedItems, itemsInBag, customerHasAnomaly);
+            CheckoutManager.Instance.PrepareCustomerPayment(expectedItems, customerHasAnomaly);
         }
     }
 

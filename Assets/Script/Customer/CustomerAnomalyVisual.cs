@@ -12,7 +12,10 @@ public class CustomerAnomalyVisual : MonoBehaviour
     [Header("สถานะความผิดปกติ")]
     public bool hasAnomaly = false;
     public bool isCurrentlyShowingAnomaly = false;
+    [HideInInspector] public bool isGlitching = false;
     private bool isWaitingForTrickReveal = false;
+
+    public bool IsOverridingVisual => isCurrentlyShowingAnomaly || isGlitching;
 
     [HideInInspector] public Sprite normalSprite;
     [HideInInspector] public Sprite glitchSprite;
@@ -46,6 +49,9 @@ public class CustomerAnomalyVisual : MonoBehaviour
     void OnDisable()
     {
         StopGlitchCoroutine();
+        isGlitching = false;
+        isCurrentlyShowingAnomaly = false;
+
         if (ShopLightController.Instance != null)
         {
             ShopLightController.Instance.SetAggressiveFlicker(false);
@@ -68,13 +74,13 @@ public class CustomerAnomalyVisual : MonoBehaviour
         isWaitingForTrickReveal = isTrickOrderWait;
 
         isCurrentlyShowingAnomaly = false;
+        isGlitching = false;
+
         if (ShopLightController.Instance != null)
         {
             ShopLightController.Instance.SetAggressiveFlicker(false);
         }
-
         if (targetSprite != null && normalSprite != null) targetSprite.sprite = normalSprite;
-        if (targetAnimator != null) targetAnimator.enabled = true;
 
         if (hasAnomaly && canGlitch)
         {
@@ -93,6 +99,7 @@ public class CustomerAnomalyVisual : MonoBehaviour
 
             if (isOrderReady && hasAnomaly && !isCurrentlyShowingAnomaly && glitchSprite != null)
             {
+                isGlitching = true;
                 if (targetAnimator != null) targetAnimator.enabled = false;
                 if (targetSprite != null) targetSprite.sprite = glitchSprite;
 
@@ -102,10 +109,11 @@ public class CustomerAnomalyVisual : MonoBehaviour
                 }
 
                 yield return new WaitForSeconds(flickerDuration);
-                if (!isCurrentlyShowingAnomaly && targetSprite != null)
+
+                isGlitching = false;
+                if (!isCurrentlyShowingAnomaly)
                 {
-                    targetSprite.sprite = normalSprite;
-                    if (targetAnimator != null) targetAnimator.enabled = true;
+                    RestoreNormalOrMoodVisual();
                 }
             }
         }
@@ -123,6 +131,7 @@ public class CustomerAnomalyVisual : MonoBehaviour
             if (permanentAnomalySprite != null)
             {
                 isCurrentlyShowingAnomaly = true;
+                isGlitching = false;
                 if (targetAnimator != null) targetAnimator.enabled = false;
                 targetSprite.sprite = permanentAnomalySprite;
 
@@ -137,8 +146,8 @@ public class CustomerAnomalyVisual : MonoBehaviour
         else if (revertToNormalOnTurn && normalSprite != null)
         {
             isCurrentlyShowingAnomaly = false;
-            targetSprite.sprite = normalSprite;
-            if (targetAnimator != null) targetAnimator.enabled = true;
+            RestoreNormalOrMoodVisual();
+
             if (ShopLightController.Instance != null)
             {
                 ShopLightController.Instance.SetAggressiveFlicker(false);
@@ -152,14 +161,13 @@ public class CustomerAnomalyVisual : MonoBehaviour
 
         isWaitingForTrickReveal = false;
         isCurrentlyShowingAnomaly = true;
+        isGlitching = false;
 
         if (targetAnimator != null) targetAnimator.enabled = false;
         targetSprite.sprite = permanentAnomalySprite;
 
         FlexibleAudioPlayer audio = GetComponent<FlexibleAudioPlayer>();
         if (audio != null) audio.PlaySound();
-
-        Debug.Log("หันมารอบสอง: โชว์ร่างถาวรเลย!");
 
         if (ShopLightController.Instance != null)
         {
@@ -177,11 +185,21 @@ public class CustomerAnomalyVisual : MonoBehaviour
         maxFlickerWait = 1.5f;
         flickerDuration = 0.3f;
 
-        Debug.Log("หันมารอบสอง: กระพริบรัวขึ้นมาก!");
-
         if (ShopLightController.Instance != null)
         {
             ShopLightController.Instance.SetAggressiveFlicker(true);
+        }
+    }
+
+    private void RestoreNormalOrMoodVisual()
+    {
+        if (DialogueManager.Instance != null)
+        {
+            DialogueManager.Instance.RefreshCustomerVisual();
+        }
+        else if (targetSprite != null && normalSprite != null)
+        {
+            targetSprite.sprite = normalSprite;
         }
     }
 
@@ -192,5 +210,6 @@ public class CustomerAnomalyVisual : MonoBehaviour
             StopCoroutine(glitchCoroutine);
             glitchCoroutine = null;
         }
+        isGlitching = false;
     }
 }

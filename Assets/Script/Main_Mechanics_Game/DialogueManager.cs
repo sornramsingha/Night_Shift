@@ -274,12 +274,9 @@ public partial class DialogueManager : MonoBehaviour
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
         if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(true);
 
-        if (customerAnimatorComp != null && currentData != null && currentData.customerAnimator != null)
+        if (currentData != null)
         {
-            customerAnimatorComp.gameObject.SetActive(true);
-            customerAnimatorComp.runtimeAnimatorController = currentData.customerAnimator;
-            customerAnimatorComp.enabled = true;
-            customerAnimatorComp.speed = 1f;
+            PlayCustomerAnimator(currentData.customerAnimator);
         }
 
         isDialogueActive = true;
@@ -298,12 +295,9 @@ public partial class DialogueManager : MonoBehaviour
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
         if (dialogueBoxRect != null) dialogueBoxRect.gameObject.SetActive(true);
 
-        if (customerAnimatorComp != null && currentData != null && currentData.customerAnimator != null)
+        if (currentData != null)
         {
-            customerAnimatorComp.gameObject.SetActive(true);
-            customerAnimatorComp.runtimeAnimatorController = currentData.customerAnimator;
-            customerAnimatorComp.enabled = true;
-            customerAnimatorComp.speed = 1f;
+            PlayCustomerAnimator(currentData.customerAnimator);
         }
 
         isDialogueActive = true;
@@ -455,7 +449,7 @@ public partial class DialogueManager : MonoBehaviour
     {
         isTimerRunning = false;
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
-        if (CheckoutManager.Instance != null) CheckoutManager.Instance.CloseCheckout();
+        if (CheckoutManager.Instance != null) CheckoutManager.Instance.ResetForNewCustomer();
 
         ResetAllUI();
         hasBag = false;
@@ -469,6 +463,7 @@ public partial class DialogueManager : MonoBehaviour
     private void UpdateCustomerMoodVisual(bool forceUpdate = false)
     {
         if (currentData == null || isDialogueActive) return;
+        if (CustomerAnomalyVisual.CurrentActive != null && CustomerAnomalyVisual.CurrentActive.IsOverridingVisual) return;
 
         float ratio = (customerMaxPatience > 0f) ? (currentPatience / customerMaxPatience) : 1f;
         int targetStage = 0;
@@ -494,9 +489,29 @@ public partial class DialogueManager : MonoBehaviour
         }
     }
 
+    public void RefreshCustomerVisual()
+    {
+        if (currentData == null) return;
+        if (CustomerAnomalyVisual.CurrentActive != null && CustomerAnomalyVisual.CurrentActive.IsOverridingVisual) return;
+
+        if (isDialogueActive && currentData.customerAnimator != null)
+        {
+            PlayCustomerAnimator(currentData.customerAnimator);
+        }
+        else if (isWaitingForOrder)
+        {
+            UpdateCustomerMoodVisual(true);
+        }
+        else
+        {
+            SetCustomerStaticIdle();
+        }
+    }
+
     private void PlayCustomerAnimator(RuntimeAnimatorController controller)
     {
         if (customerAnimatorComp == null || controller == null) return;
+        if (CustomerAnomalyVisual.CurrentActive != null && CustomerAnomalyVisual.CurrentActive.IsOverridingVisual) return;
 
         customerAnimatorComp.gameObject.SetActive(true);
         customerAnimatorComp.runtimeAnimatorController = controller;
@@ -506,6 +521,8 @@ public partial class DialogueManager : MonoBehaviour
 
     private void SetCustomerStaticIdle()
     {
+        if (CustomerAnomalyVisual.CurrentActive != null && CustomerAnomalyVisual.CurrentActive.IsOverridingVisual) return;
+
         if (customerAnimatorComp != null)
         {
             customerAnimatorComp.runtimeAnimatorController = null;
