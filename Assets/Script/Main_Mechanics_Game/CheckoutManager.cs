@@ -15,25 +15,25 @@ public class CheckoutManager : MonoBehaviour
 {
     public static CheckoutManager Instance;
 
-    [Header("1. วัตถุเงินที่ลูกค้ายื่นมาหน้าร้าน")]
-    public GameObject customerHandMoneyObj;              // Object เงินที่โผล่เมื่อวางถุงบนถาด
-    public SpriteRenderer customerHandMoneyRenderer;     // ใส่ถ้าวัตถุในฉากเป็น 2D Sprite
-    public Image customerHandMoneyUIImage;               // ใส่ถ้าทำเป็นปุ่ม UI แทน
+    [Header("เงินที่ลูกค้ายื่น")]
+    public GameObject customerHandMoneyObj;             
+    public SpriteRenderer customerHandMoneyRenderer;   
+    public Image customerHandMoneyUIImage;               
 
-    [Header("2. หน้าต่างเครื่องคิดเงินและลิ้นชัก (UI)")]
+    [Header("2.หน้าต่างเครื่องคิดเงิน")]
     public GameObject checkoutPanel;
     [HideInInspector] public bool isCheckoutOpen = false;
-    [HideInInspector] public bool isMoneyOnCounter = false;   // ลูกค้ายื่นเงินออกมาแล้วหรือยัง
-    [HideInInspector] public bool hasReceivedMoney = false;   // ผู้เล่นกดรับเงินจากลูกค้าแล้วหรือยัง
+    [HideInInspector] public bool isMoneyOnCounter = false;   
+    [HideInInspector] public bool hasReceivedMoney = false;   
 
-    [Header("3. ข้อความบนหน้าจอเครื่องคิดเงิน (ตามเรฟ)")]
-    public TextMeshProUGUI totalPriceText;       // Total (ค่าสินค้าทั้งหมด)
-    public TextMeshProUGUI receivedMoneyText;    // Received (เงินที่ได้รับมา)
-    public TextMeshProUGUI requiredChangeText;   // Change (จำนวนเงินที่ต้องทอน)
-    public TextMeshProUGUI givenChangeText;      // Given (จำนวนเงินที่เราหยิบทอน)
-    public Image registerBanknotePreview;        // (ไม่บังคับ) โชว์รูปแบงก์ที่รับมาบนจอเครื่องคิดเงินด้วย
+    [Header("3.ข้อความบนหน้าจอเครื่องคิดเงิน")]
+    public TextMeshProUGUI totalPriceText;       
+    public TextMeshProUGUI receivedMoneyText;    
+    public TextMeshProUGUI requiredChangeText;  
+    public TextMeshProUGUI givenChangeText;      
+    public Image registerBanknotePreview;       
 
-    [Header("4. ตั้งค่าแบงก์และโอกาสเจอเงินผี")]
+    [Header("4.ตั้งค่าเงินคนและเงินผี")]
     public List<BanknoteVisual> banknoteVisuals = new List<BanknoteVisual>();
     [Range(0f, 1f)] public float ghostMoneyChance = 0.35f;
 
@@ -41,7 +41,6 @@ public class CheckoutManager : MonoBehaviour
     public float sanityRewardExactChange = 5f;
     public float sanityPenaltyWrongChange = 8f;
 
-    // ข้อมูลบิลของลูกค้าคนปัจจุบัน
     private int actualOrderTotal = 0;
     private int customerPaidAmount = 0;
     private int requiredChangeAmount = 0;
@@ -49,7 +48,6 @@ public class CheckoutManager : MonoBehaviour
     private bool isGhostMoney = false;
     private bool hasRolledPaymentForCurrentCustomer = false;
 
-    // เก็บประวัติการหยิบเงินทอน เผื่อผู้เล่นกดเกินแล้วอยากกดย้อนกลับทีละใบ
     private Stack<int> changeHistory = new Stack<int>();
 
     void Awake()
@@ -59,7 +57,6 @@ public class CheckoutManager : MonoBehaviour
         if (customerHandMoneyObj != null) customerHandMoneyObj.SetActive(false);
     }
 
-    // เรียกตอนเปลี่ยนลูกค้าคนใหม่ หรือจบการบริการ (หมดเวลา / แปะยันต์ / ขายเสร็จ)
     public void ResetForNewCustomer()
     {
         hasRolledPaymentForCurrentCustomer = false;
@@ -74,23 +71,22 @@ public class CheckoutManager : MonoBehaviour
 
         if (customerHandMoneyObj != null) customerHandMoneyObj.SetActive(false);
         CloseCheckout();
+
+        if (RegisterAnomaly.Instance != null) RegisterAnomaly.Instance.ResetAnomalyState();
     }
 
-    // ซ่อนเงินบนเคาน์เตอร์กรณีผู้เล่นกดเปลี่ยนถุงก่อนรับเงิน
     public void HideHandMoney()
     {
         isMoneyOnCounter = false;
         if (customerHandMoneyObj != null) customerHandMoneyObj.SetActive(false);
     }
 
-    // ขั้นที่ 1: เรียกอัตโนมัติทันทีที่ผู้เล่นวางถุงสินค้าลงบนถาด -> ลูกค้ายื่นเงินมาให้
     public void PrepareCustomerPayment(List<string> expectedItems, bool customerHasAnomaly)
     {
         actualOrderTotal = (MoneyManager.Instance != null)
             ? MoneyManager.Instance.CalculateTotal(expectedItems)
             : 0;
 
-        // สุ่มเงินที่ลูกค้าจ่ายแค่ครั้งเดียวต่อคน กันการรีโรล
         if (!hasRolledPaymentForCurrentCustomer)
         {
             hasRolledPaymentForCurrentCustomer = true;
@@ -99,8 +95,6 @@ public class CheckoutManager : MonoBehaviour
         }
 
         requiredChangeAmount = Mathf.Max(0, customerPaidAmount - actualOrderTotal);
-
-        // อัปเดตรูปแบงก์ปกติ / แบงก์ผี และเปิด Object เงินให้ลูกค้ายื่นออกมา
         Sprite noteSprite = GetBanknoteSprite(customerPaidAmount, isGhostMoney);
         if (noteSprite != null)
         {
@@ -112,9 +106,9 @@ public class CheckoutManager : MonoBehaviour
         isMoneyOnCounter = true;
         hasReceivedMoney = false;
         if (customerHandMoneyObj != null) customerHandMoneyObj.SetActive(true);
+        if (RegisterAnomaly.Instance != null) RegisterAnomaly.Instance.RollAnomalyForCustomer();
     }
 
-    // ขั้นที่ 2: ผู้เล่นคลิกที่เงินที่ลูกค้ายื่นมา
     public void TakeCustomerMoney()
     {
         if (!isMoneyOnCounter || hasReceivedMoney) return;
@@ -135,10 +129,9 @@ public class CheckoutManager : MonoBehaviour
         hasReceivedMoney = true;
 
         if (customerHandMoneyObj != null) customerHandMoneyObj.SetActive(false);
-        WarningManager.Show($"รับเงินมา {customerPaidAmount} บาท ไปกดที่เครื่องคิดเงินเพื่อทอนเงิน!");
+        WarningManager.Show($"รับเงินมา {customerPaidAmount} บาท กดที่เครื่องคิดเงินเพื่อทอนเงิน!");
     }
 
-    // ขั้นที่ 3: ผู้เล่นคลิกที่วัตถุเครื่องคิดเงินในฉาก
     public void OpenRegister()
     {
         if (isCheckoutOpen) return;
@@ -169,6 +162,8 @@ public class CheckoutManager : MonoBehaviour
 
         ResetChange();
         UpdateRegisterDisplay();
+
+        if (RegisterAnomaly.Instance != null) RegisterAnomaly.Instance.OnRegisterOpened();
     }
 
     public void CloseCheckout()
@@ -179,9 +174,9 @@ public class CheckoutManager : MonoBehaviour
 
     #region --- ระบบหยิบเงินทอนจากลิ้นชัก (ผูกกับ Button OnClick ของแต่ละช่องเงิน) ---
 
-    // ผูกกับปุ่มแบงก์และเหรียญ เช่น ส่งค่า 1, 5, 10, 20, 50, 100, 500
     public void AddChange(int amount)
     {
+        if (RegisterAnomaly.Instance != null && RegisterAnomaly.Instance.isRebooting) return;
         if (!isCheckoutOpen) return;
 
         currentChangeToGive += amount;
@@ -189,9 +184,9 @@ public class CheckoutManager : MonoBehaviour
         UpdateGivenChangeUI();
     }
 
-    // ปุ่ม "หยิบออก 1 ชิ้น" (Undo) เผื่อกดหยิบแบงก์เกิน
     public void UndoLastChange()
     {
+        if (RegisterAnomaly.Instance != null && RegisterAnomaly.Instance.isRebooting) return;
         if (!isCheckoutOpen || changeHistory.Count == 0) return;
 
         int lastAmount = changeHistory.Pop();
@@ -199,17 +194,17 @@ public class CheckoutManager : MonoBehaviour
         UpdateGivenChangeUI();
     }
 
-    // ปุ่ม "ล้างเงินทอน" (Clear) เก็บเงินทอนคืนลิ้นชักทั้งหมดเป็น 0
     public void ResetChange()
     {
+        if (RegisterAnomaly.Instance != null && RegisterAnomaly.Instance.isRebooting) return;
         currentChangeToGive = 0;
         changeHistory.Clear();
         UpdateGivenChangeUI();
     }
 
-    // ปุ่ม "ยืนยันทอนเงิน" (Confirm) ส่งเงินทอนและสินค้าให้ลูกค้า
     public void ConfirmCheckoutAndGiveItem()
     {
+        if (RegisterAnomaly.Instance != null && RegisterAnomaly.Instance.isRebooting) return;
         if (DialogueManager.Instance == null || !hasReceivedMoney) return;
 
         int finalTotal = actualOrderTotal;

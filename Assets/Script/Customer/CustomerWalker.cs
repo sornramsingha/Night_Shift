@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(AudioSource))]
 public class CustomerWalker : MonoBehaviour
@@ -21,6 +22,11 @@ public class CustomerWalker : MonoBehaviour
     public Color shadowColor = Color.black;
     public Color normalColor = Color.white;
 
+    [Header("ตั้งค่าเอฟเฟกต์ตอนปราบสิ่งผิดปกติ")]
+    public float vanishDuration = 1.2f;
+    public float vanishShakeAmount = 0.15f;
+    public SpriteRenderer customerSprite;
+
     [Tooltip("กราฟปรับความเข้มของสี")]
     public AnimationCurve fadeCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
@@ -34,6 +40,7 @@ public class CustomerWalker : MonoBehaviour
     void Start()
     {
         shadowFader = GetComponent<SpriteRenderer>();
+        if (customerSprite == null) customerSprite = GetComponentInChildren<SpriteRenderer>();
         transform.position = spawnPoint.position;
 
         audioSource = GetComponent<AudioSource>();
@@ -99,6 +106,7 @@ public class CustomerWalker : MonoBehaviour
     public void ResetAndWalk()
     {
         gameObject.SetActive(true);
+        ResetCustomerAlpha();
 
         transform.position = spawnPoint.position;
         totalDistanceIn = Mathf.Abs(spawnPoint.position.x - counterPoint.position.x);
@@ -121,6 +129,18 @@ public class CustomerWalker : MonoBehaviour
         }
     }
 
+    private void ResetCustomerAlpha()
+    {
+        if (customerSprite == null) customerSprite = GetComponentInChildren<SpriteRenderer>();
+        if (customerSprite != null)
+        {
+            Color c = customerSprite.color;
+            c.a = 1f;
+            customerSprite.color = c;
+            customerSprite.enabled = true;
+        }
+    }
+
     public void WalkAway()
     {
         totalDistanceOut = Mathf.Abs(exitPoint.position.x - counterPoint.position.x);
@@ -131,12 +151,56 @@ public class CustomerWalker : MonoBehaviour
 
     public void Vanish()
     {
+        StartCoroutine(VanishRoutine());
+    }
+
+    private IEnumerator VanishRoutine()
+    {
         isWalkingIn = false;
         isWalkingOut = false;
         if (audioSource != null) audioSource.Stop();
-        gameObject.SetActive(false);
 
+        if (CustomerAnomalyVisual.CurrentActive != null)
+        {
+            CustomerAnomalyVisual.CurrentActive.StopGlitchCoroutine();
+        }
+
+        if (customerSprite == null) customerSprite = GetComponentInChildren<SpriteRenderer>();
+
+        Vector3 startPos = transform.localPosition;
+        Color startColor = (customerSprite != null) ? customerSprite.color : Color.white;
+        float elapsed = 0f;
+
+        while (elapsed < vanishDuration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / vanishDuration;
+
+            float rx = Random.Range(-vanishShakeAmount, vanishShakeAmount);
+            float ry = Random.Range(-vanishShakeAmount, vanishShakeAmount);
+            transform.localPosition = startPos + new Vector3(rx, ry, 0f);
+
+            if (customerSprite != null)
+            {
+                Color c = startColor;
+                c.a = Mathf.Lerp(1f, 0f, progress);
+                customerSprite.color = c;
+            }
+
+            yield return null;
+        }
+
+        transform.localPosition = startPos;
+        if (customerSprite != null)
+        {
+            Color c = startColor;
+            c.a = 0f;
+            customerSprite.color = c;
+        }
+
+        gameObject.SetActive(false);
         transform.position = exitPoint.position;
+
         if (DayManager.Instance != null) DayManager.Instance.SpawnNextCustomer();
     }
 
