@@ -4199,7 +4199,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &606038695
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11269,15 +11269,15 @@ RectTransform:
   m_GameObject: {fileID: 1467081435}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.3081, y: 2.3081, z: 2.3081}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2029222781}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 76.48059, y: 250.0055}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 165.24, y: 250}
+  m_SizeDelta: {x: 377.52, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1467081437
 MonoBehaviour:
@@ -11308,7 +11308,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4292664540
   m_fontColor: {r: 0.8627451, g: 0.8627451, b: 0.8627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -11326,8 +11326,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -11364,7 +11364,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 61.357292, y: 0, z: -124.656265, w: 0}
+  m_margin: {x: 13.014763, y: -35.158203, z: -240.01881, w: -35.158142}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -15104,7 +15104,10 @@ MonoBehaviour:
   acceptOrderButton: {fileID: 680260984}
   acceptButtonTextUI: {fileID: 2121755651}
   dialogueBoxRect: {fileID: 1931948014}
-  normalShakeAmount: 12
+  verticalPadding: 40
+  minBoxHeight: 0
+  normalShakeAmount: 6
+  normalShakeSpeed: 6
   anomalyShakeAmount: 8
   patienceUIContainer: {fileID: 1468717086}
   patienceFillBar: {fileID: 1787993270}

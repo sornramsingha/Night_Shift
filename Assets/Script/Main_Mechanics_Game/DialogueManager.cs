@@ -16,11 +16,18 @@ public partial class DialogueManager : MonoBehaviour
     public GameObject acceptOrderButton;
     public TextMeshProUGUI acceptButtonTextUI;
 
-    [Header("ตั้งค่ากรอบข้อความ")]
+    [Header("ตั้งค่ากรอบข้อความและการสั่น")]
     public RectTransform dialogueBoxRect;
-    public float normalShakeAmount = 2f;
-    public float anomalyShakeAmount = 6f;
-    private Vector3 originalBoxPos;
+    public float verticalPadding = 40f;
+    [Tooltip("ความสูงตั้งต้นของกรอบ")]
+    public float minBoxHeight = 0f;
+    public float normalShakeAmount = 2.5f;  
+    public float normalShakeSpeed = 6f;     
+    public float anomalyShakeAmount = 6f;   
+
+    private Vector2 originalBoxPos;
+    private Vector2 originalBoxSize;
+    private Vector2 originalTextPos;
 
     [Header("ระบบหลอดเวลา UI")]
     public GameObject patienceUIContainer;
@@ -97,7 +104,19 @@ public partial class DialogueManager : MonoBehaviour
     {
         if (customerWalker == null) customerWalker = FindFirstObjectByType<CustomerWalker>();
         if (startTalkButton != null) startTalkBtnText = startTalkButton.GetComponentInChildren<TextMeshProUGUI>();
-        if (dialogueBoxRect != null) originalBoxPos = dialogueBoxRect.localPosition;
+
+        if (dialogueBoxRect != null)
+        {
+            originalBoxPos = dialogueBoxRect.anchoredPosition;
+            originalBoxSize = dialogueBoxRect.sizeDelta;
+            if (minBoxHeight <= 0f) minBoxHeight = originalBoxSize.y;
+        }
+
+        if (dialogueText != null)
+        {
+            originalTextPos = dialogueText.rectTransform.anchoredPosition;
+        }
+
         if (centerTalismanSprite == null && activeTalismanUI != null) centerTalismanSprite = activeTalismanUI.GetComponent<SpriteRenderer>();
 
         if (patienceUIContainer != null) patienceUIContainer.SetActive(false);
@@ -124,23 +143,28 @@ public partial class DialogueManager : MonoBehaviour
 
         if (dialogueBoxRect != null)
         {
-            float stressFactor = (customerMaxPatience > 0) ? 1f - (currentPatience / customerMaxPatience) : 0f;
-            float speed = 5f + (stressFactor * 15f);
-            float currentNormalShake = 1f + (stressFactor * normalShakeAmount);
+            float patienceRatio = (customerMaxPatience > 0f) ? (currentPatience / customerMaxPatience) : 1f;
+            Vector2 shakeOffset;
 
-            if (customerHasAnomaly && stressFactor > 0.5f)
+            if (customerHasAnomaly && patienceRatio < 0.5f)
             {
-                float glitchIntensity = (stressFactor - 0.5f) * 2f;
-                float glitchShake = 2f + (glitchIntensity * anomalyShakeAmount);
+                float anomalyProgress = (0.5f - patienceRatio) * 2f;
+                float currentAnomalyShake = Mathf.Lerp(anomalyShakeAmount * 0.6f, anomalyShakeAmount, anomalyProgress);
 
-                float rx = Random.Range(-glitchShake, glitchShake);
-                float ry = Random.Range(-glitchShake, glitchShake);
-                dialogueBoxRect.localPosition = originalBoxPos + new Vector3(rx, ry, 0);
+                float rx = Random.Range(-currentAnomalyShake, currentAnomalyShake);
+                float ry = Random.Range(-currentAnomalyShake, currentAnomalyShake);
+                shakeOffset = new Vector2(rx, ry);
             }
             else
             {
-                float ry = Mathf.Sin(Time.unscaledTime * speed) * currentNormalShake;
-                dialogueBoxRect.localPosition = originalBoxPos + new Vector3(0, ry, 0);
+                float ry = Mathf.Sin(Time.unscaledTime * normalShakeSpeed) * normalShakeAmount;
+                shakeOffset = new Vector2(0f, ry);
+            }
+
+            dialogueBoxRect.anchoredPosition = originalBoxPos + shakeOffset;
+            if (dialogueText != null && dialogueText.transform.IsChildOf(dialogueBoxRect))
+            {
+                dialogueText.rectTransform.anchoredPosition = originalTextPos - shakeOffset;
             }
         }
 
@@ -159,6 +183,28 @@ public partial class DialogueManager : MonoBehaviour
             else
             {
                 NextSentence();
+            }
+        }
+    }
+
+    private void AdjustDialogueBoxSize()
+    {
+        if (dialogueBoxRect == null || dialogueText == null) return;
+
+        dialogueText.ForceMeshUpdate();
+        float textHeight = dialogueText.preferredHeight;
+        float targetHeight = Mathf.Max(minBoxHeight, textHeight + verticalPadding);
+
+        dialogueBoxRect.sizeDelta = new Vector2(originalBoxSize.x, targetHeight);
+
+        if (hintText != null)
+        {
+            RectTransform hintRect = hintText.GetComponent<RectTransform>();
+            if (hintRect != null)
+            {
+                float bottomEdgeY = originalBoxPos.y - (targetHeight * dialogueBoxRect.pivot.y);
+                float gapBelowBox = 40f;
+                hintRect.anchoredPosition = new Vector2(hintRect.anchoredPosition.x, bottomEdgeY - gapBelowBox);
             }
         }
     }
@@ -337,6 +383,7 @@ public partial class DialogueManager : MonoBehaviour
         isTyping = true;
         dialogueText.text = sentence;
         dialogueText.ForceMeshUpdate();
+        AdjustDialogueBoxSize();
 
         int totalVisibleCharacters = dialogueText.textInfo.characterCount;
         for (int visibleCount = 0; visibleCount <= totalVisibleCharacters; visibleCount++)
@@ -379,15 +426,21 @@ public partial class DialogueManager : MonoBehaviour
         StopTyping();
         isDialogueActive = false;
         isWaitingForChoice = false;
-        if (dialogueText != null) dialogueText.text = "";
+        if (dialogueText != null)
+        {
+            dialogueText.text = "";
+            dialogueText.rectTransform.anchoredPosition = originalTextPos;
+        }
         if (choicePanel != null) choicePanel.SetActive(false);
         if (hintText != null) hintText.SetActive(false);
 
         if (dialogueBoxRect != null)
         {
-            dialogueBoxRect.localPosition = originalBoxPos;
+            dialogueBoxRect.anchoredPosition = originalBoxPos;
+            dialogueBoxRect.sizeDelta = originalBoxSize;
             dialogueBoxRect.gameObject.SetActive(false);
         }
+
         if (currentData != null && isWaitingForOrder)
         {
             UpdateCustomerMoodVisual(true);
@@ -468,9 +521,9 @@ public partial class DialogueManager : MonoBehaviour
         float ratio = (customerMaxPatience > 0f) ? (currentPatience / customerMaxPatience) : 1f;
         int targetStage = 0;
 
-        if (ratio <= 0.3f) targetStage = 2;       
-        else if (ratio <= 0.6f) targetStage = 1;  
-        else targetStage = 0;        
+        if (ratio <= 0.3f) targetStage = 2;
+        else if (ratio <= 0.6f) targetStage = 1;
+        else targetStage = 0;
 
         if (!forceUpdate && targetStage == currentMoodStage) return;
         currentMoodStage = targetStage;
