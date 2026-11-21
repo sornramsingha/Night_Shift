@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rinkpop_0: 3470454944475985672
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
