@@ -12636,7 +12636,7 @@ Animator:
   m_GameObject: {fileID: 1667897605}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 575c4d3fc594f074eb8bf6c38e6453b1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -12697,7 +12697,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.9058824, y: 6.2480845}
+  m_Size: {x: 5.906048, y: 6.247059}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -12795,8 +12795,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.9058824, y: 6.2480845}
-    newSize: {x: 5.9058824, y: 6.2480845}
+    oldSize: {x: 5.906048, y: 6.247059}
+    newSize: {x: 5.906048, y: 6.247059}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -15224,7 +15224,7 @@ MonoBehaviour:
       permanentAnomalySprite: {fileID: 0}
     possibleCustomersPool:
     - customerSprite: {fileID: 5146657569325550173, guid: d233dc745ed64014f9094d525e00ca00, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: e09e878245a5ad84085c0a578b2f05a4, type: 2}
       sentences:
       - "\u0E27\u0E48\u0E32\u0E44\u0E07\u0E2B\u0E19\u0E38\u0E48\u0E21 \u0E21\u0E32\u0E17\u0E33\u0E07\u0E32\u0E19\u0E27\u0E31\u0E19\u0E41\u0E23\u0E01\u0E2B\u0E23\u0E2D"
       - "\u0E1E\u0E35\u0E48\u0E02\u0E2D\u0E19\u0E49\u0E33\u0E0B\u0E48\u0E32\u0E46\u0E2A\u0E31\u0E01\u0E02\u0E27\u0E14\u0E2B\u0E19\u0E48\u0E2D\u0E22\u0E2A\u0E34
@@ -15232,8 +15232,8 @@ MonoBehaviour:
       requiredItems:
       - Zoda
       acceptButtonText: "\u0E15\u0E01\u0E25\u0E07\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 0}
-      angryAnimator: {fileID: 0}
+      annoyedAnimator: {fileID: 9100000, guid: 575c4d3fc594f074eb8bf6c38e6453b1, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 6e786c3cc21fb8d44bdff049a4b5f8b4, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 1
       trickSentences:
@@ -15272,7 +15272,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: 7140893802130261532, guid: 22f071de3519a8a4eb73654f3bbd8d03, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: e09e878245a5ad84085c0a578b2f05a4, type: 2}
       sentences:
       - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35 \u0E2D\u0E22\u0E32\u0E01\u0E08\u0E30\u0E44\u0E14\u0E49\u0E19\u0E49\u0E33\u0E14\u0E37\u0E48\u0E21\u0E2D\u0E30\u0E44\u0E23\u0E17\u0E35\u0E48\u0E0B\u0E48\u0E32\u0E46"
       - "\u0E0A\u0E48\u0E27\u0E22\u0E2B\u0E22\u0E34\u0E1A\u0E19\u0E49\u0E33 Zoda
@@ -15280,8 +15280,8 @@ MonoBehaviour:
       requiredItems:
       - Zoda
       acceptButtonText: "\u0E08\u0E31\u0E14\u0E44\u0E1B"
-      annoyedAnimator: {fileID: 0}
-      angryAnimator: {fileID: 0}
+      annoyedAnimator: {fileID: 9100000, guid: 575c4d3fc594f074eb8bf6c38e6453b1, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 6e786c3cc21fb8d44bdff049a4b5f8b4, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 1
       trickSentences:
@@ -15391,7 +15391,7 @@ MonoBehaviour:
       permanentAnomalySprite: {fileID: 0}
     possibleCustomersPool:
     - customerSprite: {fileID: 5146657569325550173, guid: d233dc745ed64014f9094d525e00ca00, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: e09e878245a5ad84085c0a578b2f05a4, type: 2}
       sentences:
       - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35 \u0E23\u0E49\u0E32\u0E19\u0E19\u0E35\u0E49\u0E14\u0E39\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E08\u0E30\u0E40\u0E01\u0E47\u0E1A\u0E40\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E02\u0E2D\u0E07\u0E22\u0E32\u0E22\u0E40\u0E2D\u0E32\u0E44\u0E27\u0E49\u0E40\u0E22\u0E2D\u0E30\u0E19\u0E30
         \u0E41\u0E15\u0E48\u0E1A\u0E32\u0E07\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E01\u0E47\u0E14\u0E39\u0E40\u0E2B\u0E21\u0E37\u0E2D\u0E19\u0E40\u0E27\u0E25\u0E32\u0E1C\u0E48\u0E32\u0E19\u0E21\u0E32\u0E19\u0E32\u0E19\u0E21\u0E32\u0E01\u0E41\u0E25\u0E49\u0E27"
@@ -15403,8 +15403,8 @@ MonoBehaviour:
       requiredItems:
       - Strawberry
       acceptButtonText: "\u0E15\u0E01\u0E25\u0E07\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 0}
-      angryAnimator: {fileID: 0}
+      annoyedAnimator: {fileID: 9100000, guid: 575c4d3fc594f074eb8bf6c38e6453b1, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 6e786c3cc21fb8d44bdff049a4b5f8b4, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:
@@ -15444,7 +15444,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: 726694589, guid: db8bc9efaa66f9d4089bc1baf288e646, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E02\u0E2D\u0E42\u0E17\u0E29\u0E19\u0E30\u0E17\u0E35\u0E48\u0E40\u0E14\u0E34\u0E19\u0E40\u0E02\u0E49\u0E32\u0E21\u0E32\u0E19\u0E34\u0E48\u0E07\u0E46
         \u0E1E\u0E2D\u0E14\u0E35\u0E44\u0E21\u0E48\u0E2D\u0E22\u0E32\u0E01\u0E2A\u0E48\u0E07\u0E40\u0E2A\u0E35\u0E22\u0E07\u0E14\u0E31\u0E07\u0E23\u0E1A\u0E01\u0E27\u0E19\n"
@@ -15455,8 +15455,8 @@ MonoBehaviour:
       requiredItems:
       - Kiki
       acceptButtonText: "\u0E08\u0E31\u0E14\u0E44\u0E1B"
-      annoyedAnimator: {fileID: 0}
-      angryAnimator: {fileID: 0}
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 1
       trickSentences:
@@ -15517,7 +15517,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: -1163499552767116836, guid: de6970992d1bf854e8a6ca7a97a050fe, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E41\u0E27\u0E30\u0E21\u0E32\u0E0B\u0E37\u0E49\u0E2D\u0E02\u0E2D\u0E07\u0E23\u0E2D\u0E07\u0E17\u0E49\u0E2D\u0E07\u0E2B\u0E19\u0E48\u0E2D\u0E22\u0E19\u0E48\u0E30"
       - "\u0E25\u0E2D\u0E07\u0E2A\u0E31\u0E07\u0E40\u0E01\u0E15\u0E02\u0E2D\u0E07\u0E1A\u0E19\u0E0A\u0E31\u0E49\u0E19\u0E01\u0E31\u0E1A\u0E1B\u0E49\u0E32\u0E22\u0E23\u0E32\u0E04\u0E32\u0E14\u0E35\u0E46
@@ -15527,8 +15527,8 @@ MonoBehaviour:
       requiredItems:
       - Kiki
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 0}
-      angryAnimator: {fileID: 0}
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:
@@ -15543,7 +15543,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: -1163499552767116836, guid: de6970992d1bf854e8a6ca7a97a050fe, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E2D\u0E49\u0E32\u0E27 \u0E19\u0E49\u0E2D\u0E07\u0E04\u0E19\u0E40\u0E14\u0E34\u0E21\u0E19\u0E35\u0E48\u0E19\u0E32
         \u0E04\u0E37\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1F\u0E2B\u0E19\u0E49\u0E32\u0E23\u0E49\u0E32\u0E19\u0E14\u0E39\u0E41\u0E1B\u0E25\u0E01\u0E46
@@ -15553,8 +15553,8 @@ MonoBehaviour:
       requiredItems:
       - Laza
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
-      angryAnimator: {fileID: 9100000, guid: 0b1fd932f0af6734d935fc2e28e38ce2, type: 2}
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:
@@ -15570,7 +15570,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: -1163499552767116836, guid: de6970992d1bf854e8a6ca7a97a050fe, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E2A\u0E27\u0E31\u0E2A\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E14\u0E36\u0E01\u0E1B\u0E48\u0E32\u0E19\u0E19\u0E35\u0E49\u0E25\u0E21\u0E02\u0E49\u0E32\u0E07\u0E19\u0E2D\u0E01\u0E41\u0E23\u0E07\u0E08\u0E31\u0E07\u0E40\u0E25\u0E22\u0E19\u0E30"
       - "\u0E1C\u0E48\u0E32\u0E19\u0E40\u0E02\u0E49\u0E32\u0E21\u0E32\u0E41\u0E16\u0E27\u0E19\u0E35\u0E49\u0E17\u0E35\u0E44\u0E23\u0E44\u0E14\u0E49\u0E01\u0E25\u0E34\u0E48\u0E19\u0E2D\u0E30\u0E44\u0E23\u0E41\u0E1B\u0E25\u0E01\u0E46
@@ -15579,8 +15579,8 @@ MonoBehaviour:
       requiredItems:
       - Zoda
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
-      angryAnimator: {fileID: 9100000, guid: 0b1fd932f0af6734d935fc2e28e38ce2, type: 2}
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:
@@ -15627,7 +15627,7 @@ MonoBehaviour:
       permanentAnomalySprite: {fileID: 0}
     possibleCustomersPool:
     - customerSprite: {fileID: 3735677353298144711, guid: a67785250b8d571418c7b982b0b4c439, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E2D\u0E49\u0E32\u0E27 \u0E19\u0E49\u0E2D\u0E07\u0E04\u0E19\u0E40\u0E14\u0E34\u0E21\u0E19\u0E35\u0E48\u0E19\u0E32
         \u0E22\u0E31\u0E07\u0E08\u0E33\u0E17\u0E32\u0E07\u0E01\u0E25\u0E31\u0E1A\u0E1A\u0E49\u0E32\u0E19\u0E44\u0E14\u0E49\u0E2D\u0E22\u0E39\u0E48\u0E43\u0E0A\u0E48\u0E44\u0E2B\u0E21?"
@@ -15638,8 +15638,8 @@ MonoBehaviour:
       requiredItems:
       - Kiki
       acceptButtonText: "\u0E15\u0E01\u0E25\u0E07\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 0}
-      angryAnimator: {fileID: 0}
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:
@@ -15653,7 +15653,7 @@ MonoBehaviour:
       glitchSprite: {fileID: -3345688592583504575, guid: 9a23e3e4f05b87947b399674afb33d97, type: 3}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: -1163499552767116836, guid: de6970992d1bf854e8a6ca7a97a050fe, type: 3}
-      customerAnimator: {fileID: 9100000, guid: 8707a973019033a4a9510cf0cccf1b20, type: 2}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E2B\u0E27\u0E31\u0E14\u0E14\u0E35\u0E04\u0E23\u0E31\u0E1A \u0E04\u0E37\u0E19\u0E19\u0E35\u0E49\u0E25\u0E21\u0E40\u0E22\u0E47\u0E19\u0E2A\u0E1A\u0E32\u0E22\u0E14\u0E35\u0E19\u0E30
         \u0E44\u0E21\u0E48\u0E2B\u0E19\u0E32\u0E27\u0E08\u0E19\u0E40\u0E01\u0E34\u0E19\u0E44\u0E1B
@@ -15667,8 +15667,8 @@ MonoBehaviour:
       requiredItems:
       - Stawberry
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E40\u0E25\u0E22\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
-      angryAnimator: {fileID: 9100000, guid: 0b1fd932f0af6734d935fc2e28e38ce2, type: 2}
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:
@@ -15683,7 +15683,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: 726694589, guid: db8bc9efaa66f9d4089bc1baf288e646, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E2D\u0E49\u0E32\u0E27 \u0E19\u0E49\u0E2D\u0E07\u0E04\u0E19\u0E40\u0E14\u0E34\u0E21\u0E19\u0E35\u0E48\u0E19\u0E32
         \u0E04\u0E37\u0E19\u0E19\u0E35\u0E49\u0E04\u0E19\u0E40\u0E14\u0E34\u0E19\u0E1C\u0E48\u0E32\u0E19\u0E2B\u0E19\u0E49\u0E32\u0E23\u0E49\u0E32\u0E19\u0E41\u0E17\u0E1A\u0E44\u0E21\u0E48\u0E21\u0E35\u0E40\u0E25\u0E22\u0E40\u0E19\u0E2D\u0E30\r\n"
@@ -15693,8 +15693,8 @@ MonoBehaviour:
       requiredItems:
       - Zoda
       acceptButtonText: "\u0E08\u0E31\u0E14\u0E44\u0E1B"
-      annoyedAnimator: {fileID: 0}
-      angryAnimator: {fileID: 0}
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:
@@ -15709,7 +15709,7 @@ MonoBehaviour:
       glitchSprite: {fileID: -2066911654, guid: 9654588052acfab49a1ed3f2e4333ee8, type: 3}
       permanentAnomalySprite: {fileID: -3345688592583504575, guid: 9a23e3e4f05b87947b399674afb33d97, type: 3}
     - customerSprite: {fileID: 7140893802130261532, guid: 22f071de3519a8a4eb73654f3bbd8d03, type: 3}
-      customerAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
+      customerAnimator: {fileID: 9100000, guid: e09e878245a5ad84085c0a578b2f05a4, type: 2}
       sentences:
       - "\u0E2A\u0E34\u0E48\u0E07\u0E17\u0E35\u0E48\u0E17\u0E33\u0E1E\u0E25\u0E32\u0E14\u0E44\u0E27\u0E49\u0E01\u0E31\u0E1A\u0E22\u0E32\u0E22
         \u0E21\u0E31\u0E19\u0E44\u0E21\u0E48\u0E44\u0E14\u0E49\u0E2B\u0E32\u0E22\u0E44\u0E1B\u0E41\u0E04\u0E48\u0E19\u0E32\u0E22\u0E25\u0E37\u0E21\u0E21\u0E31\u0E19...
@@ -15720,8 +15720,8 @@ MonoBehaviour:
       requiredItems:
       - Zoda
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 0}
-      angryAnimator: {fileID: 0}
+      annoyedAnimator: {fileID: 9100000, guid: 575c4d3fc594f074eb8bf6c38e6453b1, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 6e786c3cc21fb8d44bdff049a4b5f8b4, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences: []
@@ -15733,7 +15733,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: 7140893802130261532, guid: 22f071de3519a8a4eb73654f3bbd8d03, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: e09e878245a5ad84085c0a578b2f05a4, type: 2}
       sentences:
       - "\u0E23\u0E48\u0E32\u0E07\u0E02\u0E2D\u0E07\u0E19\u0E32\u0E22\u0E44\u0E21\u0E48\u0E44\u0E14\u0E49\u0E2D\u0E22\u0E39\u0E48\u0E17\u0E35\u0E48\u0E19\u0E35\u0E48...
         \u0E25\u0E2D\u0E07\u0E1F\u0E31\u0E07\u0E40\u0E2A\u0E35\u0E22\u0E07\u0E23\u0E2D\u0E1A\u0E15\u0E31\u0E27\u0E14\u0E35\u0E46
@@ -15745,8 +15745,8 @@ MonoBehaviour:
       requiredItems:
       - Zoda
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
-      angryAnimator: {fileID: 9100000, guid: 0b1fd932f0af6734d935fc2e28e38ce2, type: 2}
+      annoyedAnimator: {fileID: 9100000, guid: 575c4d3fc594f074eb8bf6c38e6453b1, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 6e786c3cc21fb8d44bdff049a4b5f8b4, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:
@@ -15761,7 +15761,7 @@ MonoBehaviour:
       glitchSprite: {fileID: 0}
       permanentAnomalySprite: {fileID: 0}
     - customerSprite: {fileID: -1163499552767116836, guid: de6970992d1bf854e8a6ca7a97a050fe, type: 3}
-      customerAnimator: {fileID: 0}
+      customerAnimator: {fileID: 9100000, guid: 6be27504ab8c08c41a8d57d94e64f5b3, type: 2}
       sentences:
       - "\u0E2D\u0E49\u0E32\u0E27 \u0E19\u0E49\u0E2D\u0E07\u0E04\u0E19\u0E40\u0E14\u0E34\u0E21\u0E19\u0E35\u0E48\u0E19\u0E32
         \u0E04\u0E37\u0E19\u0E19\u0E35\u0E49\u0E44\u0E1F\u0E2B\u0E19\u0E49\u0E32\u0E23\u0E49\u0E32\u0E19\u0E14\u0E39\u0E41\u0E1B\u0E25\u0E01\u0E46
@@ -15771,8 +15771,8 @@ MonoBehaviour:
       requiredItems:
       - Laza
       acceptButtonText: "\u0E44\u0E14\u0E49\u0E04\u0E23\u0E31\u0E1A"
-      annoyedAnimator: {fileID: 9100000, guid: 3da15d95c9e9de44ebd984299007f938, type: 2}
-      angryAnimator: {fileID: 9100000, guid: 0b1fd932f0af6734d935fc2e28e38ce2, type: 2}
+      annoyedAnimator: {fileID: 9100000, guid: bf37100b1d06d5b40a8a9f9984f18f7f, type: 2}
+      angryAnimator: {fileID: 9100000, guid: 28781cef05a745847831b534e3ba867f, type: 2}
       maxPatienceTime: 40
       isTrickOrder: 0
       trickSentences:

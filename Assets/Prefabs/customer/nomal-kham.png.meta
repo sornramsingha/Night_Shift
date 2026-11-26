@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: b218c0c8250396544bc6fff7fbc845cd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8163950807722244740
+    second: nomal-kham_0
+  - first:
+      213: -7301376757142878186
+    second: nomal-kham_1
+  - first:
+      213: 5341895046813137217
+    second: nomal-kham_2
+  - first:
+      213: 1441499225997713091
+    second: nomal-kham_3
+  - first:
+      213: 7395382900878268555
+    second: nomal-kham_4
+  - first:
+      213: 5653934971547692840
+    second: nomal-kham_5
+  - first:
+      213: 2089928466052421652
+    second: nomal-kham_6
+  - first:
+      213: -3369215102014558194
+    second: nomal-kham_7
+  - first:
+      213: 9130889467763897698
+    second: nomal-kham_8
+  - first:
+      213: 3962019286223226362
+    second: nomal-kham_9
+  - first:
+      213: 8829738003216239220
+    second: nomal-kham_10
+  - first:
+      213: 4759419781225386358
+    second: nomal-kham_11
+  - first:
+      213: 135676052465871064
+    second: nomal-kham_12
+  - first:
+      213: 1507338095898024435
+    second: nomal-kham_13
+  - first:
+      213: -3358222586497818572
+    second: nomal-kham_14
+  - first:
+      213: -2095351327470003671
+    second: nomal-kham_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 170
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: nomal-kham_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c75c3fdaef1d3be80800000000000000
+      internalID: -8163950807722244740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_1
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6188433168c4caa90800000000000000
+      internalID: -7301376757142878186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_2
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14937b41e39322a40800000000000000
+      internalID: 5341895046813137217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_3
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ce189d98eb310410800000000000000
+      internalID: 1441499225997713091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b88d8d0e09da1a660800000000000000
+      internalID: 7395382900878268555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_5
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82f224a96efc67e40800000000000000
+      internalID: 5653934971547692840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_6
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4181801fddae00d10800000000000000
+      internalID: 2089928466052421652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_7
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e007a8037b42e31d0800000000000000
+      internalID: -3369215102014558194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2653c69e79f67be70800000000000000
+      internalID: 9130889467763897698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_9
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af505949c8bebf630800000000000000
+      internalID: 3962019286223226362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_10
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47a88759ee7898a70800000000000000
+      internalID: 8829738003216239220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_11
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67118e4131bdc0240800000000000000
+      internalID: 4759419781225386358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d861cf96a402e100800000000000000
+      internalID: 135676052465871064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_13
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f95a6213042be410800000000000000
+      internalID: 1507338095898024435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_14
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 430aa17a9523561d0800000000000000
+      internalID: -3358222586497818572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-kham_15
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92ad18eb111dbe2e0800000000000000
+      internalID: -2095351327470003671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 80a5dfc14f69a1f48819853bffa48517
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      nomal-kham_0: -8163950807722244740
+      nomal-kham_1: -7301376757142878186
+      nomal-kham_10: 8829738003216239220
+      nomal-kham_11: 4759419781225386358
+      nomal-kham_12: 135676052465871064
+      nomal-kham_13: 1507338095898024435
+      nomal-kham_14: -3358222586497818572
+      nomal-kham_15: -2095351327470003671
+      nomal-kham_2: 5341895046813137217
+      nomal-kham_3: 1441499225997713091
+      nomal-kham_4: 7395382900878268555
+      nomal-kham_5: 5653934971547692840
+      nomal-kham_6: 2089928466052421652
+      nomal-kham_7: -3369215102014558194
+      nomal-kham_8: 9130889467763897698
+      nomal-kham_9: 3962019286223226362
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

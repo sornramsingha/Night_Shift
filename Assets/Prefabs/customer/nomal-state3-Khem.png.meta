@@ -1,0 +1,603 @@
+fileFormatVersion: 2
+guid: e87236a4af3481b4c98ba4ffa22adee9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8848962548845655783
+    second: nomal-state3-Khem_0
+  - first:
+      213: 2873533718370187119
+    second: nomal-state3-Khem_1
+  - first:
+      213: -6410306158623123367
+    second: nomal-state3-Khem_2
+  - first:
+      213: 1698596407859800364
+    second: nomal-state3-Khem_3
+  - first:
+      213: -4032587472183826862
+    second: nomal-state3-Khem_4
+  - first:
+      213: -5779117398936464771
+    second: nomal-state3-Khem_5
+  - first:
+      213: 1958212550679334596
+    second: nomal-state3-Khem_6
+  - first:
+      213: -5802596088380373157
+    second: nomal-state3-Khem_7
+  - first:
+      213: -8502125231919045814
+    second: nomal-state3-Khem_8
+  - first:
+      213: -4743469508274041018
+    second: nomal-state3-Khem_9
+  - first:
+      213: -6509888209963474585
+    second: nomal-state3-Khem_10
+  - first:
+      213: 9047830776259097018
+    second: nomal-state3-Khem_11
+  - first:
+      213: 5592164027285668385
+    second: nomal-state3-Khem_12
+  - first:
+      213: -5077191746867140560
+    second: nomal-state3-Khem_13
+  - first:
+      213: 2143118896627909972
+    second: nomal-state3-Khem_14
+  - first:
+      213: -8243849515433249379
+    second: nomal-state3-Khem_15
+  - first:
+      213: -5133684898812087025
+    second: nomal-state3-Khem_16
+  - first:
+      213: -1777979067405487248
+    second: nomal-state3-Khem_17
+  - first:
+      213: -5547908433434495325
+    second: nomal-state3-Khem_18
+  - first:
+      213: -4107342029917346960
+    second: nomal-state3-Khem_19
+  - first:
+      213: 473304239052359076
+    second: nomal-state3-Khem_20
+  - first:
+      213: -5378293733980980200
+    second: nomal-state3-Khem_21
+  - first:
+      213: 2419071982752227201
+    second: nomal-state3-Khem_22
+  - first:
+      213: -4525369777761147917
+    second: nomal-state3-Khem_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 170
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: nomal-state3-Khem_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 919c155127b223580800000000000000
+      internalID: -8848962548845655783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_1
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f67ff8531b7d0e720800000000000000
+      internalID: 2873533718370187119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_2
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95815c113840a07a0800000000000000
+      internalID: -6410306158623123367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_3
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c29ec33fe60a29710800000000000000
+      internalID: 1698596407859800364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_4
+      rect:
+        serializedVersion: 2
+        x: 4016
+        y: 3186
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 256eac24f0f5908c0800000000000000
+      internalID: -4032587472183826862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d72dc1148537ccfa0800000000000000
+      internalID: -5779117398936464771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_6
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ce04f590f7fc2b10800000000000000
+      internalID: 1958212550679334596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_7
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b574401e999097fa0800000000000000
+      internalID: -5802596088380373157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_8
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a436493d522620a80800000000000000
+      internalID: -8502125231919045814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_9
+      rect:
+        serializedVersion: 2
+        x: 4016
+        y: 2124
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64fcd6c3d9fcb2eb0800000000000000
+      internalID: -4743469508274041018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 761af95f92b38a5a0800000000000000
+      internalID: -6509888209963474585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_11
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab135ce472a509d70800000000000000
+      internalID: 9047830776259097018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_12
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1228414ed8b5b9d40800000000000000
+      internalID: 5592164027285668385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_13
+      rect:
+        serializedVersion: 2
+        x: 3012
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 038607f91013a89b0800000000000000
+      internalID: -5077191746867140560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_14
+      rect:
+        serializedVersion: 2
+        x: 4016
+        y: 1062
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4550fe02843edbd10800000000000000
+      internalID: 2143118896627909972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9533d22b86f79d80800000000000000
+      internalID: -8243849515433249379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_16
+      rect:
+        serializedVersion: 2
+        x: 1004
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f05b481b8cc71c8b0800000000000000
+      internalID: -5133684898812087025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nomal-state3-Khem_17
+      rect:
+        serializedVersion: 2
+        x: 2008
+        y: 0
+        width: 1004
+        height: 1062
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 073373555795357e0800000000000000
+      internalID: -1777979067405487248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 18af30c3da8b3fc4fafe7d5e9ec69c8a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      nomal-state3-Khem_0: -8848962548845655783
+      nomal-state3-Khem_1: 2873533718370187119
+      nomal-state3-Khem_10: -6509888209963474585
+      nomal-state3-Khem_11: 9047830776259097018
+      nomal-state3-Khem_12: 5592164027285668385
+      nomal-state3-Khem_13: -5077191746867140560
+      nomal-state3-Khem_14: 2143118896627909972
+      nomal-state3-Khem_15: -8243849515433249379
+      nomal-state3-Khem_16: -5133684898812087025
+      nomal-state3-Khem_17: -1777979067405487248
+      nomal-state3-Khem_2: -6410306158623123367
+      nomal-state3-Khem_3: 1698596407859800364
+      nomal-state3-Khem_4: -4032587472183826862
+      nomal-state3-Khem_5: -5779117398936464771
+      nomal-state3-Khem_6: 1958212550679334596
+      nomal-state3-Khem_7: -5802596088380373157
+      nomal-state3-Khem_8: -8502125231919045814
+      nomal-state3-Khem_9: -4743469508274041018
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
