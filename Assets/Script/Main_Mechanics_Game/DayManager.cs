@@ -84,6 +84,7 @@ public class DayManager : MonoBehaviour
 
     public void SpawnNextCustomer()
     {
+        if (SanityManager.Instance != null && SanityManager.Instance.isGameOverSequenceActive) return;
         StartCoroutine(WaitAndSpawnRoutine());
     }
 
