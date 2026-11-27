@@ -462,7 +462,7 @@ public partial class DialogueManager : MonoBehaviour
         if (!hasRolledLightEvent)
         {
             hasRolledLightEvent = true;
-            if (Random.value <= 0.35f && ShopLightController.Instance != null)
+            if (Random.value <= 0.20f && ShopLightController.Instance != null)
             {
                 ShopLightController.Instance.TriggerLightBreakdown();
             }

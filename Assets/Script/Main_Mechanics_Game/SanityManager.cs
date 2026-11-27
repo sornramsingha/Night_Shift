@@ -270,9 +270,15 @@ public class SanityManager : MonoBehaviour
     {
         if (Mathf.Approximately(amount, penaltyAnomalyWrong))
         {
-            Sprite activeGhost = (CustomerAnomalyVisual.CurrentActive != null)
-                ? CustomerAnomalyVisual.CurrentActive.permanentAnomalySprite
-                : null;
+            Sprite activeGhost = null;
+
+            if (CustomerAnomalyVisual.CurrentActive != null)
+            {
+                activeGhost = (CustomerAnomalyVisual.CurrentActive.permanentAnomalySprite != null)
+                    ? CustomerAnomalyVisual.CurrentActive.permanentAnomalySprite
+                    : CustomerAnomalyVisual.CurrentActive.glitchSprite;
+            }
+
             BreakWard(WardBreakReason.SoldToAnomaly, activeGhost);
         }
         else if (Mathf.Approximately(amount, penaltyTalismanWrong))
