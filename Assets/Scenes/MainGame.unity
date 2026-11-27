@@ -3437,8 +3437,8 @@ MonoBehaviour:
   minNormalFlicker: 0.1
   isAggressive: 0
   darkVignetteRect: {fileID: 1068894862}
-  maxDarknessTime: 10
-  startVignetteScale: 1.5
+  maxDarknessTime: 3
+  startVignetteScale: 0.5
   minVignetteScale: 0.6
 --- !u!61 &454082342
 BoxCollider2D:
@@ -5812,6 +5812,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 853457243}
   m_CullTransparentMesh: 1
+--- !u!1 &866598490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 866598491}
+  - component: {fileID: 866598493}
+  - component: {fileID: 866598492}
+  m_Layer: 5
+  m_Name: JumpscareBlackout
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &866598491
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866598490}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 19.581799, y: 11.032, z: 11.032}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1196930437}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1820, y: -980}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &866598492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866598490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 6432025267784949135, guid: 41fc117b0eeefb0439c3afc08877012a, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &866598493
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866598490}
+  m_CullTransparentMesh: 1
 --- !u!61 &878209321 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 3126981105241972169, guid: 1ca2da5ebc7e8d749b3753751966b71d, type: 3}
@@ -7116,7 +7191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5882353}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8102,16 +8177,6 @@ MonoBehaviour:
     idleController: {fileID: 0}
     breakController: {fileID: 0}
     breakAnimDuration: 1
-  - wardObject: {fileID: 1315431548}
-    wardAnimator: {fileID: 0}
-    idleController: {fileID: 0}
-    breakController: {fileID: 0}
-    breakAnimDuration: 1
-  - wardObject: {fileID: 1574030401}
-    wardAnimator: {fileID: 0}
-    idleController: {fileID: 0}
-    breakController: {fileID: 0}
-    breakAnimDuration: 1
   maxWards: 3
   currentWards: 3
   audioSource: {fileID: 1170443270}
@@ -8120,17 +8185,28 @@ MonoBehaviour:
   lightFlickerSound: {fileID: 0}
   lightOutSound: {fileID: 0}
   jumpscareSound: {fileID: 8300000, guid: 0b0032ff4f780b54ca6d88dd16e45ae1, type: 3}
-  jumpscareVolume: 0.4
+  jumpscareVolume: 0.6
+  jumpscareBlackoutOverlay: {fileID: 866598490}
   jumpscareRect: {fileID: 1609068867}
   jumpscareImage: {fileID: 1609068868}
+  jumpscareAnimator: {fileID: 1609068870}
   wanderingGhostSprite: {fileID: -5393049712410038479, guid: 2dfcac375b798e444bb662bd9ff0814e, type: 3}
-  delayBeforeFlicker: 2.5
+  wanderingGhostAnim: {fileID: 0}
+  defaultAnomalyAnim: {fileID: 0}
+  delayBeforeFlicker: 1.5
   flickerBeforeDarkTime: 1.25
-  darkPauseBeforeJumpscare: 2.5
-  jumpscarePopDuration: 0.25
-  jumpscareHoldTime: 2
+  darkPauseBeforeJumpscare: 3
   jumpscareStartY: -900
   jumpscareTargetY: -50
+  jumpscarePopDuration: 0.05
+  jumpscareShakeDuration: 0.2
+  jumpscareShakeAmount: 10
+  jumpscarePullBackScale: 0.95
+  jumpscarePullBackDuration: 0.3
+  jumpscareLungeScale: 2
+  jumpscareLungeDuration: 0.2
+  jumpscareLungeTargetPos: {x: 20, y: -400}
+  jumpscareHoldTime: 2
   isGameOverSequenceActive: 0
   penaltyNormalWrong: 10
   penaltyAnomalyWrong: 30
@@ -8165,7 +8241,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8808,6 +8884,7 @@ RectTransform:
   - {fileID: 886811602}
   - {fileID: 961915832}
   - {fileID: 606038695}
+  - {fileID: 866598491}
   - {fileID: 1609068867}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11363,10 +11440,10 @@ MonoBehaviour:
   baseIntensity: 2.5
   minNormalFlicker: 0.1
   isAggressive: 0
-  darkVignetteRect: {fileID: 0}
-  maxDarknessTime: 15
-  startVignetteScale: 1.2
-  minVignetteScale: 0.35
+  darkVignetteRect: {fileID: 1068894862}
+  maxDarknessTime: 3
+  startVignetteScale: 0.5
+  minVignetteScale: 0.6
 --- !u!1 &1483972405
 GameObject:
   m_ObjectHideFlags: 0
@@ -12204,6 +12281,7 @@ GameObject:
   - component: {fileID: 1609068867}
   - component: {fileID: 1609068869}
   - component: {fileID: 1609068868}
+  - component: {fileID: 1609068870}
   m_Layer: 5
   m_Name: Jumpscare_UI
   m_TagString: Untagged
@@ -12268,6 +12346,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609068866}
   m_CullTransparentMesh: 1
+--- !u!95 &1609068870
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609068866}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1619920450 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5435341903369484795, guid: 1ca2da5ebc7e8d749b3753751966b71d, type: 3}

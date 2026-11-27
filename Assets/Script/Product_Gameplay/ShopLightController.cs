@@ -41,9 +41,23 @@ public class ShopLightController : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            globalIsBroken = false;
+            isBreakingDown = false;
+            AllLights.Clear();
+        }
+
         myLight = GetComponent<Light2D>();
         myLight.intensity = baseIntensity;
+
+        if (darkVignetteRect != null)
+        {
+            darkVignetteRect.localScale = new Vector3(startVignetteScale, startVignetteScale, 1f);
+            SetVignetteAlpha(1f);
+            darkVignetteRect.gameObject.SetActive(false);
+        }
     }
 
     void OnEnable()
@@ -77,6 +91,36 @@ public class ShopLightController : MonoBehaviour
 
             float currentScale = Mathf.Lerp(startVignetteScale, minVignetteScale, progress);
             darkVignetteRect.localScale = new Vector3(currentScale, currentScale, 1f);
+        }
+    }
+
+    public void ResetLightToNormal()
+    {
+        globalIsBroken = false;
+        isBreakingDown = false;
+        isClearingDarkness = false;
+        brokenElapsedTime = 0f;
+
+        if (darkVignetteRect != null)
+        {
+            darkVignetteRect.localScale = new Vector3(startVignetteScale, startVignetteScale, 1f);
+            SetVignetteAlpha(1f);
+            darkVignetteRect.gameObject.SetActive(false);
+        }
+
+        foreach (ShopLightController light in AllLights)
+        {
+            if (light == null) continue;
+            light.StopAllCoroutines();
+            light.flickerCoroutine = null;
+            light.panicCoroutine = null;
+            light.isAggressive = false;
+
+            if (light.myLight != null) light.myLight.intensity = light.baseIntensity;
+            if (light.gameObject.activeInHierarchy)
+            {
+                light.flickerCoroutine = light.StartCoroutine(light.FlickerRoutine());
+            }
         }
     }
 
@@ -184,6 +228,31 @@ public class ShopLightController : MonoBehaviour
         else
         {
             StartCoroutine(BreakdownWarningRoutine());
+        }
+    }
+
+    public void ForceBlackoutForJumpscare()
+    {
+        isBreakingDown = false;
+        globalIsBroken = true;
+        isClearingDarkness = false;
+        brokenElapsedTime = 0f;
+
+        foreach (ShopLightController light in AllLights)
+        {
+            if (light == null) continue;
+            if (light.flickerCoroutine != null) light.StopCoroutine(light.flickerCoroutine);
+            if (light.panicCoroutine != null) light.StopCoroutine(light.panicCoroutine);
+            light.isAggressive = false;
+        }
+
+        SetAllLightsIntensity(0f);
+
+        if (darkVignetteRect != null)
+        {
+            darkVignetteRect.localScale = new Vector3(startVignetteScale, startVignetteScale, 1f);
+            SetVignetteAlpha(1f);
+            darkVignetteRect.gameObject.SetActive(true);
         }
     }
 

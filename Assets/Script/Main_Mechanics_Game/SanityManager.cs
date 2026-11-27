@@ -5,21 +5,21 @@ using System.Collections;
 
 public enum WardBreakReason
 {
-    SoldToAnomaly,  
-    WrongTalismanOnNormal
+    SoldToAnomaly,         
+    WrongTalismanOnNormal  
 }
 
 [System.Serializable]
 public class WardTalismanSlot
 {
-    [Tooltip("ยันต์อาคมแปะกำแพง")]
+    [Tooltip("ยันต์ที่แปะไว้บนกำแพง")]
     public GameObject wardObject;
-    [Tooltip("อนิเมเตอร์ของยันต์")]
+    [Tooltip("Animator ของยันต์")]
     public Animator wardAnimator;
 
-    [Header("อนิเมชั่นของยันต์")]
+    [Header("แอนิเมชันยันต์")]
     public RuntimeAnimatorController idleController;  
-    public RuntimeAnimatorController breakController; 
+    public RuntimeAnimatorController breakController;
     public float breakAnimDuration = 1.0f;           
 }
 
@@ -34,28 +34,44 @@ public class SanityManager : MonoBehaviour
 
     [Header("เสียงเอฟเฟกต์ยันต์ ไฟดับ และจั๊มสแกร์")]
     public AudioSource audioSource;
-    public AudioClip wardBreakSound;       
-    public AudioClip wardRestoreSound;     
-    public AudioClip lightFlickerSound;    
-    public AudioClip lightOutSound;     
-    public AudioClip jumpscareSound; 
+    public AudioClip wardBreakSound;      
+    public AudioClip wardRestoreSound;    
+    public AudioClip lightFlickerSound;   
+    public AudioClip lightOutSound;        
+    public AudioClip jumpscareSound;    
     [Range(0f, 1f)] public float jumpscareVolume = 1f;
 
-    [Header("ระบบจั๊มสแกร์เมื่อยันต์หมด")]
-    public RectTransform jumpscareRect;          
-    public Image jumpscareImage;           
+    [Header("ระบบจั๊มสแกร์และแอนิเมชันผี")]
+    [Tooltip("แผ่น UI สีดำทึบเต็มจอ")]
+    public GameObject jumpscareBlackoutOverlay;
+    public RectTransform jumpscareRect;                    
+    public Image jumpscareImage;                        
+    public Animator jumpscareAnimator;            
     public Sprite wanderingGhostSprite;
-    public float delayBeforeFlicker = 2f;
-    public float flickerBeforeDarkTime = 1.2f; 
-    public float darkPauseBeforeJumpscare = 0.5f;
-    public float jumpscarePopDuration = 0.25f;  
-    public float jumpscareHoldTime = 1.5f;      
-    public float jumpscareStartY = -900f;
-    public float jumpscareTargetY = 0f;
+    public RuntimeAnimatorController wanderingGhostAnim;   
+    public RuntimeAnimatorController defaultAnomalyAnim;
+
+    [Header("จังหวะไฟดับและลูกเล่นตอนผีโผล่")]
+    public float delayBeforeFlicker = 2.5f;     
+    public float flickerBeforeDarkTime = 1.5f;  
+    public float darkPauseBeforeJumpscare = 2f;
+    public float jumpscareStartY = -900f;       
+    public float jumpscareTargetY = -70f;         
+    public float jumpscarePopDuration = 0.22f;
+
+    [Space(5)]
+    public float jumpscareShakeDuration = 0.45f; 
+    public float jumpscareShakeAmount = 12f;    
+    public float jumpscarePullBackScale = 0.85f;
+    public float jumpscarePullBackDuration = 0.18f; 
+    public float jumpscareLungeScale = 2.5f;    
+    public float jumpscareLungeDuration = 0.16f;
+    public Vector2 jumpscareLungeTargetPos = new Vector2(0f, -350f);
+    public float jumpscareHoldTime = 0.8f; 
 
     [HideInInspector] public bool isGameOverSequenceActive = false;
 
-    [Header("สำหรับเชื่อมระบบเดิม(ไม่ต้องปรับ)")]
+    [Header("ค่าเก่าสำหรับเชื่อมระบบเดิม (ไม่ต้องปรับ)")]
     public float penaltyNormalWrong = 10f;
     public float penaltyAnomalyWrong = 30f;
     public float penaltyTalismanWrong = 20f;
@@ -75,7 +91,13 @@ public class SanityManager : MonoBehaviour
         isGameOverSequenceActive = false;
 
         if (jumpscareRect != null) jumpscareRect.gameObject.SetActive(false);
+        if (jumpscareBlackoutOverlay != null) jumpscareBlackoutOverlay.SetActive(false);
         InitializeAllWards();
+
+        if (ShopLightController.Instance != null)
+        {
+            ShopLightController.Instance.ResetLightToNormal();
+        }
     }
 
     private void InitializeAllWards()
@@ -107,7 +129,7 @@ public class SanityManager : MonoBehaviour
         }
     }
 
-    public void BreakWard(WardBreakReason reason, Sprite customAnomalySprite = null)
+    public void BreakWard(WardBreakReason reason, Sprite customAnomalySprite = null, RuntimeAnimatorController customAnomalyAnim = null)
     {
         if (isGameOverSequenceActive || currentWards <= 0) return;
 
@@ -128,13 +150,14 @@ public class SanityManager : MonoBehaviour
         {
             currentWards = 0;
             isGameOverSequenceActive = true;
-            StartCoroutine(TriggerJumpscareGameOver(reason, customAnomalySprite));
+            StartCoroutine(TriggerJumpscareGameOver(reason, customAnomalySprite, customAnomalyAnim));
         }
     }
 
     private IEnumerator PlayWardBreakRoutine(WardTalismanSlot slot)
     {
         if (slot == null || slot.wardObject == null) yield break;
+
         if (slot.wardAnimator != null && slot.breakController != null)
         {
             slot.wardAnimator.runtimeAnimatorController = slot.breakController;
@@ -178,7 +201,7 @@ public class SanityManager : MonoBehaviour
     {
         if (!CanRestoreWard())
         {
-            WarningManager.Show("ยันต์อาคมครบ 3 อันแล้ว");
+            WarningManager.Show("ยันต์อาคมเต็มครบ 3 อันแล้ว!");
             return false;
         }
 
@@ -193,7 +216,7 @@ public class SanityManager : MonoBehaviour
         return false;
     }
 
-    private IEnumerator TriggerJumpscareGameOver(WardBreakReason reason, Sprite customAnomalySprite)
+    private IEnumerator TriggerJumpscareGameOver(WardBreakReason reason, Sprite customAnomalySprite, RuntimeAnimatorController customAnomalyAnim)
     {
         yield return new WaitForSeconds(delayBeforeFlicker);
 
@@ -210,7 +233,6 @@ public class SanityManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(flickerBeforeDarkTime);
-
         if (audioSource != null && audioSource.clip == lightFlickerSound)
         {
             audioSource.Stop();
@@ -220,7 +242,12 @@ public class SanityManager : MonoBehaviour
         if (ShopLightController.Instance != null)
         {
             ShopLightController.Instance.SetAggressiveFlicker(false);
-            ShopLightController.Instance.TriggerLightBreakdown();
+            ShopLightController.Instance.ForceBlackoutForJumpscare();
+        }
+
+        if (jumpscareBlackoutOverlay != null)
+        {
+            jumpscareBlackoutOverlay.SetActive(true);
         }
 
         if (audioSource != null && lightOutSound != null)
@@ -229,9 +256,14 @@ public class SanityManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(darkPauseBeforeJumpscare);
+
         Sprite chosenGhost = (reason == WardBreakReason.SoldToAnomaly && customAnomalySprite != null)
             ? customAnomalySprite
             : wanderingGhostSprite;
+
+        RuntimeAnimatorController chosenAnim = (reason == WardBreakReason.SoldToAnomaly)
+            ? (customAnomalyAnim != null ? customAnomalyAnim : defaultAnomalyAnim)
+            : wanderingGhostAnim;
 
         if (audioSource != null && jumpscareSound != null)
         {
@@ -245,7 +277,23 @@ public class SanityManager : MonoBehaviour
                 jumpscareImage.sprite = chosenGhost;
             }
 
+            if (jumpscareAnimator != null)
+            {
+                if (chosenAnim != null)
+                {
+                    jumpscareAnimator.runtimeAnimatorController = chosenAnim;
+                    jumpscareAnimator.enabled = true;
+                }
+                else
+                {
+                    jumpscareAnimator.runtimeAnimatorController = null;
+                    jumpscareAnimator.enabled = false;
+                }
+            }
+
             jumpscareRect.gameObject.SetActive(true);
+            jumpscareRect.localScale = Vector3.one;
+
             Vector2 startPos = new Vector2(0f, jumpscareStartY);
             Vector2 targetPos = new Vector2(0f, jumpscareTargetY);
             jumpscareRect.anchoredPosition = startPos;
@@ -260,10 +308,61 @@ public class SanityManager : MonoBehaviour
                 yield return null;
             }
             jumpscareRect.anchoredPosition = targetPos;
-        }
 
-        yield return new WaitForSeconds(jumpscareHoldTime);
-        GameOver();
+            elapsed = 0f;
+            while (elapsed < jumpscareShakeDuration)
+            {
+                elapsed += Time.deltaTime;
+                Vector2 offset = new Vector2(
+                    Random.Range(-jumpscareShakeAmount, jumpscareShakeAmount),
+                    Random.Range(-jumpscareShakeAmount, jumpscareShakeAmount)
+                );
+                jumpscareRect.anchoredPosition = targetPos + offset;
+                yield return null;
+            }
+
+            elapsed = 0f;
+            Vector3 normalScale = Vector3.one;
+            Vector3 pullBackScaleVec = Vector3.one * jumpscarePullBackScale;
+            while (elapsed < jumpscarePullBackDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / jumpscarePullBackDuration);
+                float easeOut = 1f - Mathf.Pow(1f - t, 2f);
+                jumpscareRect.localScale = Vector3.Lerp(normalScale, pullBackScaleVec, easeOut);
+
+                Vector2 offset = new Vector2(
+                    Random.Range(-jumpscareShakeAmount * 0.5f, jumpscareShakeAmount * 0.5f),
+                    Random.Range(-jumpscareShakeAmount * 0.5f, jumpscareShakeAmount * 0.5f)
+                );
+                jumpscareRect.anchoredPosition = targetPos + offset;
+                yield return null;
+            }
+
+            elapsed = 0f;
+            Vector3 lungeScaleVec = Vector3.one * jumpscareLungeScale;
+            while (elapsed < jumpscareLungeDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / jumpscareLungeDuration);
+                float easeIn = t * t * t;
+                jumpscareRect.localScale = Vector3.Lerp(pullBackScaleVec, lungeScaleVec, easeIn);
+
+                Vector2 currentPos = Vector2.Lerp(targetPos, jumpscareLungeTargetPos, easeIn);
+                Vector2 offset = new Vector2(
+                    Random.Range(-jumpscareShakeAmount, jumpscareShakeAmount),
+                    Random.Range(-jumpscareShakeAmount, jumpscareShakeAmount)
+                );
+                jumpscareRect.anchoredPosition = currentPos + offset;
+                yield return null;
+            }
+
+            jumpscareRect.localScale = lungeScaleVec;
+            jumpscareRect.anchoredPosition = jumpscareLungeTargetPos;
+
+            yield return new WaitForSeconds(jumpscareHoldTime);
+            GameOver();
+        }
     }
 
     public void ApplyPenalty(float amount)
@@ -293,7 +392,13 @@ public class SanityManager : MonoBehaviour
 
     void GameOver()
     {
-        Debug.Log("จบเกมกลับไปเริ่มใหม่");
+        Debug.Log("ยันต์อาคมหมด! จบเกมกลับไปเริ่มใหม่");
+
+        if (ShopLightController.Instance != null)
+        {
+            ShopLightController.Instance.ResetLightToNormal();
+        }
+
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
