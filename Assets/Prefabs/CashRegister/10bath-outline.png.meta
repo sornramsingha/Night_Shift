@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      10bath-outline_0: -3819253408263634889
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
