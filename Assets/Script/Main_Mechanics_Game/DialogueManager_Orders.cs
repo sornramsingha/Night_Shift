@@ -211,27 +211,17 @@ public partial class DialogueManager
         else if (!isExactlyCorrect)
         {
             WarningManager.Show("หยิบสินค้าให้ลูกค้าผิด!");
-            if (SanityManager.Instance != null)
-                SanityManager.Instance.ApplyPenalty(SanityManager.Instance.penaltyNormalWrong);
         }
         else if (isChangeCorrect)
         {
             if (MoneyManager.Instance != null) MoneyManager.Instance.AddMoney(actualTotal);
-            if (SanityManager.Instance != null && CheckoutManager.Instance != null)
-            {
-                SanityManager.Instance.ApplyReward(CheckoutManager.Instance.sanityRewardExactChange);
-            }
             WarningManager.Show($"ทอนเงินถูกต้อง! (+{actualTotal} บาท)");
         }
         else
         {
             int reducedMoney = Mathf.RoundToInt(actualTotal * 0.5f);
             if (MoneyManager.Instance != null) MoneyManager.Instance.AddMoney(reducedMoney);
-            if (SanityManager.Instance != null && CheckoutManager.Instance != null)
-            {
-                SanityManager.Instance.ApplyPenalty(CheckoutManager.Instance.sanityPenaltyWrongChange);
-            }
-            WarningManager.Show($"ทอนเงินผิด! ได้รับเงินเพียง 50% (+{reducedMoney} ฿)");
+            WarningManager.Show($"ทอนเงินเกิน! ได้รับเงินเพียง 50% (+{reducedMoney} ฿)");
         }
 
         EndCustomerInteraction();
